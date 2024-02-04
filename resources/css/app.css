@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
 * {
   margin: 0;
   padding: 0;
@@ -9,5 +11,11 @@ body {
   width: 100%;
   font-family: 'Poppins', sans-serif;
   background-color: #4D774E;
-  color: #ffffff;
+}
+
+.form-error {
+  height: 1.5em;
+  margin-bottom: 20px;
+  font-size: 0.8em;
+  color: #FF0000
 }

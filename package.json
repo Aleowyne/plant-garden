@@ -45,7 +45,7 @@
     "@vitejs/plugin-vue": "^5.0.3",
     "eslint": "^8.56.0",
     "pino-pretty": "^10.3.1",
-    "prettier": "^3.2.4",
+    "prettier": "^3.2.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3",
     "vite": "^5.0.12"
@@ -56,7 +56,7 @@
     "@adonisjs/inertia": "^1.0.0-7",
     "@adonisjs/lucid": "^20.1.0",
     "@adonisjs/session": "^7.1.1",
-    "@adonisjs/shield": "^8.1.0",
+    "@adonisjs/shield": "^8.1.1",
     "@adonisjs/static": "^1.1.1",
     "@adonisjs/vite": "^2.0.2",
     "@inertiajs/vue3": "^1.0.14",
