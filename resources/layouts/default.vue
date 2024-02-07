@@ -10,5 +10,5 @@
 <script setup lang="ts">
 import Header from '@/components/header.vue'
 import Footer from '@/components/footer.vue'
-import Error from '@/components/error.vue'
+import Error from '@/components/message.vue'
 </script>

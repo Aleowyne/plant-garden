@@ -1,22 +1,28 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import { createUserValidator } from "#validators/user"
-import User from "#models/user"
+import { createUserValidator } from '#validators/user'
+import User from '#models/user'
 
 export default class SigninController {
-  async index(ctx: HttpContext) {
-    return ctx.inertia.render('auth/signin')
+  async index({ response, auth }: HttpContext) {
+    await auth.authenticate()
+
+    if (auth.isAuthenticated) {
+      return response.redirect().back()
+    }
+
+    return response.redirect('signin')
   }
 
-  async store(ctx: HttpContext) {
-    const payload = await ctx.request.validateUsing(createUserValidator)
+  async store({ request, response, session }: HttpContext) {
+    const payload = await request.validateUsing(createUserValidator)
     const searchPayload = { email: payload.email }
-
     const user = await User.firstOrCreate(searchPayload, payload)
 
-    if (user.$isLocal) {
-      ctx.response.redirect('auth/login')
-    } else {
-      return ctx.inertia.render('auth/signin', { message: 'Erreur à l\'inscription' })
+    if (!user.$isLocal) {
+      session.flash('message', { type: 'error', content: 'Erreur à l\'inscription' })
+      return response.redirect().back()
     }
+
+    return response.redirect('login')
   }
 }

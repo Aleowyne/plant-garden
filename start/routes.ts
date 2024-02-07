@@ -8,11 +8,20 @@
 */
 import router from '@adonisjs/core/services/router'
 import { HttpContext } from '@adonisjs/core/http'
-import SigninController from '#controllers/signin_controller'
+import { middleware } from '#start/kernel'
+const SigninController = () => import('#controllers/signin_controller')
+const LoginController = () => import('#controllers/login_controller')
 
-router.get('/', (ctx: HttpContext) => {
-  return ctx.inertia.render('main', { title: 'Testing!' })
-})
+router
+  .group(() => {
+    router.get('/', (ctx: HttpContext) => {
+      return ctx.inertia.render('main', { title: 'Testing!' })
+    })
+  })
+  .use(middleware.auth())
 
 router.get('signin', [SigninController, 'index'])
 router.post('signin', [SigninController, 'store'])
+
+router.get('login', [LoginController, 'index'])
+router.post('login', [LoginController, 'store'])

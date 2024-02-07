@@ -1,19 +1,22 @@
 <template>
-  <div class="alert" v-if="isVisibleMsg">
-    {{ props.message }}
+  <div class="alert" :class="classTypeAlert" v-if="isVisibleMsg">
+    {{ props.message.content }}
   </div>
 </template>
 
 <script setup lang="ts">
-import type { ErrorMessage } from '@/types'
+import type { Message } from '@/types'
 import { ref, watch } from 'vue'
 
-const props = defineProps<ErrorMessage>()
+const props = defineProps<Message>()
 const isVisibleMsg = ref(false)
+const classTypeAlert = ref('')
 
 watch(() => props.message, (newValue) => {
   if (newValue) {
+    classTypeAlert.value = `alert-${newValue.type}`
     isVisibleMsg.value = true
+
 
     setTimeout(() => {
       isVisibleMsg.value = false
@@ -33,7 +36,22 @@ watch(() => props.message, (newValue) => {
   padding: 15px 0px;
   text-align: center;
   opacity: 0.85;
-  background-color: #842029;
   color: #FFFFFF;
+}
+
+.alert-error {
+  background-color: #842029;
+}
+
+.alert-warning {
+  background-color: #997404;
+}
+
+.alert-success {
+  background-color: #0f5132;
+}
+
+.alert-info {
+  background-color: #084390;
 }
 </style>

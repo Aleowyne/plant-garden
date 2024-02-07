@@ -1,22 +1,15 @@
 <template>
   <Layout :message="props.message">
-    <div class="signin-box">
-      <div class="signin-title">
-        <h3>Inscription</h3>
+    <div class="login-box">
+      <div class="login-title">
+        <h3>Connexion</h3>
       </div>
-      <form @submit.prevent="form.post('/signin')">
+      <form @submit.prevent="form.post('/login')">
         <div class="form-group">
           <label for="email">Adresse mail</label>
           <input type="text" id="email" v-model="form.email">
           <div class="form-error">
             <p v-if="form.errors.email">{{ form.errors.email[0] }}</p>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="username">Nom d'utilisateur</label>
-          <input type="text" id="username" v-model="form.username">
-          <div class="form-error">
-            <p v-if="form.errors.username">{{ form.errors.username[0] }}</p>
           </div>
         </div>
         <div class="form-group">
@@ -26,7 +19,7 @@
             <p v-if="form.errors.password">{{ form.errors.password[0] }}</p>
           </div>
         </div>
-        <button type="submit" class="signin-button">S'inscrire</button>
+        <button type="submit" class="login-button">Se connecter</button>
       </form>
     </div>
   </Layout>
@@ -43,18 +36,18 @@ const form = useForm<UserForm>({
   email: '',
   username: '',
   password: '',
-  _csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+  _csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
 })
 </script>
 
 <style scoped>
-.signin-box {
+.login-box {
   width: 400px;
   padding: 40px;
   background-color: #ffffff;
 }
 
-.signin-title {
+.login-title {
   margin-bottom: 30px;
   text-align: center;
 }
@@ -75,7 +68,7 @@ input {
   background: #EFEFEF;
 }
 
-.signin-button {
+.login-button {
   height: 54px;
   width: 100%;
   padding-left: 30px;
@@ -89,7 +82,7 @@ input {
   border-radius: 4px;
 }
 
-.signin-button:not(:disabled) {
+.login-button:not(:disabled) {
   cursor: pointer;
 }
 </style>

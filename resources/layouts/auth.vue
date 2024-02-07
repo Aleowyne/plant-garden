@@ -6,10 +6,10 @@
 </template>
 
 <script setup lang="ts">
-import type { ErrorMessage } from '@/types'
-import Error from '@/components/error.vue'
+import type { Message } from '@/types'
+import Error from '@/components/message.vue'
 
-const props = defineProps<ErrorMessage>()
+const props = defineProps<Message>()
 </script>
 
 <style scoped>
