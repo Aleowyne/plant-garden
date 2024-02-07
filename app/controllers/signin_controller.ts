@@ -19,7 +19,7 @@ export default class SigninController {
     const user = await User.firstOrCreate(searchPayload, payload)
 
     if (!user.$isLocal) {
-      session.flash('message', { type: 'error', content: 'Erreur à l\'inscription' })
+      session.flash('message', { type: 'error', content: "Erreur à l'inscription" })
       return response.redirect().back()
     }
 

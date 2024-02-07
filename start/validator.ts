@@ -9,7 +9,7 @@ const messages = {
 }
 
 const fields = {
-  username: 'Nom d\'utilisateur',
+  username: "Nom d'utilisateur",
   email: 'Adresse mail',
   password: 'Mot de passe',
 }
