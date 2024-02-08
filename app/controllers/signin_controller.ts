@@ -3,14 +3,14 @@ import { createUserValidator } from '#validators/user'
 import User from '#models/user'
 
 export default class SigninController {
-  async index({ response, auth }: HttpContext) {
-    await auth.authenticate()
+  async index({ response, auth, inertia }: HttpContext) {
+    let isConnected = await auth.use('web').check()
 
-    if (auth.isAuthenticated) {
-      return response.redirect().back()
+    if (isConnected) {
+      return response.redirect('/')
     }
 
-    return response.redirect('signin')
+    return inertia.render('auth/signin')
   }
 
   async store({ request, response, session }: HttpContext) {
