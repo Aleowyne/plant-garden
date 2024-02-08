@@ -10,12 +10,12 @@ body {
   height: 100%;
   width: 100%;
   font-family: 'Poppins', sans-serif;
-  background-color: #4D774E;
+  background-color: #4d774e;
 }
 
 .form-error {
   height: 1.5em;
   margin-bottom: 20px;
   font-size: 0.8em;
-  color: #FF0000
+  color: #ff0000;
 }

@@ -12,20 +12,21 @@ const props = defineProps<Message>()
 const isVisibleMsg = ref(false)
 const classTypeAlert = ref('')
 
-watch(() => props.message, (newValue) => {
-  if (newValue) {
-    classTypeAlert.value = `alert-${newValue.type}`
-    isVisibleMsg.value = true
+watch(
+  () => props.message,
+  (newValue) => {
+    if (newValue) {
+      classTypeAlert.value = `alert-${newValue.type}`
+      isVisibleMsg.value = true
 
-
-    setTimeout(() => {
+      setTimeout(() => {
+        isVisibleMsg.value = false
+      }, 3000)
+    } else {
       isVisibleMsg.value = false
-    }, 3000)
+    }
   }
-  else {
-    isVisibleMsg.value = false
-  }
-})
+)
 </script>
 
 <style scoped>
@@ -36,7 +37,7 @@ watch(() => props.message, (newValue) => {
   padding: 15px 0px;
   text-align: center;
   opacity: 0.85;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .alert-error {

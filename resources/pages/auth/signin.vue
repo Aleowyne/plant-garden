@@ -7,21 +7,21 @@
       <form @submit.prevent="form.post('/signin')">
         <div class="form-group">
           <label for="email">Adresse mail</label>
-          <input type="text" id="email" v-model="form.email">
+          <input type="text" id="email" v-model="form.email" />
           <div class="form-error">
             <p v-if="form.errors.email">{{ form.errors.email[0] }}</p>
           </div>
         </div>
         <div class="form-group">
           <label for="username">Nom d'utilisateur</label>
-          <input type="text" id="username" v-model="form.username">
+          <input type="text" id="username" v-model="form.username" />
           <div class="form-error">
             <p v-if="form.errors.username">{{ form.errors.username[0] }}</p>
           </div>
         </div>
         <div class="form-group">
           <label for="password">Mot de passe</label>
-          <input type="password" id="password" v-model="form.password">
+          <input type="password" id="password" v-model="form.password" />
           <div class="form-error">
             <p v-if="form.errors.password">{{ form.errors.password[0] }}</p>
           </div>
@@ -43,7 +43,7 @@ const form = useForm<UserForm>({
   email: '',
   username: '',
   password: '',
-  _csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+  _csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
 })
 </script>
 
@@ -72,7 +72,7 @@ input {
   padding: 10px;
   border: none;
   border-radius: 4px;
-  background: #EFEFEF;
+  background: #efefef;
 }
 
 .signin-button {
@@ -82,9 +82,9 @@ input {
   padding-right: 30px;
   line-height: 1.5;
   font-size: 1rem;
-  color: #FFFFFF;
-  background-color: #FB771A;
-  border-color: #FB771A;
+  color: #ffffff;
+  background-color: #fb771a;
+  border-color: #fb771a;
   border-style: none;
   border-radius: 4px;
 }

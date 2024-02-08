@@ -7,14 +7,14 @@
       <form @submit.prevent="form.post('/login')">
         <div class="form-group">
           <label for="email">Adresse mail</label>
-          <input type="text" id="email" v-model="form.email">
+          <input type="text" id="email" v-model="form.email" />
           <div class="form-error">
             <p v-if="form.errors.email">{{ form.errors.email[0] }}</p>
           </div>
         </div>
         <div class="form-group">
           <label for="password">Mot de passe</label>
-          <input type="password" id="password" v-model="form.password">
+          <input type="password" id="password" v-model="form.password" />
           <div class="form-error">
             <p v-if="form.errors.password">{{ form.errors.password[0] }}</p>
           </div>
@@ -65,7 +65,7 @@ input {
   padding: 10px;
   border: none;
   border-radius: 4px;
-  background: #EFEFEF;
+  background: #efefef;
 }
 
 .login-button {
@@ -75,9 +75,9 @@ input {
   padding-right: 30px;
   line-height: 1.5;
   font-size: 1rem;
-  color: #FFFFFF;
-  background-color: #FB771A;
-  border-color: #FB771A;
+  color: #ffffff;
+  background-color: #fb771a;
+  border-color: #fb771a;
   border-style: none;
   border-radius: 4px;
 }

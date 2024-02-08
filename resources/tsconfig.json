@@ -3,36 +3,21 @@
     "target": "ESNext",
     "jsx": "preserve",
     "jsxImportSource": "vue",
-    "lib": [
-      "DOM",
-      "ESNext",
-      "DOM.Iterable",
-      "ES2020"
-    ],
+    "lib": ["DOM", "ESNext", "DOM.Iterable", "ES2020"],
     "useDefineForClassFields": true,
     "baseUrl": ".",
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "paths": {
-      "@/*": [
-        "./*"
-      ],
-      "~/*": [
-        "../*"
-      ],
+      "@/*": ["./*"],
+      "~/*": ["../*"]
     },
     "resolveJsonModule": true,
-    "types": [
-      "vite/client"
-    ],
+    "types": ["vite/client"],
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "verbatimModuleSyntax": true,
-    "skipLibCheck": true,
+    "skipLibCheck": true
   },
-  "include": [
-    "env.d.ts",
-    "./**/*.ts",
-    "./**/*.vue"
-  ],
+  "include": ["env.d.ts", "./**/*.ts", "./**/*.vue"]
 }
