@@ -17,6 +17,11 @@ router
     router.get('/', (ctx: HttpContext) => {
       return ctx.inertia.render('main', { title: 'Testing!' })
     })
+
+    router.get('logout', async ({ response, auth }) => {
+      await auth.use('web').logout()
+      return response.redirect('login')
+    })
   })
   .use(middleware.auth())
 

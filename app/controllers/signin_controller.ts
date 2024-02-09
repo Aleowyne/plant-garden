@@ -23,6 +23,6 @@ export default class SigninController {
       return response.redirect().back()
     }
 
-    return response.redirect('login')
+    return response.redirect('/login')
   }
 }
