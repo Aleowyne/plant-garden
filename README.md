@@ -61,4 +61,4 @@ Pour installer Plant Garden localement, suivez les étapes ci-dessous :
 
 ## Licence
 
-Le projet est sous licence [MIT](https://github.com/Aleowyne/plant-garden.github.io/blob/main/README.md).
+Le projet est sous licence [MIT](https://github.com/Aleowyne/plant-garden/blob/main/LICENSE.md).
