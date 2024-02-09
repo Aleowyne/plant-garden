@@ -13,9 +13,85 @@ body {
   background-color: #4d774e;
 }
 
+/* Header */
+header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 50px;
+  background-color: #164a41;
+}
+
+.header-navbar-left {
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+}
+
+.header-navbar-right {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+
+.header-navbar-item {
+  padding: 0px 20px;
+  list-style: none;
+}
+
+.header-navbar-link {
+  color: #e7edf8;
+  text-decoration: none;
+}
+
+/* Formulaire */
 .form-error {
   height: 1.5em;
   margin-bottom: 20px;
   font-size: 0.8em;
   color: #ff0000;
+}
+
+.auth-box {
+  width: 400px;
+  padding: 40px;
+  background-color: #ffffff;
+}
+
+.auth-title {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.auth-form-group {
+  display: flex;
+  flex-direction: column;
+
+  label {
+    margin-bottom: 5px;
+  }
+
+  input {
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background: #efefef;
+  }
+}
+
+.auth-button {
+  height: 54px;
+  width: 100%;
+  padding-left: 30px;
+  padding-right: 30px;
+  line-height: 1.5;
+  font-size: 1rem;
+  color: #ffffff;
+  background-color: #fb771a;
+  border-color: #fb771a;
+  border-style: none;
+  border-radius: 4px;
+}
+
+.auth-button:not(:disabled) {
+  cursor: pointer;
 }
