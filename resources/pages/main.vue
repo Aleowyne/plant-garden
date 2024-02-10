@@ -1,5 +1,5 @@
 <template>
-  <Layout>
+  <Layout :isAuthenticated="true">
     <div>
       <h1>Home Page - {{ props.title }}</h1>
     </div>

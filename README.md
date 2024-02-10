@@ -20,7 +20,7 @@ Cette application est créée dans le but de découvrir le framework AdonisJS.
 
 - Calendrier interactif : Plant Garden offre un calendrier qui permet aux utilisateurs de visualiser les dates de semis, de plantation et de récolte pour chaque plante.
 
-## Technologies Utilisées
+## Technologies utilisées
 
 - AdonisJS pour le backend
 - Vue.js pour le frontend
@@ -31,30 +31,30 @@ Cette application est créée dans le but de découvrir le framework AdonisJS.
 
 Pour installer Plant Garden localement, suivez les étapes ci-dessous :
 
-1. Clonez le dépôt GitHub
+1. Clonage du dépôt GitHub
 
    ```bash
    git clone https://github.com/aleowyne/plant-garden.git
    ```
 
-2. Installez les dépendances
+2. Installation des dépendances
 
    ```bash
    cd plant-garden
    npm install
    ```
 
-3. Configurez la base de données
+3. Configuration des variables d'environnement
 
    Copiez le fichier `.env.example` en tant que `.env` dans le dossier de l'application et mettez à jour les variables d'environnement appropriées.
 
-4. Créer les tables dans la base de données
+4. Création des tables dans la base de données
 
    ```bash
    node ace migration:run
    ```
 
-5. Lancez le serveur
+5. Lancement du serveur
    ```bash
    npm run dev
    ```

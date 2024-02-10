@@ -1,5 +1,5 @@
 <template>
-  <Layout :message="props.message">
+  <Layout :message="props.message" :isAuthenticated="false">
     <div class="auth-box">
       <div class="auth-title">
         <h3>Inscription</h3>
@@ -35,7 +35,7 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
 import type { UserForm, Message } from '@/types'
-import Layout from '@/layouts/auth.vue'
+import Layout from '@/layouts/default.vue'
 
 const props = defineProps<Message>()
 

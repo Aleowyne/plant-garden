@@ -5,6 +5,10 @@ export type Message = {
   }
 }
 
+export type Auth = {
+  isAuthenticated: boolean
+}
+
 export type UserForm = {
   email: string
   username: string
