@@ -11,7 +11,7 @@
         <Link class="header-navbar-link" href="/calendars">Calendrier</Link>
       </li>
       <li class="header-navbar-item" v-if="props.isAuthenticated">
-        <Link class="header-navbar-link" href="/plants/search">Recherche de plantes</Link>
+        <Link class="header-navbar-link" href="/plants">Plantes</Link>
       </li>
       <li class="header-navbar-item" v-if="props.isAuthenticated">
         <Link class="header-navbar-link" href="/logout">Déconnexion</Link>

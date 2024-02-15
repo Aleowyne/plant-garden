@@ -1,6 +1,6 @@
 <template>
   <div class="alert" :class="classTypeAlert" v-if="isVisibleMsg">
-    {{ props.message.content }}
+    {{ message.content }}
   </div>
 </template>
 

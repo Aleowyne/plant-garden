@@ -16,9 +16,18 @@ body {
 /* Formulaire */
 .form-error {
   height: 1.5em;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   font-size: 0.8em;
   color: #ff0000;
+}
+
+.form-column {
+  display: flex;
+  flex-direction: row;
+
+  .form-group {
+    width: 50%;
+  }
 }
 
 .auth-box {
@@ -27,12 +36,20 @@ body {
   background-color: #ffffff;
 }
 
-.auth-title {
+.plant-box {
+  margin: 50px 0px;
+  width: 40%;
+  padding: 40px;
+  background-color: #ffffff;
+}
+
+.auth-title,
+.plant-title {
   margin-bottom: 30px;
   text-align: center;
 }
 
-.auth-form-group {
+.form-group {
   display: flex;
   flex-direction: column;
 
@@ -44,11 +61,19 @@ body {
     padding: 10px;
     border: none;
     border-radius: 4px;
-    background: #efefef;
+    background: #ebebeb;
+  }
+
+  select {
+    padding: 10px;
+  }
+
+  textarea {
+    height: 200px;
   }
 }
 
-.auth-button {
+button {
   height: 54px;
   width: 100%;
   padding-left: 30px;
@@ -62,6 +87,6 @@ body {
   border-radius: 4px;
 }
 
-.auth-button:not(:disabled) {
+button:not(:disabled) {
   cursor: pointer;
 }

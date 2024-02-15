@@ -1,6 +1,6 @@
 <template>
-  <Error :message="props.message"></Error>
-  <Header :isAuthenticated="props.isAuthenticated"></Header>
+  <Error :message="message"></Error>
+  <Header :isAuthenticated="isAuthenticated"></Header>
   <main>
     <slot></slot>
   </main>
@@ -13,7 +13,7 @@ import Header from '@/components/header.vue'
 import Footer from '@/components/footer.vue'
 import Error from '@/components/message.vue'
 
-const props = defineProps<Message & Auth>()
+defineProps<Message & Auth>()
 </script>
 
 <style scoped>
