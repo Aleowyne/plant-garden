@@ -22,12 +22,8 @@ export default class HttpExceptionHandler extends ExceptionHandler {
    * to return the HTML contents to send as a response.
    */
   protected statusPages: Record<StatusPageRange, StatusPageRenderer> = {
-    '404': (error, { view }) => {
-      return view.render('pages/errors/not_found', { error })
-    },
-    '500..599': (error, { view }) => {
-      return view.render('pages/errors/server_error', { error })
-    },
+    '404': (error, { inertia }) => inertia.render('errors/not_found', { error }),
+    '500..599': (error, { inertia }) => inertia.render('errors/server_error', { error }),
   }
 
   /**
@@ -36,7 +32,7 @@ export default class HttpExceptionHandler extends ExceptionHandler {
    */
   async handle(error: unknown, ctx: HttpContext) {
     if (error instanceof errors.E_INVALID_CREDENTIALS) {
-      ctx.session.flash('message', { message: { type: 'error', content: 'Erreur à la connexion' } })
+      ctx.session.flash('message', { type: 'error', content: 'Erreur à la connexion' })
       return ctx.response.redirect().back()
     }
 

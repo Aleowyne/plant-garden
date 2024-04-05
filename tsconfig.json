@@ -22,6 +22,5 @@
       "#config/*": ["./config/*.js"]
     }
   },
-  "include": ["./**/*"],
-  "exclude": ["./resources/**/*"]
+  "exclude": ["./inertia/**/*", "node_modules", "build"]
 }

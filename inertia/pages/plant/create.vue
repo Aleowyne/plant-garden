@@ -1,76 +1,67 @@
 <template>
-  <Layout :isAuthenticated="true">
+  <Layout>
     <div class="plant-box">
-      <div class="plant-title">
+      <div class="form-title">
         <h3>Ajouter une plante</h3>
       </div>
       <form @submit.prevent="form.post('/plants')">
-        <FormInput
-          class="form-group"
-          label="Nom"
-          labelFor="name"
+        <InputGroup
           type="text"
+          name="name"
+          label="Nom"
           v-model="form.name"
           :errors="form.errors.name"
         />
-        <FormInput
-          class="form-group"
-          label="Image"
-          labelFor="image"
+        <InputGroup
           type="url"
+          name="image"
+          label="Image"
           v-model="form.image"
           :errors="form.errors.image"
         />
-        <FormSelect
-          class="form-group"
+        <SelectGroup
+          name="type"
           label="Type de plante"
-          labelFor="type"
           :options="optionsType"
           v-model="form.type"
           :errors="form.errors.type"
         />
-        <FormInput
-          class="form-group"
+        <InputGroup
           label="Profondeur pour la graine (cm)"
-          labelFor="depth"
+          name="depth"
           type="text"
           v-model="form.depth"
           :errors="form.errors.depth"
         />
-        <FormInput
-          class="form-group"
+        <InputGroup
           label="Distance entre 2 plantes (cm)"
-          labelFor="distance"
+          name="distance"
           type="text"
           v-model="form.distance"
           :errors="form.errors.distance"
         />
-        <FormInput
-          class="form-group"
+        <InputGroup
           label="Hauteur de la plante (cm)"
-          labelFor="height"
+          name="height"
           type="text"
           v-model="form.height"
           :errors="form.errors.height"
         />
-        <FormSelect
-          class="form-group"
+        <SelectGroup
           label="Luminosité"
-          labelFor="brightness"
+          name="brightness"
           :options="optionsBrightness"
           v-model="form.brightness"
           :errors="form.errors.brightness"
         />
         <div class="form-column">
-          <FormCheckbox
-            class="form-group"
+          <Checkbox
             label="Période pour semer en pots"
             :options="getOptionsMonth('seedPot')"
             v-model="form.seedPotPeriod"
             :errors="form.errors.seedPotPeriod"
           />
-          <FormCheckbox
-            class="form-group"
+          <Checkbox
             label="Période pour semer en terre"
             :options="getOptionsMonth('seedSoil')"
             v-model="form.seedSoilPeriod"
@@ -78,29 +69,26 @@
           />
         </div>
         <div class="form-column">
-          <FormCheckbox
-            class="form-group"
+          <Checkbox
             label="Période pour plantation"
             :options="getOptionsMonth('plantation')"
             v-model="form.plantationPeriod"
             :errors="form.errors.plantationPeriod"
           />
-          <FormCheckbox
-            class="form-group"
+          <Checkbox
             label="Période de maturité"
             :options="getOptionsMonth('mature')"
             v-model="form.maturePeriod"
             :errors="form.errors.maturePeriod"
           />
         </div>
-        <FormTextarea
-          class="form-group"
+        <TextAreaGroup
           label="Commentaires"
-          labelFor="comment"
+          name="comment"
           v-model="form.comment"
           :errors="form.errors.comment"
         />
-        <button type="submit">Ajouter</button>
+        <Button label="Ajouter" />
       </form>
     </div>
   </Layout>
@@ -110,10 +98,11 @@
 import { useForm } from '@inertiajs/vue3'
 import type { PlantForm } from '@/types'
 import Layout from '@/layouts/default.vue'
-import FormInput from '@/components/form/input.vue'
-import FormSelect from '@/components/form/select.vue'
-import FormCheckbox from '@/components/form/checkbox.vue'
-import FormTextarea from '@/components/form/textarea.vue'
+import InputGroup from '@/components/form/input_group.vue'
+import SelectGroup from '@/components/form/select_group.vue'
+import Checkbox from '@/components/form/checkbox.vue'
+import TextAreaGroup from '@/components/form/textarea_group.vue'
+import Button from '@/components/form/button.vue'
 
 const form = useForm<PlantForm>({
   name: '',
@@ -128,7 +117,6 @@ const form = useForm<PlantForm>({
   plantationPeriod: [],
   maturePeriod: [],
   comment: '',
-  _csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
 })
 
 let optionsType = [
@@ -146,20 +134,20 @@ let optionsBrightness = [
   { value: 'shadow', label: 'Ombre totale' },
 ]
 
-function getOptionsMonth(name: string): Array<{ id: string; value: string; label: string }> {
+function getOptionsMonth(name: string): Array<{ name: string; value: string; label: string }> {
   return [
-    { id: `${name}-january`, value: 'january', label: 'Janvier' },
-    { id: `${name}-february`, value: 'february', label: 'Février' },
-    { id: `${name}-march`, value: 'march', label: 'Mars' },
-    { id: `${name}-april`, value: 'april', label: 'Avril' },
-    { id: `${name}-may`, value: 'may', label: 'Mai' },
-    { id: `${name}-june`, value: 'june', label: 'Juin' },
-    { id: `${name}-july`, value: 'july', label: 'Juillet' },
-    { id: `${name}-august`, value: 'august', label: 'Août' },
-    { id: `${name}-september`, value: 'september', label: 'Septembre' },
-    { id: `${name}-october`, value: 'october', label: 'Octobre' },
-    { id: `${name}-november`, value: 'november', label: 'Novembre' },
-    { id: `${name}-december`, value: 'december', label: 'Décembre' },
+    { name: `${name}-january`, value: 'january', label: 'Janvier' },
+    { name: `${name}-february`, value: 'february', label: 'Février' },
+    { name: `${name}-march`, value: 'march', label: 'Mars' },
+    { name: `${name}-april`, value: 'april', label: 'Avril' },
+    { name: `${name}-may`, value: 'may', label: 'Mai' },
+    { name: `${name}-june`, value: 'june', label: 'Juin' },
+    { name: `${name}-july`, value: 'july', label: 'Juillet' },
+    { name: `${name}-august`, value: 'august', label: 'Août' },
+    { name: `${name}-september`, value: 'september', label: 'Septembre' },
+    { name: `${name}-october`, value: 'october', label: 'Octobre' },
+    { name: `${name}-november`, value: 'november', label: 'Novembre' },
+    { name: `${name}-december`, value: 'december', label: 'Décembre' },
   ]
 }
 </script>

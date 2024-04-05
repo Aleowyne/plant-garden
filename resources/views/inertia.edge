@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="csrf-token" content="{{csrfToken}}">
+  <meta name="description" content="Plant Garden">
   <link rel="icon" href="/icons/favicon.ico" type="image/x-icon">
   <title>Plant Garden</title>
 
-  @vite(['resources/app.ts'])
+  @vite(['inertia/app/app.ts', `inertia/pages/${page.component}.vue`])
+  @inertiaHead()
 </head>
+
 <body>
   @inertia({ as: 'main', class: 'h-full' })
 </body>
+
 </html>

@@ -1,35 +1,32 @@
 <template>
-  <Layout :message="message" :isAuthenticated="false">
+  <Layout>
     <div class="auth-box">
-      <div class="auth-title">
+      <div class="form-title">
         <h3>Inscription</h3>
       </div>
       <form @submit.prevent="form.post('/signin')">
-        <FormInput
-          class="form-group"
+        <InputGroup
+          type="email"
+          name="email"
           label="Adresse mail"
-          labelFor="email"
-          type="text"
           v-model="form.email"
           :errors="form.errors.email"
         />
-        <FormInput
-          class="form-group"
-          label="Nom d'utilisateur"
-          labelFor="username"
+        <InputGroup
           type="text"
+          name="username"
+          label="Nom d'utilisateur"
           v-model="form.username"
           :errors="form.errors.username"
         />
-        <FormInput
-          class="form-group"
-          label="Mot de passe"
-          labelFor="password"
+        <InputGroup
           type="password"
+          name="password"
+          label="Mot de passe"
           v-model="form.password"
           :errors="form.errors.password"
         />
-        <button type="submit">S'inscrire</button>
+        <Button label="S'inscrire" />
       </form>
     </div>
   </Layout>
@@ -37,16 +34,14 @@
 
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
-import type { UserForm, Message } from '@/types'
+import type { UserForm } from '@/types'
 import Layout from '@/layouts/default.vue'
-import FormInput from '@/components/form/input.vue'
-
-defineProps<Message>()
+import InputGroup from '@/components/form/input_group.vue'
+import Button from '@/components/form/button.vue'
 
 const form = useForm<UserForm>({
   email: '',
   username: '',
   password: '',
-  _csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
 })
 </script>
