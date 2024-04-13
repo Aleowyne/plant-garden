@@ -19,10 +19,6 @@ export type PlantForm = {
   name: string
   image: string
   type: string
-  depth: string
-  distance: string
-  height: string
-  brightness: string
   seedPotPeriod: Array<string>
   seedSoilPeriod: Array<string>
   plantationPeriod: Array<string>

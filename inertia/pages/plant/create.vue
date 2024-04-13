@@ -26,34 +26,6 @@
           v-model="form.type"
           :errors="form.errors.type"
         />
-        <InputGroup
-          label="Profondeur pour la graine (cm)"
-          name="depth"
-          type="text"
-          v-model="form.depth"
-          :errors="form.errors.depth"
-        />
-        <InputGroup
-          label="Distance entre 2 plantes (cm)"
-          name="distance"
-          type="text"
-          v-model="form.distance"
-          :errors="form.errors.distance"
-        />
-        <InputGroup
-          label="Hauteur de la plante (cm)"
-          name="height"
-          type="text"
-          v-model="form.height"
-          :errors="form.errors.height"
-        />
-        <SelectGroup
-          label="Luminosité"
-          name="brightness"
-          :options="optionsBrightness"
-          v-model="form.brightness"
-          :errors="form.errors.brightness"
-        />
         <div class="form-column">
           <Checkbox
             label="Période pour semer en pots"
@@ -108,10 +80,6 @@ const form = useForm<PlantForm>({
   name: '',
   image: '',
   type: '',
-  depth: '',
-  distance: '',
-  height: '',
-  brightness: '',
   seedPotPeriod: [],
   seedSoilPeriod: [],
   plantationPeriod: [],
@@ -124,14 +92,6 @@ let optionsType = [
   { value: 'flower', label: 'Fleur' },
   { value: 'vegetable', label: 'Plante potagère' },
   { value: 'aromatic', label: 'Plante aromatique' },
-]
-
-let optionsBrightness = [
-  { value: '', label: '=== Choisir une option ===' },
-  { value: 'sun', label: 'Soleil total' },
-  { value: 'partial_sun', label: 'Soleil/mi-ombre' },
-  { value: 'partial_shadow', label: 'Ombre/mi-ombre' },
-  { value: 'shadow', label: 'Ombre totale' },
 ]
 
 function getOptionsMonth(name: string): Array<{ name: string; value: string; label: string }> {
