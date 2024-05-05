@@ -27,9 +27,7 @@ router
     router
       .group(() => {
         router.get('/create', [PlantController, 'create'])
-        router.post('/', async ({ response }) => {
-          return response.redirect().back()
-        })
+        router.post('/', [PlantController, 'store'])
       })
       .prefix('plants')
   })
