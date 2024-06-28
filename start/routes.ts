@@ -26,10 +26,27 @@ router
 
     router
       .group(() => {
-        router.get('/create', [PlantController, 'create'])
-        router.post('/', [PlantController, 'store'])
+        router
+          .get('/:id', [PlantController, 'show'])
+          .where('id', router.matchers.number())
+          .as('show')
+
+        router.get('/create', [PlantController, 'create']).as('create')
+
+        router.post('/', [PlantController, 'store']).as('store')
+
+        router
+          .get('/:id/edit', [PlantController, 'edit'])
+          .where('id', router.matchers.number())
+          .as('edit')
+
+        router
+          .put('/:id', [PlantController, 'update'])
+          .where('id', router.matchers.number())
+          .as('update')
       })
       .prefix('plants')
+      .as('plants')
   })
   .use(middleware.auth())
 

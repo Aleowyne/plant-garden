@@ -10,12 +10,12 @@ const messages = {
 
 const fields = {
   username: "Nom d'utilisateur",
-  email: "Adresse mail",
-  password: "Mot de passe",
-  name: "Nom",
-  image: "Image",
-  type: "Type",
-  comment: "Commentaire",
+  email: 'Adresse mail',
+  password: 'Mot de passe',
+  name: 'Nom',
+  image: 'Image',
+  type: 'Type',
+  comment: 'Commentaire',
 }
 
 vine.messagesProvider = new SimpleMessagesProvider(messages, fields)

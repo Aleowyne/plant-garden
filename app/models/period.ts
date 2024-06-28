@@ -1,13 +1,16 @@
 import { DateTime } from 'luxon'
 import { BaseModel, belongsTo, column } from '@adonisjs/lucid/orm'
-import type { BelongsTo } from "@adonisjs/lucid/types/relations"
+import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import Plant from '#models/plant'
 
 export default class Period extends BaseModel {
   @column({ isPrimary: true })
+  declare id: number
+
+  @column()
   declare plantId: number
 
-  @column({ isPrimary: true })
+  @column()
   declare type: string
 
   @column()

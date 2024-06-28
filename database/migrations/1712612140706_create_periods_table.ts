@@ -5,6 +5,7 @@ export default class extends BaseSchema {
 
   async up() {
     this.schema.createTable(this.tableName, (table) => {
+      table.increments('id')
       table.integer('plant_id').unsigned().references('plants.id').onDelete('CASCADE')
       table.enu('type', ['mature', 'plantation', 'seedPot', 'seedSoil']).notNullable()
       table.boolean('january').defaultTo(false)
@@ -23,7 +24,7 @@ export default class extends BaseSchema {
       table.timestamp('created_at')
       table.timestamp('updated_at')
 
-      table.primary(['plant_id', 'type'])
+      table.unique(['plant_id', 'type'])
     })
   }
 

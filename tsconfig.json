@@ -19,7 +19,8 @@
       "#database/*": ["./database/*.js"],
       "#tests/*": ["./tests/*.js"],
       "#start/*": ["./start/*.js"],
-      "#config/*": ["./config/*.js"]
+      "#config/*": ["./config/*.js"],
+      "#presenters/*": ["./app/presenters/*.js"]
     }
   },
   "exclude": ["./inertia/**/*", "node_modules", "build"]
