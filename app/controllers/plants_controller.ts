@@ -31,7 +31,15 @@ export default class PlantsController {
     protected periodPresenter: PeriodsPresenter
   ) {}
 
-  async show() {}
+  async show({ inertia, params }: HttpContext) {
+    const plant = await Plant.findOrFail(params.id)
+    const periods = await plant.related('periods').query()
+
+    return inertia.render('plant/show', {
+      plant: this.plantPresenter.toJson(plant),
+      periods: this.periodPresenter.toJson(periods),
+    })
+  }
 
   async create({ inertia }: HttpContext) {
     return inertia.render('plant/create')

@@ -87,7 +87,7 @@ const form = useForm<PlantForm>({
   comment: '',
 })
 
-let optionsType = [
+const optionsType = [
   { value: '', label: '=== Choisir une option ===' },
   { value: 'flower', label: 'Fleur' },
   { value: 'vegetable', label: 'Plante potagère' },

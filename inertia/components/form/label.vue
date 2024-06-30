@@ -13,6 +13,6 @@ defineProps<LabelProps>()
 
 <style scoped>
 label {
-  margin-bottom: 5px;
+  font-weight: bold;
 }
 </style>

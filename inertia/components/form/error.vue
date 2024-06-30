@@ -14,8 +14,7 @@ defineProps<ErrorProps>()
 
 <style scoped>
 .form-error {
-  height: 1.5em;
-  margin-bottom: 20px;
+  height: 1em;
   font-size: 0.8em;
   color: #ff0000;
 }

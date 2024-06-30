@@ -1,7 +1,7 @@
 <template>
   <div class="form-group">
     <Label :name="name" :label="label" />
-    <TextArea :name="name" :placeholder="placeholder" v-model="model" />
+    <TextArea :name="name" :placeholder="placeholder" :disabled="isDisabled" v-model="model" />
     <Error :errors="errors" />
   </div>
 </template>
@@ -15,6 +15,7 @@ interface TextAreaGroupProps {
   name: string
   label: string
   placeholder?: string
+  isDisabled?: boolean
   errors?: any
 }
 

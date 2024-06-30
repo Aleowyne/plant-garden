@@ -1,7 +1,13 @@
 <template>
   <div class="form-group">
     <Label :name="name" :label="label" />
-    <Input :type="type" :name="name" :placeholder="placeholder" v-model="model" />
+    <Input
+      :type="type"
+      :name="name"
+      :placeholder="placeholder"
+      :isDisabled="isDisabled"
+      v-model="model"
+    />
     <Error :errors="errors" />
   </div>
 </template>
@@ -16,6 +22,7 @@ interface InputGroupProps {
   name: string
   label: string
   placeholder?: string
+  isDisabled?: boolean
   errors?: any
 }
 
