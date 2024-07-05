@@ -7,13 +7,20 @@
           <p>{{ plantType }}</p>
         </div>
         <div class="action">
-          <Link :href="`/plants/${props.plant.id}/edit`">
+          <Link :href="`/plants/${props.plant.id}/edit`" as="button" class="button-action">
             <img src="@/assets/edit.png" alt="Editer les informations de la plante" />
           </Link>
-          <img src="@/assets/delete.png" alt="Supprimer la plante" />
+          <Link
+            :href="`/plants/${props.plant.id}`"
+            method="delete"
+            as="button"
+            class="button-action"
+          >
+            <img src="@/assets/delete.png" alt="Supprimer la plante" />
+          </Link>
         </div>
       </div>
-      <div class="form-img">
+      <div v-if="props.plant.image" class="form-img">
         <img :src="props.plant.image" :alt="`Plante ${props.plant.name}`" />
       </div>
       <Checkbox
@@ -114,9 +121,16 @@ function getOptionsMonth(name: string): Array<{ name: string; value: string; lab
 .form-img {
   display: flex;
   justify-content: center;
+  text-align: center;
 
   & img {
     width: 300px;
   }
+}
+
+.button-action {
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
 }
 </style>

@@ -44,6 +44,11 @@ router
           .put('/:id', [PlantController, 'update'])
           .where('id', router.matchers.number())
           .as('update')
+
+        router
+          .delete('/:id', [PlantController, 'delete'])
+          .where('id', router.matchers.number())
+          .as('delete')
       })
       .prefix('plants')
       .as('plants')

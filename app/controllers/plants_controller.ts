@@ -135,4 +135,13 @@ export default class PlantsController {
 
     return response.redirect().toRoute('plants.show', { id: params.id })
   }
+
+  async delete({ response, session, params }: HttpContext) {
+    const plant = await Plant.findOrFail(params.id)
+    await plant.delete()
+
+    session.flash('message', { type: 'success', content: 'Plante supprimée' })
+
+    return response.redirect().toRoute('plants.index')
+  }
 }
