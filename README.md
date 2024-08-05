@@ -14,7 +14,7 @@ Cette application est créée dans le but de découvrir le framework AdonisJS.
 
 ## Fonctionnalités
 
-- Gestion des jardins des utilisateurs : Plant Garden permet aux utilisateurs de se connecter grâce à leur compte Google pour accéder à leurs jardins virtuels.
+- Gestion des jardins des utilisateurs : Plant Garden permet aux utilisateurs de se connecter pour accéder à leurs jardins virtuels.
 
 - Gestion de l'emplacement des semis et plantations : L'une des fonctionnalités clés de Plant Garden est la possibilité d'attribuer des emplacements spécifiques à chaque semis et plantations dans les différents jardins de l'utilisateur.
 
