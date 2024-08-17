@@ -22,38 +22,34 @@
         <SelectGroup
           name="type"
           label="Type de plante"
-          :options="optionsType"
+          :options="props.typeOptions"
           v-model="form.type"
           :errors="form.errors.type"
         />
-        <div class="form-column">
-          <Checkbox
-            label="Période pour semer en pots"
-            :options="getOptionsMonth('seedPot')"
-            v-model="form.seedPotPeriod"
-            :errors="form.errors.seedPotPeriod"
-          />
-          <Checkbox
-            label="Période pour semer en terre"
-            :options="getOptionsMonth('seedSoil')"
-            v-model="form.seedSoilPeriod"
-            :errors="form.errors.seedSoilPeriod"
-          />
-        </div>
-        <div class="form-column">
-          <Checkbox
-            label="Période pour plantation"
-            :options="getOptionsMonth('plantation')"
-            v-model="form.plantationPeriod"
-            :errors="form.errors.plantationPeriod"
-          />
-          <Checkbox
-            label="Période de maturité"
-            :options="getOptionsMonth('mature')"
-            v-model="form.maturePeriod"
-            :errors="form.errors.maturePeriod"
-          />
-        </div>
+        <Checkbox
+          title="Période pour semer en pots"
+          :options="getPeriodOptions('seedPot')"
+          v-model="form.seedPotPeriod"
+          :errors="form.errors.seedPotPeriod"
+        />
+        <Checkbox
+          title="Période pour semer en terre"
+          :options="getPeriodOptions('seedSoil')"
+          v-model="form.seedSoilPeriod"
+          :errors="form.errors.seedSoilPeriod"
+        />
+        <Checkbox
+          title="Période pour plantation"
+          :options="getPeriodOptions('plantation')"
+          v-model="form.plantationPeriod"
+          :errors="form.errors.plantationPeriod"
+        />
+        <Checkbox
+          title="Période de maturité"
+          :options="getPeriodOptions('mature')"
+          v-model="form.maturePeriod"
+          :errors="form.errors.maturePeriod"
+        />
         <TextAreaGroup
           label="Commentaires"
           name="comment"
@@ -68,13 +64,21 @@
 
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
-import type { PlantForm } from '@/types'
+import { InferPageProps } from '@adonisjs/inertia/types'
+import { PlantForm } from '@/types'
+import { CheckboxForm } from '@/components/form/checkbox_group.vue'
+import type PlantsController from '#controllers/plants_controller'
 import Layout from '@/layouts/default.vue'
 import InputGroup from '@/components/form/input_group.vue'
 import SelectGroup from '@/components/form/select_group.vue'
-import Checkbox from '@/components/form/checkbox.vue'
+import Checkbox from '@/components/form/checkbox_month.vue'
 import TextAreaGroup from '@/components/form/textarea_group.vue'
 import Button from '@/components/form/button.vue'
+
+const props = defineProps<{
+  typeOptions: InferPageProps<PlantsController, 'create'>['typeOptions']
+  periodOptions: InferPageProps<PlantsController, 'create'>['periodOptions']
+}>()
 
 const form = useForm<PlantForm>({
   name: '',
@@ -87,27 +91,7 @@ const form = useForm<PlantForm>({
   comment: '',
 })
 
-const optionsType = [
-  { value: '', label: '=== Choisir une option ===' },
-  { value: 'flower', label: 'Fleur' },
-  { value: 'vegetable', label: 'Plante potagère' },
-  { value: 'aromatic', label: 'Plante aromatique' },
-]
-
-function getOptionsMonth(name: string): Array<{ name: string; value: string; label: string }> {
-  return [
-    { name: `${name}-january`, value: 'january', label: 'Janvier' },
-    { name: `${name}-february`, value: 'february', label: 'Février' },
-    { name: `${name}-march`, value: 'march', label: 'Mars' },
-    { name: `${name}-april`, value: 'april', label: 'Avril' },
-    { name: `${name}-may`, value: 'may', label: 'Mai' },
-    { name: `${name}-june`, value: 'june', label: 'Juin' },
-    { name: `${name}-july`, value: 'july', label: 'Juillet' },
-    { name: `${name}-august`, value: 'august', label: 'Août' },
-    { name: `${name}-september`, value: 'september', label: 'Septembre' },
-    { name: `${name}-october`, value: 'october', label: 'Octobre' },
-    { name: `${name}-november`, value: 'november', label: 'Novembre' },
-    { name: `${name}-december`, value: 'december', label: 'Décembre' },
-  ]
+function getPeriodOptions(name: string): Array<CheckboxForm> {
+  return props.periodOptions.find((option) => option.type === name)?.periods || []
 }
 </script>

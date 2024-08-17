@@ -13,9 +13,25 @@ body {
   background-color: #4d774e;
 }
 
-.form-title {
-  margin-bottom: 30px;
-  text-align: center;
+.main {
+  &:has(.auth-box) {
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    align-items: center;
+    min-height: 90vh;
+  }
+
+  &:has(.plant-box) {
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  &:not(:has(.auth-box)) {
+    margin-top: 40px;
+    min-height: 85vh;
+  }
 }
 
 .auth-box {
@@ -25,10 +41,21 @@ body {
 }
 
 .plant-box {
-  margin: 50px 0px;
+  margin-bottom: 50px;
   width: 40%;
   padding: 40px;
   background-color: #ffffff;
+}
+
+.plant-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: center;
+}
+
+.form-title {
+  margin-bottom: 30px;
+  text-align: center;
 }
 
 .form-column {

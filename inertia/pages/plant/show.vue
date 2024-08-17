@@ -24,23 +24,23 @@
         <img :src="props.plant.image" :alt="`Plante ${props.plant.name}`" />
       </div>
       <Checkbox
-        label="Période pour semer en pots"
-        :options="getOptionsMonth('seedPot')"
+        title="Période pour semer en pots"
+        :options="getPeriodOptions('seedPot')"
         v-model="props.periods.seedPotPeriod"
       />
       <Checkbox
-        label="Période pour semer en terre"
-        :options="getOptionsMonth('seedSoil')"
+        title="Période pour semer en terre"
+        :options="getPeriodOptions('seedSoil')"
         v-model="props.periods.seedSoilPeriod"
       />
       <Checkbox
-        label="Période pour plantation"
-        :options="getOptionsMonth('plantation')"
+        title="Période pour plantation"
+        :options="getPeriodOptions('plantation')"
         v-model="props.periods.plantationPeriod"
       />
       <Checkbox
-        label="Période de maturité"
-        :options="getOptionsMonth('mature')"
+        title="Période de maturité"
+        :options="getPeriodOptions('mature')"
         v-model="props.periods.maturePeriod"
       />
       <TextAreaGroup
@@ -57,42 +57,31 @@
 import { computed } from 'vue'
 import { InferPageProps } from '@adonisjs/inertia/types'
 import { Link } from '@inertiajs/vue3'
+import { CheckboxForm } from '@/components/form/checkbox_group.vue'
+import type PlantsController from '#controllers/plants_controller'
 import Layout from '@/layouts/default.vue'
 import Checkbox from '@/components/form/checkbox_month.vue'
 import TextAreaGroup from '@/components/form/textarea_group.vue'
-import type PlantsController from '#controllers/plants_controller'
 
 const props = defineProps<{
   plant: InferPageProps<PlantsController, 'show'>['plant']
   periods: InferPageProps<PlantsController, 'show'>['periods']
+  typeOptions: InferPageProps<PlantsController, 'show'>['typeOptions']
+  periodOptions: InferPageProps<PlantsController, 'show'>['periodOptions']
 }>()
 
 const plantType = computed(
-  () => optionsType.find((option) => option.value === props.plant.type)?.label || ''
+  () => props.typeOptions.find((option) => option.value === props.plant.type)?.label || ''
 )
 
-const optionsType = [
-  { value: '', label: '=== Choisir une option ===' },
-  { value: 'flower', label: 'Fleur' },
-  { value: 'vegetable', label: 'Plante potagère' },
-  { value: 'aromatic', label: 'Plante aromatique' },
-]
+function getPeriodOptions(name: string): Array<CheckboxForm> {
+  const periodOptions = props.periodOptions.find((option) => option.type === name)?.periods || []
 
-function getOptionsMonth(name: string): Array<{ name: string; value: string; label: string }> {
-  return [
-    { name: `${name}-january`, value: 'january', label: 'Janv.' },
-    { name: `${name}-february`, value: 'february', label: 'Févr.' },
-    { name: `${name}-march`, value: 'march', label: 'Mars' },
-    { name: `${name}-april`, value: 'april', label: 'Avr.' },
-    { name: `${name}-may`, value: 'may', label: 'Mai' },
-    { name: `${name}-june`, value: 'june', label: 'Juin' },
-    { name: `${name}-july`, value: 'july', label: 'Juill.' },
-    { name: `${name}-august`, value: 'august', label: 'Août' },
-    { name: `${name}-september`, value: 'september', label: 'Sept.' },
-    { name: `${name}-october`, value: 'october', label: 'Oct.' },
-    { name: `${name}-november`, value: 'november', label: 'Nov.' },
-    { name: `${name}-december`, value: 'december', label: 'Déc.' },
-  ]
+  return periodOptions.map((periodOption) => {
+    let checkboxForm: CheckboxForm = periodOption
+    checkboxForm.isDisabled = true
+    return checkboxForm
+  })
 }
 </script>
 

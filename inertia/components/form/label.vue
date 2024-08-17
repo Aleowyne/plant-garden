@@ -1,18 +1,16 @@
 <template>
-  <label :for="name">{{ label }}</label>
+  <label class="label" :for="props.name">{{ props.label }}</label>
 </template>
 
 <script setup lang="ts">
-interface LabelProps {
+const props = defineProps<{
   name: string
   label: string
-}
-
-defineProps<LabelProps>()
+}>()
 </script>
 
 <style scoped>
-label {
+.label {
   font-weight: bold;
 }
 </style>

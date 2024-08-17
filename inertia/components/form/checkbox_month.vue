@@ -1,10 +1,17 @@
 <template>
   <div class="form-group">
-    <p class="form-group-title">{{ label }}</p>
-    <div class="checkboxes">
-      <div class="checkbox" v-for="option in options">
-        <label :for="option.name">{{ option.label }}</label>
-        <input type="checkbox" :id="option.name" :value="option.value" v-model="model" disabled />
+    <p class="form-group-title">{{ props.title }}</p>
+    <div class="checkbox-list">
+      <div class="checkbox" v-for="option in props.options">
+        <label :for="option.id">{{ option.label }}</label>
+        <input
+          class="checkbox-input"
+          type="checkbox"
+          :id="option.id"
+          :value="option.value"
+          :disabled="option.isDisabled"
+          v-model="model"
+        />
         <div class="checkmark" @click="activateMonth($event)"></div>
       </div>
     </div>
@@ -12,12 +19,12 @@
 </template>
 
 <script setup lang="ts">
-interface CheckboxProps {
-  label: string
-  options: Array<{ name: string; value: string; label: string }>
-}
+import { CheckboxForm } from '@/components/form/checkbox_group.vue'
 
-defineProps<CheckboxProps>()
+const props = defineProps<{
+  title: string
+  options: Array<CheckboxForm>
+}>()
 
 const model = defineModel<Array<string>>()
 
@@ -29,8 +36,10 @@ function activateMonth(event: Event) {
     checkbox.checked = !checkbox.checked
 
     if (checkbox.checked) {
+      model.value?.push(checkbox.value)
       checkmark.style.backgroundColor = '#4d774e'
     } else {
+      model.value?.splice(model.value.indexOf(checkbox.value), 1)
       checkmark.style.backgroundColor = '#ebebeb'
     }
   }
@@ -42,19 +51,21 @@ function activateMonth(event: Event) {
   font-weight: bold;
 }
 
-.checkboxes {
+.checkbox-list {
   display: flex;
   flex-wrap: wrap;
+  row-gap: 10px;
+  column-gap: 5px;
 }
 
-input {
+.checkbox-input {
   display: none;
 }
 
 .checkbox {
   display: flex;
   flex-direction: column;
-  flex-basis: calc(100% / 12);
+  flex-basis: calc(100% / 13);
   align-items: center;
 }
 
@@ -63,11 +74,11 @@ input {
   height: 50px;
   background-color: #ebebeb;
 
-  input:not(:disabled) + & {
+  .checkbox-input:not(:disabled) + & {
     cursor: pointer;
   }
 
-  input:checked + & {
+  .checkbox-input:checked + & {
     background-color: #4d774e;
   }
 }

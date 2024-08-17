@@ -1,17 +1,15 @@
 <template>
-  <button type="submit">{{ label }}</button>
+  <button class="btn" type="submit">{{ props.label }}</button>
 </template>
 
 <script setup lang="ts">
-interface LabelProps {
+const props = defineProps<{
   label: string
-}
-
-defineProps<LabelProps>()
+}>()
 </script>
 
 <style scoped>
-button {
+.btn {
   height: 54px;
   width: 100%;
   padding-left: 30px;
@@ -25,7 +23,7 @@ button {
   border-radius: 4px;
 }
 
-button:not(:disabled) {
+.btn:not(:disabled) {
   cursor: pointer;
 }
 </style>

@@ -1,15 +1,13 @@
 <template>
   <div class="form-error">
-    <p v-if="errors && errors.length > 0">{{ errors[0] }}</p>
+    <p v-if="props.errors && props.errors.length > 0">{{ props.errors[0] }}</p>
   </div>
 </template>
 
 <script setup lang="ts">
-interface ErrorProps {
+const props = defineProps<{
   errors?: Array<string>
-}
-
-defineProps<ErrorProps>()
+}>()
 </script>
 
 <style scoped>

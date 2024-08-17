@@ -27,6 +27,10 @@ router
     router
       .group(() => {
         router
+          .get('/', [PlantController, 'index'])
+          .as('index')
+
+        router
           .get('/:id', [PlantController, 'show'])
           .where('id', router.matchers.number())
           .as('show')

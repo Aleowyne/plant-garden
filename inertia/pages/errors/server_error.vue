@@ -1,11 +1,11 @@
-<script setup lang="ts">
-defineProps<{ error: any }>()
-</script>
-
 <template>
   <div>
     <div>Server Error</div>
 
-    <span>{{ error.message }}</span>
+    <span>{{ props.error.message }}</span>
   </div>
 </template>
+
+<script setup lang="ts">
+const props = defineProps<{ error: any }>()
+</script>

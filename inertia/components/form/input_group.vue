@@ -1,14 +1,14 @@
 <template>
   <div class="form-group">
-    <Label :name="name" :label="label" />
+    <Label for="test" :name="props.name" :label="props.label" />
     <Input
-      :type="type"
-      :name="name"
-      :placeholder="placeholder"
-      :isDisabled="isDisabled"
+      :type="props.type"
+      :name="props.name"
+      :placeholder="props.placeholder"
+      :isDisabled="props.isDisabled"
       v-model="model"
     />
-    <Error :errors="errors" />
+    <Error :errors="props.errors" />
   </div>
 </template>
 
@@ -17,16 +17,14 @@ import Label from '@/components/form/label.vue'
 import Input from '@/components/form/input.vue'
 import Error from '@/components/form/error.vue'
 
-interface InputGroupProps {
+const props = defineProps<{
   type: string
   name: string
   label: string
   placeholder?: string
   isDisabled?: boolean
   errors?: any
-}
-
-defineProps<InputGroupProps>()
+}>()
 
 const model = defineModel<string | number>()
 </script>

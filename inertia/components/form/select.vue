@@ -1,22 +1,31 @@
 <template>
-  <select :name="name" :id="name" v-model="model">
-    <option v-for="option in options" :value="option.value">{{ option.label }}</option>
+  <select class="select" :name="props.name" :id="props.name" v-model="model">
+    <option v-for="option in props.options" :value="option.value" :disabled="option.isDisabled">
+      {{ option.label }}
+    </option>
   </select>
 </template>
 
-<script setup lang="ts">
-interface SelectProps {
-  name: string
-  options: Array<{ value: string; label: string }>
+<script lang="ts">
+export type OptionForm = {
+  id: string
+  label: string
+  value: string
+  isDisabled?: boolean
 }
+</script>
 
-defineProps<SelectProps>()
+<script setup lang="ts">
+const props = defineProps<{
+  name: string
+  options: Array<OptionForm>
+}>()
 
 const model = defineModel<string | number>()
 </script>
 
 <style scoped>
-select {
+.select {
   padding: 10px;
 }
 </style>

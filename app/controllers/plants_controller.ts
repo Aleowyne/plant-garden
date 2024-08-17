@@ -3,33 +3,26 @@ import type { HttpContext } from '@adonisjs/core/http'
 import db from '@adonisjs/lucid/services/db'
 import Plant from '#models/plant'
 import Period from '#models/period'
+import PlantService from "#services/plant_service"
 import { createPlantValidator } from '#validators/plant'
 import { PlantsPresenter } from '#presenters/plants_presenter'
 import { PeriodsPresenter } from '#presenters/periods_presenter'
 
 @inject()
 export default class PlantsController {
-  months = [
-    'january',
-    'february',
-    'march',
-    'april',
-    'may',
-    'june',
-    'july',
-    'august',
-    'september',
-    'october',
-    'november',
-    'december',
-  ] as const
-
-  periodTypes = ['seedPot', 'seedSoil', 'plantation', 'mature'] as const
-
   constructor(
     protected plantPresenter: PlantsPresenter,
     protected periodPresenter: PeriodsPresenter
-  ) {}
+  ) { }
+
+  async index({ inertia }: HttpContext) {
+    const plants = await Plant.query().orderBy('name')
+
+    return inertia.render('plant/index', {
+      plants: plants.map((plant) => this.plantPresenter.toJson(plant)),
+      typeOptions: PlantService.types,
+    })
+  }
 
   async show({ inertia, params }: HttpContext) {
     const plant = await Plant.findOrFail(params.id)
@@ -38,11 +31,16 @@ export default class PlantsController {
     return inertia.render('plant/show', {
       plant: this.plantPresenter.toJson(plant),
       periods: this.periodPresenter.toJson(periods),
+      typeOptions: PlantService.types,
+      periodOptions: PlantService.getPeriodOptions(),
     })
   }
 
   async create({ inertia }: HttpContext) {
-    return inertia.render('plant/create')
+    return inertia.render('plant/create', {
+      typeOptions: PlantService.types,
+      periodOptions: PlantService.getPeriodOptions(),
+    })
   }
 
   async edit({ inertia, params }: HttpContext) {
@@ -52,6 +50,8 @@ export default class PlantsController {
     return inertia.render('plant/edit', {
       plant: this.plantPresenter.toJson(plant),
       periods: this.periodPresenter.toJson(periods),
+      typeOptions: PlantService.types,
+      periodOptions: PlantService.getPeriodOptions(),
     })
   }
 
@@ -76,13 +76,13 @@ export default class PlantsController {
         mature: payload.maturePeriod,
       }
 
-      const periods = this.periodTypes.map((type) => {
+      const periods = PlantService.periodTypes.map((type) => {
         const period = new Period()
 
         period.plantId = plant.id
         period.type = type
 
-        this.months.forEach((month) => {
+        PlantService.months.forEach((month) => {
           period[month] = periodPayloads[type].includes(month)
         })
 
@@ -118,11 +118,11 @@ export default class PlantsController {
         mature: payload.maturePeriod,
       }
 
-      this.periodTypes.forEach((type) => {
+      PlantService.periodTypes.forEach((type) => {
         const period = periods.find((period) => period.type === type)
 
         if (period) {
-          this.months.forEach((month) => {
+          PlantService.months.forEach((month) => {
             period[month] = periodPayloads[type].includes(month)
           })
         }

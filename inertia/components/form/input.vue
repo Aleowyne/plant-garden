@@ -1,28 +1,27 @@
 <template>
   <input
-    :type="type"
-    :id="name"
-    :placeholder="placeholder"
-    :disabled="isDisabled"
+    class="input"
+    :type="props.type"
+    :id="props.name"
+    :placeholder="props.placeholder"
+    :disabled="props.isDisabled"
     v-model="model"
   />
 </template>
 
 <script setup lang="ts">
-interface InputProps {
+const props = defineProps<{
   type: string
   name: string
   placeholder?: string
   isDisabled?: boolean
-}
-
-defineProps<InputProps>()
+}>()
 
 const model = defineModel<string | number>()
 </script>
 
 <style scoped>
-input {
+.input {
   padding: 10px;
   border: 1px solid #ced4da;
   border-radius: 4px;
