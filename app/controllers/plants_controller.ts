@@ -3,7 +3,7 @@ import type { HttpContext } from '@adonisjs/core/http'
 import db from '@adonisjs/lucid/services/db'
 import Plant from '#models/plant'
 import Period from '#models/period'
-import PlantService from "#services/plant_service"
+import PlantService from '#services/plant_service'
 import { createPlantValidator } from '#validators/plant'
 import { PlantsPresenter } from '#presenters/plants_presenter'
 import { PeriodsPresenter } from '#presenters/periods_presenter'
