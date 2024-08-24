@@ -42,16 +42,16 @@
     "@japa/assert": "^3.0.0",
     "@japa/plugin-adonisjs": "^3.0.1",
     "@japa/runner": "^3.1.4",
-    "@swc/core": "^1.7.11",
+    "@swc/core": "^1.7.18",
     "@types/luxon": "^3.4.2",
-    "@types/node": "^22.4.0",
+    "@types/node": "^22.5.0",
     "@vitejs/plugin-vue": "^5.1.2",
     "eslint": "^8.57.0",
     "pino-pretty": "^11.2.2",
     "prettier": "^3.3.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4",
-    "vite": "^5.4.1"
+    "vite": "^5.4.2"
   },
   "dependencies": {
     "@adonisjs/auth": "^9.2.3",
