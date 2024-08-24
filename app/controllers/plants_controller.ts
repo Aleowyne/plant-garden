@@ -4,7 +4,7 @@ import db from '@adonisjs/lucid/services/db'
 import Plant from '#models/plant'
 import Period from '#models/period'
 import PlantService from '#services/plant_service'
-import { createPlantValidator } from '#validators/plant'
+import { createPlantValidator, filterPlantValidator } from '#validators/plant'
 import { PlantsPresenter } from '#presenters/plants_presenter'
 import { PeriodsPresenter } from '#presenters/periods_presenter'
 
@@ -15,8 +15,13 @@ export default class PlantsController {
     protected periodPresenter: PeriodsPresenter
   ) { }
 
-  async index({ inertia }: HttpContext) {
-    const plants = await Plant.query().orderBy('name')
+  async index({ request, inertia }: HttpContext) {
+    const filter = await filterPlantValidator.validate(request.qs())
+
+    const plants = await Plant.query()
+      .if(filter.name, (query) => query.whereILike('name', `%${filter.name}%`))
+      .if(filter.type, (query) => query.where('type', filter.type!))
+      .orderBy('name')
 
     return inertia.render('plant/index', {
       plants: plants.map((plant) => this.plantPresenter.toJson(plant)),
