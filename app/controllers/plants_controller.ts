@@ -15,6 +15,9 @@ export default class PlantsController {
     protected periodPresenter: PeriodsPresenter
   ) {}
 
+  /**
+   * Affichage d'une liste de plante
+   */
   async index({ request, inertia }: HttpContext) {
     const filter = await filterPlantValidator.validate(request.qs())
 
@@ -29,18 +32,9 @@ export default class PlantsController {
     })
   }
 
-  async show({ inertia, params }: HttpContext) {
-    const plant = await Plant.findOrFail(params.id)
-    const periods = await plant.related('periods').query()
-
-    return inertia.render('plant/show', {
-      plant: this.plantPresenter.toJson(plant),
-      periods: this.periodPresenter.toJson(periods),
-      typeOptions: PlantService.types,
-      periodOptions: PlantService.getPeriodOptions(),
-    })
-  }
-
+  /**
+   * Affichage d'un formulaire pour la création d'une plante
+   */
   async create({ inertia }: HttpContext) {
     return inertia.render('plant/create', {
       typeOptions: PlantService.types,
@@ -48,18 +42,9 @@ export default class PlantsController {
     })
   }
 
-  async edit({ inertia, params }: HttpContext) {
-    const plant = await Plant.findOrFail(params.id)
-    const periods = await plant.related('periods').query()
-
-    return inertia.render('plant/edit', {
-      plant: this.plantPresenter.toJson(plant),
-      periods: this.periodPresenter.toJson(periods),
-      typeOptions: PlantService.types,
-      periodOptions: PlantService.getPeriodOptions(),
-    })
-  }
-
+  /**
+   * Création d'une plante
+   */
   async store({ request, response, session }: HttpContext) {
     const payload = await request.validateUsing(createPlantValidator)
 
@@ -102,6 +87,39 @@ export default class PlantsController {
     return response.redirect().toRoute('plants.create')
   }
 
+  /**
+   * Affichage d'une plante
+   */
+  async show({ inertia, params }: HttpContext) {
+    const plant = await Plant.findOrFail(params.id)
+    const periods = await plant.related('periods').query()
+
+    return inertia.render('plant/show', {
+      plant: this.plantPresenter.toJson(plant),
+      periods: this.periodPresenter.toJson(periods),
+      typeOptions: PlantService.types,
+      periodOptions: PlantService.getPeriodOptions(),
+    })
+  }
+
+  /**
+   * Affichage d'un formulaire pour la modification d'une plante
+   */
+  async edit({ inertia, params }: HttpContext) {
+    const plant = await Plant.findOrFail(params.id)
+    const periods = await plant.related('periods').query()
+
+    return inertia.render('plant/edit', {
+      plant: this.plantPresenter.toJson(plant),
+      periods: this.periodPresenter.toJson(periods),
+      typeOptions: PlantService.types,
+      periodOptions: PlantService.getPeriodOptions(),
+    })
+  }
+
+  /**
+   * Modification d'une plante
+   */
   async update({ request, response, session, params }: HttpContext) {
     const payload = await request.validateUsing(createPlantValidator)
 
@@ -141,7 +159,10 @@ export default class PlantsController {
     return response.redirect().toRoute('plants.show', { id: params.id })
   }
 
-  async delete({ response, session, params }: HttpContext) {
+  /**
+   * Suppression d'une plante
+   */
+  async destroy({ response, session, params }: HttpContext) {
     const plant = await Plant.findOrFail(params.id)
     await plant.delete()
 

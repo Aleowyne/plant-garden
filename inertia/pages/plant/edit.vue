@@ -1,6 +1,6 @@
 <template>
   <Layout>
-    <div class="plant-box">
+    <div class="plant-box box">
       <div class="form-title">
         <h3>Modifier une plante</h3>
       </div>

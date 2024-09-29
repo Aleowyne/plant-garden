@@ -1,6 +1,6 @@
 <template>
   <Layout>
-    <div class="plant-box">
+    <div class="plant-box box">
       <div class="form-header">
         <div class="form-title">
           <h2>{{ props.plant.name }}</h2>

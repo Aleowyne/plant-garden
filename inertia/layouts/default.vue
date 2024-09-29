@@ -19,10 +19,12 @@
     flex: 1;
     flex-direction: column;
 
-    &:has(.auth-box),
-    &:has(.plant-box) {
-      align-items: center;
+    &:has(.auth-box) {
       justify-content: center;
+    }
+
+    &:has(.box) {
+      align-items: center;
     }
 
     &:not(:has(.auth-box)) {

@@ -24,7 +24,8 @@ main {
   background-color: #ffffff;
 }
 
-.plant-box {
+.plant-box,
+.garden-box {
   display: grid;
   width: 750px;
   padding: 2em;

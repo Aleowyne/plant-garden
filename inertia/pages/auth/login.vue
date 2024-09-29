@@ -1,6 +1,6 @@
 <template>
   <Layout>
-    <div class="auth-box">
+    <div class="auth-box box">
       <div class="form-title">
         <h3>Connexion</h3>
       </div>

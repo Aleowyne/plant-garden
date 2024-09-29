@@ -25,3 +25,8 @@ export type PlantForm = {
   maturePeriod: Array<string>
   comment: string
 }
+
+export type GardenForm = {
+  name: string
+  image: string
+}
