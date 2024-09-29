@@ -30,7 +30,7 @@ export default class HttpExceptionHandler extends ExceptionHandler {
    * The method is used for handling errors and returning
    * response to the client
    */
-  async handle(error: any, ctx: HttpContext) {
+  async handle(error: unknown, ctx: HttpContext) {
     if (error instanceof authErrors.E_INVALID_CREDENTIALS) {
       ctx.session.flash('message', { type: 'error', content: 'Erreur à la connexion' })
       return ctx.response.redirect().back()

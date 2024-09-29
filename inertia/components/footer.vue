@@ -3,9 +3,8 @@
 </template>
 
 <style scoped>
-footer {
-  margin: 5px 0px;
-  color: #ffffff;
-  text-align: center;
-}
+  footer {
+    text-align: center;
+    padding: 0.5em 0;
+  }
 </style>

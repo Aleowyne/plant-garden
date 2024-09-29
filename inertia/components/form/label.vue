@@ -1,16 +1,18 @@
 <template>
-  <label class="label" :for="props.name">{{ props.label }}</label>
+  <label class="label" :for="props.name">
+    {{ props.label }}
+  </label>
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
-  name: string
-  label: string
-}>()
+  const props = defineProps<{
+    name: string
+    label: string
+  }>()
 </script>
 
 <style scoped>
-.label {
-  font-weight: bold;
-}
+  .label {
+    margin-bottom: 0.5em;
+  }
 </style>

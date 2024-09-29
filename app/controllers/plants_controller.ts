@@ -13,7 +13,7 @@ export default class PlantsController {
   constructor(
     protected plantPresenter: PlantsPresenter,
     protected periodPresenter: PeriodsPresenter
-  ) { }
+  ) {}
 
   async index({ request, inertia }: HttpContext) {
     const filter = await filterPlantValidator.validate(request.qs())
@@ -124,7 +124,7 @@ export default class PlantsController {
       }
 
       PlantService.periodTypes.forEach((type) => {
-        const period = periods.find((period) => period.type === type)
+        const period = periods.find((p) => p.type === type)
 
         if (period) {
           PlantService.months.forEach((month) => {

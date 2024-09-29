@@ -1,26 +1,26 @@
 <template>
   <textarea
-    class="textarea"
     :id="props.name"
-    :placeholder="props.placeholder"
-    :disabled="props.isDisabled"
     v-model="model"
-  ></textarea>
+    class="textarea"
+    :placeholder="props.placeholder"
+    :disabled="props.disabled"
+  />
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
-  name: string
-  placeholder?: string
-  isDisabled?: boolean
-}>()
+  const props = defineProps<{
+    name: string
+    placeholder?: string
+    disabled?: boolean
+  }>()
 
-const model = defineModel<string>()
+  const model = defineModel<string>()
 </script>
 
 <style scoped>
-.textarea {
-  height: 200px;
-  resize: none;
-}
+  .textarea {
+    height: 10em;
+    resize: none;
+  }
 </style>

@@ -6,55 +6,51 @@
       </div>
       <form @submit.prevent="form.post('/plants')">
         <InputGroup
+          v-model="form.name"
           type="text"
           name="name"
           label="Nom"
-          v-model="form.name"
-          :errors="form.errors.name"
+          :error="form.errors.name"
         />
         <InputGroup
+          v-model="form.image"
           type="url"
           name="image"
           label="Image"
-          v-model="form.image"
-          :errors="form.errors.image"
+          :error="form.errors.image"
         />
         <SelectGroup
+          v-model="form.type"
           name="type"
           label="Type de plante"
           :options="props.typeOptions"
-          v-model="form.type"
-          :errors="form.errors.type"
+          :error="form.errors.type"
         />
         <Checkbox
+          v-model="form.seedPotPeriod"
           title="Période pour semer en pots"
           :options="getPeriodOptions('seedPot')"
-          v-model="form.seedPotPeriod"
-          :errors="form.errors.seedPotPeriod"
         />
         <Checkbox
+          v-model="form.seedSoilPeriod"
           title="Période pour semer en terre"
           :options="getPeriodOptions('seedSoil')"
-          v-model="form.seedSoilPeriod"
-          :errors="form.errors.seedSoilPeriod"
         />
         <Checkbox
+          v-model="form.plantationPeriod"
           title="Période pour plantation"
           :options="getPeriodOptions('plantation')"
-          v-model="form.plantationPeriod"
-          :errors="form.errors.plantationPeriod"
         />
         <Checkbox
+          v-model="form.maturePeriod"
           title="Période de maturité"
           :options="getPeriodOptions('mature')"
-          v-model="form.maturePeriod"
-          :errors="form.errors.maturePeriod"
         />
         <TextAreaGroup
+          v-model="form.comment"
           label="Commentaires"
           name="comment"
-          v-model="form.comment"
-          :errors="form.errors.comment"
+          :error="form.errors.comment"
         />
         <Button label="Ajouter" />
       </form>
@@ -63,35 +59,35 @@
 </template>
 
 <script setup lang="ts">
-import { useForm } from '@inertiajs/vue3'
-import { InferPageProps } from '@adonisjs/inertia/types'
-import { PlantForm } from '@/types'
-import { CheckboxForm } from '@/components/form/checkbox_group.vue'
-import type PlantsController from '#controllers/plants_controller'
-import Layout from '@/layouts/default.vue'
-import InputGroup from '@/components/form/input_group.vue'
-import SelectGroup from '@/components/form/select_group.vue'
-import Checkbox from '@/components/form/checkbox_month.vue'
-import TextAreaGroup from '@/components/form/textarea_group.vue'
-import Button from '@/components/form/button.vue'
+  import { useForm } from '@inertiajs/vue3'
+  import { InferPageProps } from '@adonisjs/inertia/types'
+  import { PlantForm } from '@/types'
+  import { CheckboxForm } from '@/components/form/checkbox_group.vue'
+  import type PlantsController from '#controllers/plants_controller'
+  import Layout from '@/layouts/default.vue'
+  import InputGroup from '@/components/form/input_group.vue'
+  import SelectGroup from '@/components/form/select_group.vue'
+  import Checkbox from '@/components/form/checkbox_month.vue'
+  import TextAreaGroup from '@/components/form/textarea_group.vue'
+  import Button from '@/components/form/button.vue'
 
-const props = defineProps<{
-  typeOptions: InferPageProps<PlantsController, 'create'>['typeOptions']
-  periodOptions: InferPageProps<PlantsController, 'create'>['periodOptions']
-}>()
+  const props = defineProps<{
+    typeOptions: InferPageProps<PlantsController, 'create'>['typeOptions']
+    periodOptions: InferPageProps<PlantsController, 'create'>['periodOptions']
+  }>()
 
-const form = useForm<PlantForm>({
-  name: '',
-  image: '',
-  type: '',
-  seedPotPeriod: [],
-  seedSoilPeriod: [],
-  plantationPeriod: [],
-  maturePeriod: [],
-  comment: '',
-})
+  const form = useForm<PlantForm>({
+    name: '',
+    image: '',
+    type: '',
+    seedPotPeriod: [],
+    seedSoilPeriod: [],
+    plantationPeriod: [],
+    maturePeriod: [],
+    comment: '',
+  })
 
-function getPeriodOptions(name: string): Array<CheckboxForm> {
-  return props.periodOptions.find((option) => option.type === name)?.periods || []
-}
+  function getPeriodOptions(name: string): Array<CheckboxForm> {
+    return props.periodOptions.find((option) => option.type === name)?.periods ?? []
+  }
 </script>

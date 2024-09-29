@@ -1,30 +1,30 @@
 <template>
   <div class="form-group">
-    <Label for="test" :name="props.name" :label="props.label" />
+    <Label :name="props.name" :label="props.label" />
     <Input
+      v-model="model"
       :type="props.type"
       :name="props.name"
       :placeholder="props.placeholder"
-      :isDisabled="props.isDisabled"
-      v-model="model"
+      :disabled="props.disabled"
     />
-    <Error :errors="props.errors" />
+    <Error :error="props.error" />
   </div>
 </template>
 
 <script setup lang="ts">
-import Label from '@/components/form/label.vue'
-import Input from '@/components/form/input.vue'
-import Error from '@/components/form/error.vue'
+  import Label from '@/components/form/label.vue'
+  import Input from '@/components/form/input.vue'
+  import Error from '@/components/form/error.vue'
 
-const props = defineProps<{
-  type: string
-  name: string
-  label: string
-  placeholder?: string
-  isDisabled?: boolean
-  errors?: any
-}>()
+  const props = defineProps<{
+    type: string
+    name: string
+    label: string
+    placeholder?: string
+    disabled?: boolean
+    error?: string
+  }>()
 
-const model = defineModel<string | number>()
+  const model = defineModel<string | number>()
 </script>
