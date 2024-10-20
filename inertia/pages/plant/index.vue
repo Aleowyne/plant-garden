@@ -17,7 +17,7 @@
             :options="props.typeOptions"
             :error="form.errors.type"
           />
-          <Button label="Rechercher" />
+          <Button>Rechercher</Button>
         </form>
       </div>
       <div class="plant-list">
@@ -42,7 +42,6 @@
   import Layout from '@/layouts/default.vue'
   import InputGroup from '@/components/form/input_group.vue'
   import SelectGroup from '@/components/form/select_group.vue'
-  import Button from '@/components/form/button.vue'
 
   const props = defineProps<{
     plants: InferPageProps<PlantsController, 'index'>['plants']

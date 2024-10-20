@@ -26,7 +26,7 @@
           label="Mot de passe"
           :error="form.errors.password"
         />
-        <Button label="S'inscrire" />
+        <Button>S'inscrire</Button>
       </form>
     </div>
   </Layout>
@@ -37,7 +37,6 @@
   import type { UserForm } from '@/types'
   import Layout from '@/layouts/default.vue'
   import InputGroup from '@/components/form/input_group.vue'
-  import Button from '@/components/form/button.vue'
 
   const form = useForm<UserForm>({
     email: '',

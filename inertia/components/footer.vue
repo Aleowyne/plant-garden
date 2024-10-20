@@ -1,10 +1,3 @@
 <template>
-  <footer>Copyright © 2024 Aleowyne - Plant Garden</footer>
+  <footer class="text-center text-sm py-2">Copyright © 2024 Aleowyne - Plant Garden</footer>
 </template>
-
-<style scoped>
-  footer {
-    text-align: center;
-    padding: 0.5em 0;
-  }
-</style>

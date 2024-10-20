@@ -1,34 +1,32 @@
 <template>
-  <Error />
-  <Header />
-  <div class="content">
+  <div class="flex flex-col min-h-full">
+    <Header />
     <slot />
+    <Footer />
+    <Toaster />
   </div>
-  <Footer />
 </template>
 
 <script setup lang="ts">
+  import { watch } from 'vue'
+  import { usePage } from '@inertiajs/vue3'
+  import { useToast } from '@/components/ui/toast/use-toast'
   import Header from '@/components/header.vue'
   import Footer from '@/components/footer.vue'
-  import Error from '@/components/message.vue'
+  import type { InertiaProps } from '@/types'
+
+  const page = usePage<InertiaProps>()
+  const { toast } = useToast()
+
+  watch(
+    () => page.props,
+    (newValue) => {
+      if (newValue.message) {
+        toast({
+          description: newValue.message.description,
+          variant: newValue.message.type === 'error' ? 'destructive' : 'default',
+        })
+      }
+    }
+  )
 </script>
-
-<style scoped>
-  .content {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-
-    &:has(.auth-box) {
-      justify-content: center;
-    }
-
-    &:has(.box) {
-      align-items: center;
-    }
-
-    &:not(:has(.auth-box)) {
-      margin: 2em 0em;
-    }
-  }
-</style>

@@ -19,7 +19,7 @@
           label="Image"
           :error="form.errors.image"
         />
-        <Button label="Ajouter" />
+        <Button>Ajouter</Button>
       </form>
     </div>
   </Layout>
@@ -30,7 +30,6 @@
   import { GardenForm } from '@/types'
   import Layout from '@/layouts/default.vue'
   import InputGroup from '@/components/form/input_group.vue'
-  import Button from '@/components/form/button.vue'
 
   const form = useForm<GardenForm>({
     name: '',

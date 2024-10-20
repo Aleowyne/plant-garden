@@ -52,7 +52,7 @@
           name="comment"
           :error="form.errors.comment"
         />
-        <Button label="Modifier" />
+        <Button>Modifier</Button>
       </form>
     </div>
   </Layout>
@@ -69,7 +69,6 @@
   import SelectGroup from '@/components/form/select_group.vue'
   import Checkbox from '@/components/form/checkbox_month.vue'
   import TextAreaGroup from '@/components/form/textarea_group.vue'
-  import Button from '@/components/form/button.vue'
 
   const props = defineProps<{
     plant: InferPageProps<PlantsController, 'edit'>['plant']

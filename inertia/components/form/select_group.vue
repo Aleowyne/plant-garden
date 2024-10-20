@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-  import Label from '@/components/form/label.vue'
+  // import Label from '@/components/form/label.vue'
   import Select, { OptionForm } from '@/components/form/select.vue'
   import Error from '@/components/form/error.vue'
 

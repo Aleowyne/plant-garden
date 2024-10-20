@@ -4,7 +4,7 @@ export type InertiaProps = {
   errors: Errors & ErrorBag
   message: {
     type: string
-    content: string
+    description: string
   }
   isAuth: boolean
 }

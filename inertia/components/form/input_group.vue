@@ -1,10 +1,10 @@
 <template>
-  <div class="form-group">
-    <Label :name="props.name" :label="props.label" />
+  <div class="grid w-full max-w-sm items-center gap-1.5">
+    <Label :for="props.name">{{ props.label }}</Label>
     <Input
+      :id="props.name"
       v-model="model"
       :type="props.type"
-      :name="props.name"
       :placeholder="props.placeholder"
       :disabled="props.disabled"
     />
@@ -13,8 +13,6 @@
 </template>
 
 <script setup lang="ts">
-  import Label from '@/components/form/label.vue'
-  import Input from '@/components/form/input.vue'
   import Error from '@/components/form/error.vue'
 
   const props = defineProps<{

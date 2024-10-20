@@ -1,66 +1,49 @@
 <template>
-  <header>
-    <div class="header-navbar-left">
-      <Link class="header-navbar-link" href="/">Plant Garden</Link>
-    </div>
-    <ul class="header-navbar-right">
-      <li v-if="isAuth" class="header-navbar-item">
-        <Link class="header-navbar-link" href="/gardens">Mes jardins</Link>
-      </li>
-      <li v-if="isAuth" class="header-navbar-item">
-        <Link class="header-navbar-link" href="/calendars">Calendrier</Link>
-      </li>
-      <li v-if="isAuth" class="header-navbar-item">
-        <Link class="header-navbar-link" href="/plants">Plantes</Link>
-      </li>
-      <li v-if="isAuth" class="header-navbar-item">
-        <Link class="header-navbar-link" href="/logout">Déconnexion</Link>
-      </li>
-      <li v-if="!isAuth" class="header-navbar-item">
-        <Link class="header-navbar-link" href="/login">Connexion</Link>
-      </li>
-      <li v-if="!isAuth" class="header-navbar-item">
-        <Link class="header-navbar-link" href="/signin">Inscription</Link>
-      </li>
-    </ul>
+  <header class="sticky flex justify-between border-b border-border">
+    <NavigationMenu class="ml-7">
+      <NavigationMenuList>
+        <NavigationMenuItem>
+          <NavigationMenuLink
+            href="/"
+            class="hover:text-muted-foreground hover:bg-background focus:bg-background"
+            :class="navigationMenuTriggerStyle()"
+          >
+            Plant Garden
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+      </NavigationMenuList>
+    </NavigationMenu>
+    <NavigationMenu class="mr-7">
+      <NavigationMenuList>
+        <NavigationMenuItem v-for="link in links" :key="link.name">
+          <NavigationMenuLink
+            v-if="isAuth === link.auth"
+            :href="link.url"
+            class="hover:text-muted-foreground hover:bg-background focus:bg-background"
+            :class="navigationMenuTriggerStyle()"
+          >
+            {{ link.name }}
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+      </NavigationMenuList>
+    </NavigationMenu>
   </header>
 </template>
 
 <script setup lang="ts">
-  import { computed } from 'vue'
-  import { Link, usePage } from '@inertiajs/vue3'
+  import { navigationMenuTriggerStyle } from '@/components/ui/navigation-menu'
+  import { computed, ref } from 'vue'
+  import { usePage } from '@inertiajs/vue3'
   import type { InertiaProps } from '@/types'
 
   const isAuth = computed(() => usePage<InertiaProps>().props.isAuth)
+
+  const links = ref([
+    { name: 'Mes jardins', url: '/gardens', auth: true },
+    { name: 'Calendrier', url: '/calendars', auth: true },
+    { name: 'Plantes', url: '/plants', auth: true },
+    { name: 'Déconnexion', url: '/logout', auth: true },
+    { name: 'Connexion', url: '/login', auth: false },
+    { name: 'Inscription', url: '/signin', auth: false },
+  ])
 </script>
-
-<style scoped>
-  header {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    height: 3em;
-    background-color: #164a41;
-  }
-
-  .header-navbar-left {
-    display: flex;
-    align-items: center;
-    padding-left: 1em;
-  }
-
-  .header-navbar-right {
-    display: flex;
-    justify-content: right;
-    align-items: center;
-  }
-
-  .header-navbar-item {
-    padding: 0em 1em;
-    list-style: none;
-  }
-
-  .header-navbar-link {
-    color: #e7edf8;
-    text-decoration: none;
-  }
-</style>
