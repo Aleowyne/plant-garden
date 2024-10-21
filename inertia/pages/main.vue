@@ -1,6 +1,6 @@
 <template>
   <Layout>
-    <div class="home">
+    <div class="flex flex-1 justify-center pt-4">
       <h1>Home Page - {{ props.title }}</h1>
     </div>
   </Layout>
@@ -11,10 +11,3 @@
 
   const props = defineProps<{ title: string }>()
 </script>
-
-<style scoped>
-  .home {
-    display: grid;
-    justify-items: center;
-  }
-</style>
