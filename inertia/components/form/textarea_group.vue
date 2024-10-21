@@ -1,6 +1,6 @@
 <template>
   <div class="form-group">
-    <Label :name="props.name" :label="props.label" />
+    <Label :for="props.name">{{ props.label }}</Label>
     <TextArea
       v-model="model"
       :name="props.name"
@@ -12,9 +12,7 @@
 </template>
 
 <script setup lang="ts">
-  // import Label from '@/components/form/label.vue'
   import TextArea from '@/components/form/textarea.vue'
-  import Error from '@/components/form/error.vue'
 
   const props = defineProps<{
     name: string

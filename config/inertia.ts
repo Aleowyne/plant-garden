@@ -21,7 +21,7 @@ const inertiaConfig = defineConfig({
         {}
       )
     },
-    message: (ctx) => ctx.session?.flashMessages.get('message') ?? '',
+    message: (ctx) => ctx.session?.flashMessages.get('message') ?? {},
     isAuth: (ctx) => ctx.auth?.isAuthenticated,
   },
 })

@@ -9,14 +9,14 @@
           <CardTitle>Connexion</CardTitle>
         </CardHeader>
         <CardContent>
-          <InputGroup
+          <FormInput
             v-model="form.email"
             type="email"
             name="email"
             label="Adresse mail"
             :error="form.errors.email"
           />
-          <InputGroup
+          <FormInput
             v-model="form.password"
             type="password"
             name="password"
@@ -35,8 +35,7 @@
 <script setup lang="ts">
   import { useForm } from '@inertiajs/vue3'
   import type { UserForm } from '@/types'
-  import Layout from '@/layouts/default.vue'
-  import InputGroup from '@/components/form/input_group.vue'
+  import Layout from '@/layouts/AppLayout.vue'
 
   const form = useForm<UserForm>({
     email: '',

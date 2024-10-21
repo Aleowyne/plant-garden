@@ -3,7 +3,7 @@
     <div class="plant-index">
       <div class="plant-search">
         <form @submit.prevent="form.get('/plants', { preserveState: true })">
-          <InputGroup
+          <FormInput
             v-model="form.name"
             type="text"
             name="name"
@@ -39,8 +39,7 @@
   import { useForm, Link } from '@inertiajs/vue3'
   import { InferPageProps } from '@adonisjs/inertia/types'
   import type PlantsController from '#controllers/plants_controller'
-  import Layout from '@/layouts/default.vue'
-  import InputGroup from '@/components/form/input_group.vue'
+  import Layout from '@/layouts/AppLayout.vue'
   import SelectGroup from '@/components/form/select_group.vue'
 
   const props = defineProps<{

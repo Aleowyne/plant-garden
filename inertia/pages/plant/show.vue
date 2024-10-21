@@ -54,7 +54,7 @@
   import { PlantForm } from '@/types'
   import { CheckboxForm } from '@/components/form/checkbox_group.vue'
   import type PlantsController from '#controllers/plants_controller'
-  import Layout from '@/layouts/default.vue'
+  import Layout from '@/layouts/AppLayout.vue'
   import Checkbox from '@/components/form/checkbox_month.vue'
   import TextAreaGroup from '@/components/form/textarea_group.vue'
 

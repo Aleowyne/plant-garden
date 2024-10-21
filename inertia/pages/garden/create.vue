@@ -5,14 +5,14 @@
         <h3>Ajouter un jardin</h3>
       </div>
       <form @submit.prevent="form.post('/gardens')">
-        <InputGroup
+        <FormInput
           v-model="form.name"
           type="text"
           name="name"
           label="Nom"
           :error="form.errors.name"
         />
-        <InputGroup
+        <FormInput
           v-model="form.image"
           type="url"
           name="image"
@@ -28,8 +28,7 @@
 <script setup lang="ts">
   import { useForm } from '@inertiajs/vue3'
   import { GardenForm } from '@/types'
-  import Layout from '@/layouts/default.vue'
-  import InputGroup from '@/components/form/input_group.vue'
+  import Layout from '@/layouts/AppLayout.vue'
 
   const form = useForm<GardenForm>({
     name: '',

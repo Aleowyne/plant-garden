@@ -20,7 +20,7 @@ export default class SigninController {
     if (user) {
       session.flash('message', {
         type: 'error',
-        content: "Erreur à l'inscription",
+        description: "Erreur à l'inscription",
       })
       return response.redirect().back()
     }

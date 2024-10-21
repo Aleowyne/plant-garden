@@ -5,14 +5,14 @@
         <h3>Ajouter une plante</h3>
       </div>
       <form @submit.prevent="form.post('/plants')">
-        <InputGroup
+        <FormInput
           v-model="form.name"
           type="text"
           name="name"
           label="Nom"
           :error="form.errors.name"
         />
-        <InputGroup
+        <FormInput
           v-model="form.image"
           type="url"
           name="image"
@@ -64,8 +64,7 @@
   import { PlantForm } from '@/types'
   import { CheckboxForm } from '@/components/form/checkbox_group.vue'
   import type PlantsController from '#controllers/plants_controller'
-  import Layout from '@/layouts/default.vue'
-  import InputGroup from '@/components/form/input_group.vue'
+  import Layout from '@/layouts/AppLayout.vue'
   import SelectGroup from '@/components/form/select_group.vue'
   import Checkbox from '@/components/form/checkbox_month.vue'
   import TextAreaGroup from '@/components/form/textarea_group.vue'

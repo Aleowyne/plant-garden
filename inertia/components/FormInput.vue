@@ -13,8 +13,6 @@
 </template>
 
 <script setup lang="ts">
-  import Error from '@/components/form/error.vue'
-
   const props = defineProps<{
     type: string
     name: string
