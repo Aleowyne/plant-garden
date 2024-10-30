@@ -10,7 +10,7 @@
             label="Nom de plante"
             :error="form.errors.name"
           />
-          <SelectGroup
+          <FormSelect
             v-model="form.type"
             name="type"
             label="Type de plante"
@@ -38,9 +38,11 @@
 <script setup lang="ts">
   import { useForm, Link } from '@inertiajs/vue3'
   import { InferPageProps } from '@adonisjs/inertia/types'
-  import type PlantsController from '#controllers/plants_controller'
   import Layout from '@/layouts/AppLayout.vue'
-  import SelectGroup from '@/components/form/select_group.vue'
+  import FormInput from '@/components/FormInput.vue'
+  import FormSelect from '@/components/FormSelect.vue'
+  import { Button } from '@/components/ui/button'
+  import type PlantsController from '#controllers/plants_controller'
 
   const props = defineProps<{
     plants: InferPageProps<PlantsController, 'index'>['plants']

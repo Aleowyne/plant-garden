@@ -1,5 +1,5 @@
 <template>
-  <div class="grid w-full max-w-sm items-center gap-1.5">
+  <div class="grid w-full items-center gap-1.5">
     <Label :for="props.name">{{ props.label }}</Label>
     <Input
       :id="props.name"
@@ -13,6 +13,10 @@
 </template>
 
 <script setup lang="ts">
+  import Error from '@/components/Error.vue'
+  import { Label } from '@/components/ui/label'
+  import { Input } from '@/components/ui/input'
+
   const props = defineProps<{
     type: string
     name: string

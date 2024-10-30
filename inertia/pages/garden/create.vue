@@ -29,6 +29,8 @@
   import { useForm } from '@inertiajs/vue3'
   import { GardenForm } from '@/types'
   import Layout from '@/layouts/AppLayout.vue'
+  import FormInput from '@/components/FormInput.vue'
+  import { Button } from '@/components/ui/button'
 
   const form = useForm<GardenForm>({
     name: '',

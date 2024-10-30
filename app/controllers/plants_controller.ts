@@ -82,7 +82,7 @@ export default class PlantsController {
       await plant.related('periods').createMany(periods)
     })
 
-    session.flash('message', { type: 'success', content: 'Plante créée' })
+    session.flash('message', { type: 'success', description: 'Plante créée' })
 
     return response.redirect().toRoute('plants.create')
   }
@@ -154,7 +154,7 @@ export default class PlantsController {
       await plant.related('periods').saveMany(periods)
     })
 
-    session.flash('message', { type: 'success', content: 'Plante modifiée' })
+    session.flash('message', { type: 'success', description: 'Plante modifiée' })
 
     return response.redirect().toRoute('plants.show', { id: params.id })
   }
@@ -166,7 +166,7 @@ export default class PlantsController {
     const plant = await Plant.findOrFail(params.id)
     await plant.delete()
 
-    session.flash('message', { type: 'success', content: 'Plante supprimée' })
+    session.flash('message', { type: 'success', description: 'Plante supprimée' })
 
     return response.redirect().toRoute('plants.index')
   }

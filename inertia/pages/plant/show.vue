@@ -23,27 +23,27 @@
       <div v-if="props.plant.image" class="form-img">
         <img :src="props.plant.image" :alt="`Plante ${props.plant.name}`" />
       </div>
-      <Checkbox
+      <CheckboxMonth
         v-model="form.seedPotPeriod"
         title="Période pour semer en pots"
         :options="getPeriodOptions('seedPot')"
       />
-      <Checkbox
+      <CheckboxMonth
         v-model="form.seedSoilPeriod"
         title="Période pour semer en terre"
         :options="getPeriodOptions('seedSoil')"
       />
-      <Checkbox
+      <CheckboxMonth
         v-model="form.plantationPeriod"
         title="Période pour plantation"
         :options="getPeriodOptions('plantation')"
       />
-      <Checkbox
+      <CheckboxMonth
         v-model="form.maturePeriod"
         title="Période de maturité"
         :options="getPeriodOptions('mature')"
       />
-      <TextAreaGroup v-model="form.comment" label="Commentaires" name="comment" :disabled="true" />
+      <FormTextarea v-model="form.comment" label="Commentaires" name="comment" :disabled="true" />
     </div>
   </Layout>
 </template>
@@ -51,12 +51,11 @@
 <script setup lang="ts">
   import { InferPageProps } from '@adonisjs/inertia/types'
   import { useForm, Link } from '@inertiajs/vue3'
-  import { PlantForm } from '@/types'
-  import { CheckboxForm } from '@/components/form/checkbox_group.vue'
-  import type PlantsController from '#controllers/plants_controller'
+  import { CheckboxForm, PlantForm } from '@/types'
   import Layout from '@/layouts/AppLayout.vue'
-  import Checkbox from '@/components/form/checkbox_month.vue'
-  import TextAreaGroup from '@/components/form/textarea_group.vue'
+  import CheckboxMonth from '@/components/CheckboxMonth.vue'
+  import FormTextarea from '@/components/FormTextarea.vue'
+  import type PlantsController from '#controllers/plants_controller'
 
   const props = defineProps<{
     plant: InferPageProps<PlantsController, 'show'>['plant']

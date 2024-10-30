@@ -38,8 +38,14 @@
 <script setup lang="ts">
   import { watch, ref } from 'vue'
   import { usePage, Link } from '@inertiajs/vue3'
-  import { navigationMenuTriggerStyle } from '@/components/ui/navigation-menu'
-  import { useToast } from '@/components/ui/toast/use-toast'
+  import Footer from '@/components/Footer.vue'
+  import {
+    NavigationMenu,
+    NavigationMenuList,
+    NavigationMenuItem,
+    navigationMenuTriggerStyle,
+  } from '@/components/ui/navigation-menu'
+  import { Toaster, useToast } from '@/components/ui/toast'
   import { SharedProps } from '@adonisjs/inertia/types'
 
   const page = usePage<SharedProps>()
@@ -58,7 +64,7 @@
   watch(
     () => page.props.message,
     (newValue) => {
-      if (newValue) {
+      if (newValue.type) {
         toast({
           description: newValue.description,
           variant: newValue.type === 'error' ? 'destructive' : 'default',

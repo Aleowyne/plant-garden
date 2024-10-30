@@ -1,5 +1,5 @@
 <template>
-  <div class="h-4 text-xs mb-4 text-destructive">
+  <div class="h-4 text-xs mb-5 text-red-600 dark:text-red-500">
     <p v-if="props.error">
       {{ props.error }}
     </p>

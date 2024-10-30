@@ -6,7 +6,7 @@
     >
       <Card class="w-96">
         <CardHeader>
-          <CardTitle>Inscription</CardTitle>
+          <CardTitle class="text-center">Inscription</CardTitle>
         </CardHeader>
         <CardContent>
           <FormInput
@@ -31,7 +31,7 @@
             :error="form.errors.password"
           />
         </CardContent>
-        <CardFooter>
+        <CardFooter class="flex justify-center">
           <Button class="w-full">S'inscrire</Button>
         </CardFooter>
       </Card>
@@ -43,6 +43,9 @@
   import { useForm } from '@inertiajs/vue3'
   import type { UserForm } from '@/types'
   import Layout from '@/layouts/AppLayout.vue'
+  import FormInput from '@/components/FormInput.vue'
+  import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
+  import { Button } from '@/components/ui/button'
 
   const form = useForm<UserForm>({
     email: '',
