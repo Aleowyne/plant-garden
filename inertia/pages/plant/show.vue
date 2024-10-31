@@ -1,49 +1,61 @@
 <template>
   <Layout>
-    <div class="plant-box box">
-      <div class="form-header">
-        <div class="form-title">
-          <h2>{{ props.plant.name }}</h2>
-          <p>{{ props.plant.typeLabel }}</p>
-        </div>
-        <div class="action">
-          <Link :href="`/plants/${props.plant.id}/edit`" as="button" class="button-action">
-            <img src="@/assets/edit.png" alt="Editer les informations de la plante" />
-          </Link>
-          <Link
-            :href="`/plants/${props.plant.id}`"
-            method="delete"
-            as="button"
-            class="button-action"
-          >
-            <img src="@/assets/delete.png" alt="Supprimer la plante" />
-          </Link>
-        </div>
-      </div>
-      <div v-if="props.plant.image" class="form-img">
-        <img :src="props.plant.image" :alt="`Plante ${props.plant.name}`" />
-      </div>
-      <CheckboxMonth
-        v-model="form.seedPotPeriod"
-        title="Période pour semer en pots"
-        :options="getPeriodOptions('seedPot')"
-      />
-      <CheckboxMonth
-        v-model="form.seedSoilPeriod"
-        title="Période pour semer en terre"
-        :options="getPeriodOptions('seedSoil')"
-      />
-      <CheckboxMonth
-        v-model="form.plantationPeriod"
-        title="Période pour plantation"
-        :options="getPeriodOptions('plantation')"
-      />
-      <CheckboxMonth
-        v-model="form.maturePeriod"
-        title="Période de maturité"
-        :options="getPeriodOptions('mature')"
-      />
-      <FormTextarea v-model="form.comment" label="Commentaires" name="comment" :disabled="true" />
+    <div class="flex flex-col flex-1 items-center py-4">
+      <Card>
+        <CardHeader>
+          <CardTitle>
+            <div class="flex items-center justify-between">
+              <div class="absolute left-1/2 transform -translate-x-1/2">{{ props.plant.name }}</div>
+              <div class="ml-auto">
+                <Link :href="`/plants/${props.plant.id}/edit`" as="button">
+                  <PencilIcon class="size-6 mx-1 text-primary" />
+                </Link>
+                <Link :href="`/plants/${props.plant.id}`" method="delete" as="button">
+                  <TrashIcon class="size-6 mx-1 text-destructive" />
+                </Link>
+              </div>
+            </div>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div class="flex flex-col flex-1 items-center">
+            <p>{{ props.plant.typeLabel }}</p>
+            <div v-if="props.plant.image">
+              <img
+                class="w-80 text-center"
+                :src="props.plant.image"
+                :alt="`Plante ${props.plant.name}`"
+              />
+            </div>
+          </div>
+          <CheckboxMonth
+            v-model="form.seedPotPeriod"
+            title="Période pour semer en pots"
+            :options="getPeriodOptions('seedPot')"
+          />
+          <CheckboxMonth
+            v-model="form.seedSoilPeriod"
+            title="Période pour semer en terre"
+            :options="getPeriodOptions('seedSoil')"
+          />
+          <CheckboxMonth
+            v-model="form.plantationPeriod"
+            title="Période pour plantation"
+            :options="getPeriodOptions('plantation')"
+          />
+          <CheckboxMonth
+            v-model="form.maturePeriod"
+            title="Période de maturité"
+            :options="getPeriodOptions('mature')"
+          />
+          <FormTextarea
+            v-model="form.comment"
+            label="Commentaires"
+            name="comment"
+            :disabled="true"
+          />
+        </CardContent>
+      </Card>
     </div>
   </Layout>
 </template>
@@ -55,7 +67,9 @@
   import Layout from '@/layouts/AppLayout.vue'
   import CheckboxMonth from '@/components/CheckboxMonth.vue'
   import FormTextarea from '@/components/FormTextarea.vue'
+  import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
   import type PlantsController from '#controllers/plants_controller'
+  import { PencilIcon, TrashIcon } from '@heroicons/vue/24/solid'
 
   const props = defineProps<{
     plant: InferPageProps<PlantsController, 'show'>['plant']
@@ -85,42 +99,3 @@
     })
   }
 </script>
-
-<style scoped>
-  .form-header {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-areas: 'a a b c d';
-  }
-
-  .form-title {
-    grid-area: b;
-  }
-
-  .action {
-    grid-area: d;
-    justify-self: end;
-
-    & img {
-      width: 24px;
-      height: 24px;
-      margin: 0px 5px;
-    }
-  }
-
-  .form-img {
-    display: flex;
-    justify-content: center;
-    text-align: center;
-
-    & img {
-      width: 300px;
-    }
-  }
-
-  .button-action {
-    cursor: pointer;
-    border: none;
-    background-color: transparent;
-  }
-</style>
