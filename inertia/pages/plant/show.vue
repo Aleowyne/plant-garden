@@ -1,28 +1,26 @@
 <template>
   <Layout>
-    <div class="flex flex-col flex-1 items-center py-4">
+    <div class="flex flex-col flex-1 items-center mt-16">
       <Card>
         <CardHeader>
-          <CardTitle>
-            <div class="flex items-center justify-between">
-              <div class="absolute left-1/2 transform -translate-x-1/2">{{ props.plant.name }}</div>
-              <div class="ml-auto">
-                <Link :href="`/plants/${props.plant.id}/edit`" as="button">
-                  <PencilIcon class="size-6 mx-1 text-primary" />
-                </Link>
-                <Link :href="`/plants/${props.plant.id}`" method="delete" as="button">
-                  <TrashIcon class="size-6 mx-1 text-destructive" />
-                </Link>
-              </div>
+          <CardTitle class="flex items-center justify-between">
+            <div class="absolute left-1/2 transform -translate-x-1/2">{{ props.plant.name }}</div>
+            <div class="ml-auto">
+              <Link :href="`/plants/${props.plant.id}/edit`" as="button">
+                <Pencil class="size-6 mx-1 text-primary" />
+              </Link>
+              <Link :href="`/plants/${props.plant.id}`" method="delete" as="button">
+                <Trash2 class="size-6 mx-1 text-destructive" />
+              </Link>
             </div>
           </CardTitle>
+          <CardDescription class="text-center">{{ props.plant.typeLabel }}</CardDescription>
         </CardHeader>
         <CardContent>
           <div class="flex flex-col flex-1 items-center">
-            <p>{{ props.plant.typeLabel }}</p>
-            <div v-if="props.plant.image">
+            <div v-if="props.plant.image" class="w-80">
               <img
-                class="w-80 text-center"
+                class="max-w-full mb-4"
                 :src="props.plant.image"
                 :alt="`Plante ${props.plant.name}`"
               />
@@ -67,9 +65,9 @@
   import Layout from '@/layouts/AppLayout.vue'
   import CheckboxMonth from '@/components/CheckboxMonth.vue'
   import FormTextarea from '@/components/FormTextarea.vue'
-  import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+  import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
   import type PlantsController from '#controllers/plants_controller'
-  import { PencilIcon, TrashIcon } from '@heroicons/vue/24/solid'
+  import { Pencil, Trash2 } from 'lucide-vue-next'
 
   const props = defineProps<{
     plant: InferPageProps<PlantsController, 'show'>['plant']

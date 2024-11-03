@@ -1,6 +1,6 @@
 <template>
   <Layout>
-    <div class="flex flex-1 justify-center pt-4">
+    <div class="flex flex-1 justify-center mt-16">
       <h1>Home Page - {{ props.title }}</h1>
     </div>
   </Layout>

@@ -1,7 +1,7 @@
 <template>
   <Layout>
     <form
-      class="flex flex-col flex-1 items-center py-4"
+      class="flex flex-col flex-1 items-center mt-16"
       @submit.prevent="form.post('/plants', { onSuccess: () => form.reset() })"
     >
       <Card>

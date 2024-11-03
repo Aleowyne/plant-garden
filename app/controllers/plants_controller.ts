@@ -84,7 +84,7 @@ export default class PlantsController {
 
     session.flash('message', { type: 'success', description: 'Plante créée' })
 
-    return response.redirect().toRoute('plants.create')
+    return response.redirect().back()
   }
 
   /**
@@ -156,7 +156,7 @@ export default class PlantsController {
 
     session.flash('message', { type: 'success', description: 'Plante modifiée' })
 
-    return response.redirect().toRoute('plants.show', { id: params.id })
+    return response.redirect().back()
   }
 
   /**

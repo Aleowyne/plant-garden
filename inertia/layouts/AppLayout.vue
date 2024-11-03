@@ -1,34 +1,36 @@
 <template>
   <div class="flex flex-col min-h-full">
-    <header class="sticky flex justify-between border-b border-border">
-      <NavigationMenu class="ml-7">
-        <NavigationMenuList>
-          <NavigationMenuItem>
-            <Link
-              href="/"
-              class="hover:text-muted-foreground hover:bg-background focus:bg-background"
-              :class="navigationMenuTriggerStyle()"
-            >
-              Plant Garden
-            </Link>
-          </NavigationMenuItem>
-        </NavigationMenuList>
-      </NavigationMenu>
-      <NavigationMenu class="mr-7">
-        <NavigationMenuList>
-          <NavigationMenuItem v-for="link in links" :key="link.name">
-            <Link
-              v-if="page.props.isAuth === link.auth"
-              :href="link.url"
-              class="hover:text-muted-foreground hover:bg-background focus:bg-background"
-              :class="navigationMenuTriggerStyle()"
-            >
-              {{ link.name }}
-            </Link>
-          </NavigationMenuItem>
-        </NavigationMenuList>
-      </NavigationMenu>
-    </header>
+    <div class="fixed w-full top-0 left-0 z-10">
+      <header class="flex justify-between border-b border-border bg-background">
+        <NavigationMenu class="ml-7">
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <Link
+                href="/"
+                class="hover:text-muted-foreground hover:bg-background focus:bg-background"
+                :class="navigationMenuTriggerStyle()"
+              >
+                Plant Garden
+              </Link>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
+        <NavigationMenu class="mr-7">
+          <NavigationMenuList>
+            <NavigationMenuItem v-for="link in links" :key="link.name">
+              <Link
+                v-if="page.props.isAuth === link.auth"
+                :href="link.url"
+                class="hover:text-muted-foreground hover:bg-background focus:bg-background"
+                :class="navigationMenuTriggerStyle()"
+              >
+                {{ link.name }}
+              </Link>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
+      </header>
+    </div>
     <slot />
     <Footer />
     <Toaster />

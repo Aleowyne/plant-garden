@@ -1,12 +1,12 @@
 <template>
   <Layout>
     <form
-      class="flex flex-col flex-1 justify-center items-center"
+      class="flex flex-col flex-1 justify-center items-center mt-10"
       @submit.prevent="form.post('/login')"
     >
       <Card class="w-96">
-        <CardHeader>
-          <CardTitle class="text-center">Connexion</CardTitle>
+        <CardHeader class="text-center">
+          <CardTitle>Connexion</CardTitle>
         </CardHeader>
         <CardContent>
           <FormInput

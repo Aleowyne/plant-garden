@@ -13,7 +13,7 @@
           :value="option.value"
           :disabled="option.disabled"
           :checked="model?.includes(option.value)"
-          class="size-12"
+          class="bg-background size-12"
           @update:checked="(isChecked) => handleCheck(isChecked, option.value)"
         />
       </div>

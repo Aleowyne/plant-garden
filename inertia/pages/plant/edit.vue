@@ -1,12 +1,19 @@
 <template>
   <Layout>
     <form
-      class="flex flex-col flex-1 items-center py-4"
+      class="flex flex-col flex-1 items-center mt-16"
       @submit.prevent="form.put(`/plants/${props.plant.id}`)"
     >
       <Card>
         <CardHeader>
-          <CardTitle class="text-center">Modifier une plante</CardTitle>
+          <CardTitle class="flex items-center justify-between">
+            <div class="absolute left-1/2 transform -translate-x-1/2">Modifier une plante</div>
+            <div class="ml-auto">
+              <Link :href="`/plants/${props.plant.id}`" as="button">
+                <Eye class="size-6 mx-1 text-primary" />
+              </Link>
+            </div>
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <FormInput
@@ -66,7 +73,7 @@
 </template>
 
 <script setup lang="ts">
-  import { useForm } from '@inertiajs/vue3'
+  import { useForm, Link } from '@inertiajs/vue3'
   import { InferPageProps } from '@adonisjs/inertia/types'
   import { CheckboxForm, PlantForm } from '@/types'
   import Layout from '@/layouts/AppLayout.vue'
@@ -77,6 +84,7 @@
   import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
   import { Button } from '@/components/ui/button'
   import type PlantsController from '#controllers/plants_controller'
+  import { Eye } from 'lucide-vue-next'
 
   const props = defineProps<{
     plant: InferPageProps<PlantsController, 'edit'>['plant']
