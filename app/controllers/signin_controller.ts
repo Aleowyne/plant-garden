@@ -18,7 +18,10 @@ export default class SigninController {
     const user = await User.findBy('email', payload.email)
 
     if (user) {
-      session.flash('message', { type: 'error', content: "Erreur à l'inscription" })
+      session.flash('message', {
+        type: 'error',
+        description: "Erreur à l'inscription",
+      })
       return response.redirect().back()
     }
 

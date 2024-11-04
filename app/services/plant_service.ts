@@ -23,7 +23,6 @@ export default class PlantService {
   ] as const
 
   static readonly types: PlantOption[] = [
-    { id: '', value: '', label: '' },
     { id: 'flower', value: 'flower', label: 'Fleur' },
     { id: 'vegetable', value: 'vegetable', label: 'Plante potagère' },
     { id: 'aromatic', value: 'aromatic', label: 'Plante aromatique' },
