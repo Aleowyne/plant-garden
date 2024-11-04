@@ -17,7 +17,7 @@ export default class GardensController {
   /**
    * Création d'un jardin
    */
-  async store({ request, response, auth }: HttpContext) {
+  async store({ request, response, session, auth }: HttpContext) {
     const payload = await request.validateUsing(createGardenValidator)
     const user = auth.getUserOrFail()
 
@@ -26,6 +26,8 @@ export default class GardensController {
     garden.image = payload.image
 
     await garden.related('user').associate(user)
+
+    session.flash('message', { type: 'success', description: 'Jardin créé' })
 
     return response.redirect().toRoute('gardens.create')
   }
