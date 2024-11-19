@@ -77,9 +77,9 @@
   import { InferPageProps } from '@adonisjs/inertia/types'
   import { CheckboxForm, PlantForm } from '@/types'
   import Layout from '@/layouts/AppLayout.vue'
-  import FormInput from '@/components/FormInput.vue'
-  import FormSelect from '@/components/FormSelect.vue'
-  import FormTextarea from '@/components/FormTextarea.vue'
+  import FormInput from '@/components/form/FormInput.vue'
+  import FormSelect from '@/components/form/FormSelect.vue'
+  import FormTextarea from '@/components/form/FormTextarea.vue'
   import CheckboxMonth from '@/components/CheckboxMonth.vue'
   import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
   import { Button } from '@/components/ui/button'
@@ -89,8 +89,8 @@
   const props = defineProps<{
     plant: InferPageProps<PlantsController, 'edit'>['plant']
     periods: InferPageProps<PlantsController, 'edit'>['periods']
-    typeOptions: InferPageProps<PlantsController, 'show'>['typeOptions']
-    periodOptions: InferPageProps<PlantsController, 'show'>['periodOptions']
+    typeOptions: InferPageProps<PlantsController, 'edit'>['typeOptions']
+    periodOptions: InferPageProps<PlantsController, 'edit'>['periodOptions']
   }>()
 
   const form = useForm<PlantForm>({
@@ -104,7 +104,7 @@
     comment: props.plant.comment,
   })
 
-  function getPeriodOptions(name: string): Array<CheckboxForm> {
+  function getPeriodOptions(name: string): CheckboxForm[] {
     return props.periodOptions.find((option) => option.type === name)?.periods ?? []
   }
 </script>

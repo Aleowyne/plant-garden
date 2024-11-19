@@ -1,4 +1,5 @@
 import Period from '#models/period'
+import PlantService from '#services/plant_service'
 
 export class PeriodsPresenter {
   toJson(periods: Period[]) {
@@ -11,24 +12,10 @@ export class PeriodsPresenter {
   }
 
   getPeriodsOfType(periods: Period[], type: string): string[] {
-    const months = [
-      'january',
-      'february',
-      'march',
-      'april',
-      'may',
-      'june',
-      'july',
-      'august',
-      'september',
-      'october',
-      'november',
-      'december',
-    ]
     const periodsOfType = periods.find((period) => period.type === type)
 
     if (periodsOfType) {
-      return months.reduce((acc, month) => {
+      return PlantService.months.reduce((acc, month) => {
         if (periodsOfType.$getAttribute(month)) {
           acc.push(month)
         }

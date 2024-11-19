@@ -36,7 +36,7 @@
   import { useForm } from '@inertiajs/vue3'
   import type { UserForm } from '@/types'
   import Layout from '@/layouts/AppLayout.vue'
-  import FormInput from '@/components/FormInput.vue'
+  import FormInput from '@/components/form/FormInput.vue'
   import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
   import { Button } from '@/components/ui/button'
 

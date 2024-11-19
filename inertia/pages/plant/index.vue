@@ -50,8 +50,8 @@
   import { useForm, Link } from '@inertiajs/vue3'
   import { InferPageProps } from '@adonisjs/inertia/types'
   import Layout from '@/layouts/AppLayout.vue'
-  import FormInput from '@/components/FormInput.vue'
-  import FormSelect from '@/components/FormSelect.vue'
+  import FormInput from '@/components/form/FormInput.vue'
+  import FormSelect from '@/components/form/FormSelect.vue'
   import { Button } from '@/components/ui/button'
   import {
     Card,
@@ -65,7 +65,7 @@
 
   const props = defineProps<{
     plants: InferPageProps<PlantsController, 'index'>['plants']
-    typeOptions: InferPageProps<PlantsController, 'show'>['typeOptions']
+    typeOptions: InferPageProps<PlantsController, 'index'>['typeOptions']
   }>()
 
   const form = useForm<{ name: string; type: string }>({

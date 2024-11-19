@@ -64,7 +64,7 @@
   import { CheckboxForm, PlantForm } from '@/types'
   import Layout from '@/layouts/AppLayout.vue'
   import CheckboxMonth from '@/components/CheckboxMonth.vue'
-  import FormTextarea from '@/components/FormTextarea.vue'
+  import FormTextarea from '@/components/form/FormTextarea.vue'
   import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
   import type PlantsController from '#controllers/plants_controller'
   import { Pencil, Trash2 } from 'lucide-vue-next'
@@ -87,7 +87,7 @@
     comment: props.plant.comment,
   })
 
-  function getPeriodOptions(name: string): Array<CheckboxForm> {
+  function getPeriodOptions(name: string): CheckboxForm[] {
     const periodOptions = props.periodOptions.find((option) => option.type === name)?.periods ?? []
 
     return periodOptions.map((periodOption) => {

@@ -19,7 +19,7 @@
 
 <script setup lang="ts">
   import { OptionForm } from '@/types'
-  import Error from '@/components/Error.vue'
+  import Error from '@/components/form/Error.vue'
   import { Label } from '@/components/ui/label'
   import {
     Select,
@@ -33,7 +33,7 @@
   const props = defineProps<{
     name: string
     label: string
-    options: Array<OptionForm>
+    options: OptionForm[]
     error?: string
   }>()
 
