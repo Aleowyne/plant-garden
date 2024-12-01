@@ -1,8 +1,13 @@
+import { inject } from '@adonisjs/core'
 import type { HttpContext } from '@adonisjs/core/http'
 import Garden from '#models/garden'
+import Plant from '#models/plant'
 import { createGardenValidator } from '#validators/garden'
+import { PlantsPresenter } from '#presenters/plants_presenter'
 
+@inject()
 export default class GardensController {
+  constructor(protected plantPresenter: PlantsPresenter) {}
   // /**
   //  * Affichage d'une liste de jardins
   //  */
@@ -12,7 +17,11 @@ export default class GardensController {
    * Affichage d'un formulaire pour la création d'un jardin
    */
   async create({ inertia }: HttpContext) {
-    return inertia.render('garden/create')
+    const plants = await Plant.query().orderBy('name')
+
+    return inertia.render('garden/create', {
+      plants: plants.map((plant) => this.plantPresenter.toJson(plant)),
+    })
   }
   /**
    * Création d'un jardin

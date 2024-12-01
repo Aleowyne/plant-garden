@@ -66,20 +66,11 @@
                 draggable="true"
                 @dragstart="dragStartHandler($event, plot)"
               />
-              <Dialog v-else>
-                <DialogTrigger><BadgePlus class="size-24 mx-1 text-secondary" /></DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>Ajouter une plante au jardin</DialogTitle>
-                    <DialogDescription>Formulaire</DialogDescription>
-                  </DialogHeader>
-                  <DialogFooter>
-                    <DialogClose as-child>
-                      <Button>Valider</Button>
-                    </DialogClose>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
+              <DialogSearchPlant
+                v-else
+                :plants="props.plants"
+                @add="addPlant($event, row - 1, col - 1)"
+              />
             </template>
           </div>
         </div>
@@ -90,22 +81,20 @@
 
 <script setup lang="ts">
   import { useForm } from '@inertiajs/vue3'
+  import { InferPageProps } from '@adonisjs/inertia/types'
   import { GardenForm, Plot } from '@/types'
   import Layout from '@/layouts/AppLayout.vue'
   import FormInput from '@/components/form/FormInput.vue'
+  import DialogSearchPlant from '@/components/DialogSearchPlant.vue'
   import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
   import { Button } from '@/components/ui/button'
-  import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-    DialogClose,
-  } from '@/components/ui/dialog'
-  import { BadgePlus } from 'lucide-vue-next'
+  import type GardensController from '#controllers/gardens_controller'
+
+  type Plant = InferPageProps<GardensController, 'create'>['plants'][0]
+
+  const props = defineProps<{
+    plants: Plant[]
+  }>()
 
   const form = useForm<GardenForm>({
     name: '',
@@ -119,6 +108,10 @@
     return form.plots.find((plot) => plot.row === row && plot.column === column) as Plot
   }
 
+  function getIndexPlantAtPosition(row: number, column: number): number {
+    return form.plots.findIndex((plot) => plot.row === row && plot.column === column)
+  }
+
   function dragStartHandler(event: DragEvent, plot: Plot) {
     if (plot) {
       event.dataTransfer?.setData('plot', JSON.stringify(plot))
@@ -128,12 +121,14 @@
   }
 
   function dropHandler(event: DragEvent, row: number, column: number) {
-    if (!getPlantAtPosition(row, column)) {
-      const plotTransfer = event.dataTransfer?.getData('plot')
+    const plotTransfer = event.dataTransfer?.getData('plot')
 
-      if (plotTransfer) {
-        const plot: Plot = JSON.parse(plotTransfer)
+    if (plotTransfer) {
+      const plot: Plot = JSON.parse(plotTransfer)
+      const plant = getPlantAtPosition(row, column)
 
+      // Ajout d'une nouvelle plante
+      if (!plant) {
         form.plots.push({
           row: row,
           column: column,
@@ -142,6 +137,25 @@
           plantImage: plot.plantImage,
         })
       }
+      // Remplacement de la plante
+      else {
+        const index = getIndexPlantAtPosition(row, column)
+        plant.plantId = plot.plantId
+        plant.plantName = plot.plantName
+        plant.plantImage = plot.plantImage
+
+        form.plots.splice(index, 1, plant)
+      }
     }
+  }
+
+  function addPlant(plant: Plant, row: number, column: number) {
+    form.plots.push({
+      row: row,
+      column: column,
+      plantId: plant.id,
+      plantName: plant.name,
+      plantImage: plant.image,
+    })
   }
 </script>
