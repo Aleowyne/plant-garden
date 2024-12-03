@@ -1,6 +1,7 @@
 import Plant from '#models/plant'
 import PlantService from '#services/plant_service'
 
+// TODO : ajouter PeriodsPresenter
 export class PlantsPresenter {
   toJson(plant: Plant) {
     return {

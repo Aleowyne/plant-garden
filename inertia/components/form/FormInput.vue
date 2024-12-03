@@ -7,6 +7,8 @@
       :type="props.type"
       :placeholder="props.placeholder"
       :disabled="props.disabled"
+      :min="props.type === 'number' && props.min"
+      :max="props.type === 'number' && props.max"
     />
     <Error :error="props.error" />
   </div>
@@ -23,6 +25,8 @@
     label: string
     placeholder?: string
     disabled?: boolean
+    min?: number
+    max?: number
     error?: string
   }>()
 

@@ -29,6 +29,8 @@
               type="number"
               name="image"
               label="Nombre de lignes"
+              :min="0"
+              :max="20"
               :error="form.errors.nbRow"
             />
             <FormInput
@@ -36,6 +38,8 @@
               type="number"
               name="image"
               label="Nombre de colonnes"
+              :min="0"
+              :max="20"
               :error="form.errors.nbCol"
             />
           </CardContent>
@@ -56,15 +60,15 @@
             @drop="dropHandler($event, row - 1, col - 1)"
           >
             <template
-              v-for="{ plot } in [{ plot: getPlantAtPosition(row - 1, col - 1) }]"
-              :key="plot"
+              v-for="{ plant } in [{ plant: getPlantAtPosition(row - 1, col - 1) }]"
+              :key="plant"
             >
               <img
-                v-if="plot"
-                :src="plot.plantImage"
-                :alt="plot.plantName"
+                v-if="plant"
+                :src="plant.image"
+                :alt="plant.name"
                 draggable="true"
-                @dragstart="dragStartHandler($event, plot)"
+                @dragstart="dragStartHandler($event, plant)"
               />
               <DialogSearchPlant
                 v-else
@@ -82,7 +86,7 @@
 <script setup lang="ts">
   import { useForm } from '@inertiajs/vue3'
   import { InferPageProps } from '@adonisjs/inertia/types'
-  import { GardenForm, Plot } from '@/types'
+  import { GardenForm, PlantPosition } from '@/types'
   import Layout from '@/layouts/AppLayout.vue'
   import FormInput from '@/components/form/FormInput.vue'
   import DialogSearchPlant from '@/components/DialogSearchPlant.vue'
@@ -101,61 +105,68 @@
     image: '',
     nbCol: 0,
     nbRow: 0,
-    plots: [],
+    plantPositions: [],
   })
 
-  function getPlantAtPosition(row: number, column: number): Plot {
-    return form.plots.find((plot) => plot.row === row && plot.column === column) as Plot
+  // Récupération de la plante à une position
+  function getPlantAtPosition(row: number, column: number): PlantPosition {
+    return form.plantPositions.find(
+      (plant) => plant.row === row && plant.column === column
+    ) as PlantPosition
   }
 
+  // Récupération de l'index de la plante à une position
   function getIndexPlantAtPosition(row: number, column: number): number {
-    return form.plots.findIndex((plot) => plot.row === row && plot.column === column)
+    return form.plantPositions.findIndex((plant) => plant.row === row && plant.column === column)
   }
 
-  function dragStartHandler(event: DragEvent, plot: Plot) {
-    if (plot) {
-      event.dataTransfer?.setData('plot', JSON.stringify(plot))
+  // Gestion du drag and drop d'une plante (partie drag)
+  function dragStartHandler(event: DragEvent, plant: PlantPosition) {
+    if (plant) {
+      event.dataTransfer?.setData('plant', JSON.stringify(plant))
       event.dataTransfer!.dropEffect = 'copy'
       event.dataTransfer!.effectAllowed = 'copy'
     }
   }
 
+  // Gestion du drag and drop d'une plante (partie drop)
   function dropHandler(event: DragEvent, row: number, column: number) {
-    const plotTransfer = event.dataTransfer?.getData('plot')
+    const plantTransfer = event.dataTransfer?.getData('plant')
 
-    if (plotTransfer) {
-      const plot: Plot = JSON.parse(plotTransfer)
-      const plant = getPlantAtPosition(row, column)
+    if (plantTransfer) {
+      const sourcePlant: PlantPosition = JSON.parse(plantTransfer)
+      const destinationPlant = getPlantAtPosition(row, column)
 
       // Ajout d'une nouvelle plante
-      if (!plant) {
-        form.plots.push({
+      if (!destinationPlant) {
+        form.plantPositions.push({
           row: row,
           column: column,
-          plantId: plot.plantId,
-          plantName: plot.plantName,
-          plantImage: plot.plantImage,
+          id: sourcePlant.id,
+          name: sourcePlant.name,
+          image: sourcePlant.image,
         })
       }
       // Remplacement de la plante
       else {
         const index = getIndexPlantAtPosition(row, column)
-        plant.plantId = plot.plantId
-        plant.plantName = plot.plantName
-        plant.plantImage = plot.plantImage
+        destinationPlant.id = sourcePlant.id
+        destinationPlant.name = sourcePlant.name
+        destinationPlant.image = sourcePlant.image
 
-        form.plots.splice(index, 1, plant)
+        form.plantPositions.splice(index, 1, destinationPlant)
       }
     }
   }
 
+  // Ajout d'une nouvelle plante dans la jardin
   function addPlant(plant: Plant, row: number, column: number) {
-    form.plots.push({
+    form.plantPositions.push({
       row: row,
       column: column,
-      plantId: plant.id,
-      plantName: plant.name,
-      plantImage: plant.image,
+      id: plant.id,
+      name: plant.name,
+      image: plant.image,
     })
   }
 </script>

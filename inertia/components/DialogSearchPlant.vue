@@ -96,7 +96,7 @@
   import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
   import { Button } from '@/components/ui/button'
   import { BadgePlus, Check, ChevronsUpDown } from 'lucide-vue-next'
-  import GardensController from '#controllers/gardens_controller'
+  import type GardensController from '#controllers/gardens_controller'
 
   type Plant = InferPageProps<GardensController, 'create'>['plants'][0]
   defineEmits(['add'])

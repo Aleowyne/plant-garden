@@ -20,15 +20,15 @@ export type GardenForm = {
   image: string
   nbCol: number
   nbRow: number
-  plots: Plot[]
+  plantPositions: PlantPosition[]
 }
 
-export type Plot = {
+export type PlantPosition = {
   row: number
   column: number
-  plantId?: number
-  plantName?: string
-  plantImage?: string
+  id?: number
+  name?: string
+  image?: string
 }
 
 export type OptionForm = {
