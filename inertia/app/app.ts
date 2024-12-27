@@ -10,10 +10,7 @@ import { resolvePageComponent } from '@adonisjs/inertia/helpers'
 
 void createInertiaApp({
   resolve: (name) => {
-    return resolvePageComponent(
-      `../pages/${name}.vue`,
-      import.meta.glob<DefineComponent>('../pages/**/*.vue')
-    )
+    return resolvePageComponent(`../pages/${name}.vue`, import.meta.glob<DefineComponent>('../pages/**/*.vue'))
   },
   setup({ el, App, props, plugin }) {
     createApp({ render: () => h(App, props) })

@@ -14,16 +14,12 @@
               </Link>
             </div>
           </CardTitle>
-          <CardDescription class="text-center">{{ props.plant.typeLabel }}</CardDescription>
+          <CardDescription class="text-center">{{ plant.typeLabel }}</CardDescription>
         </CardHeader>
         <CardContent>
           <div class="flex flex-col flex-1 items-center">
             <div v-if="props.plant.image" class="w-80">
-              <img
-                class="max-w-full mb-4"
-                :src="props.plant.image"
-                :alt="`Plante ${props.plant.name}`"
-              />
+              <img class="max-w-full mb-4" :src="props.plant.image" :alt="`Plante ${props.plant.name}`" />
             </div>
           </div>
           <CheckboxMonth
@@ -46,12 +42,7 @@
             title="Période de maturité"
             :options="getPeriodOptions('mature')"
           />
-          <FormTextarea
-            v-model="form.comment"
-            label="Commentaires"
-            name="comment"
-            :disabled="true"
-          />
+          <FormTextarea v-model="form.comment" label="Commentaires" name="comment" :disabled="true" />
         </CardContent>
       </Card>
     </div>
@@ -59,21 +50,20 @@
 </template>
 
 <script setup lang="ts">
-  import { InferPageProps } from '@adonisjs/inertia/types'
   import { useForm, Link } from '@inertiajs/vue3'
   import { CheckboxForm, PlantForm } from '@/types'
   import Layout from '@/layouts/AppLayout.vue'
   import CheckboxMonth from '@/components/CheckboxMonth.vue'
   import FormTextarea from '@/components/form/FormTextarea.vue'
   import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
-  import type PlantsController from '#controllers/plants_controller'
   import { Pencil, Trash2 } from 'lucide-vue-next'
+  import PlantService from '#services/plant_service'
+  import { PlantsPresenterSerialized } from '#presenters/plants_presenter'
+  import { PeriodsPresenterSerialized } from '#presenters/periods_presenter'
 
   const props = defineProps<{
-    plant: InferPageProps<PlantsController, 'show'>['plant']
-    periods: InferPageProps<PlantsController, 'show'>['periods']
-    typeOptions: InferPageProps<PlantsController, 'show'>['typeOptions']
-    periodOptions: InferPageProps<PlantsController, 'show'>['periodOptions']
+    plant: PlantsPresenterSerialized
+    periods: PeriodsPresenterSerialized
   }>()
 
   const form = useForm<PlantForm>({
@@ -88,9 +78,7 @@
   })
 
   function getPeriodOptions(name: string): CheckboxForm[] {
-    const periodOptions = props.periodOptions.find((option) => option.type === name)?.periods ?? []
-
-    return periodOptions.map((periodOption) => {
+    return PlantService.getPeriodOptions(name).map((periodOption) => {
       let checkboxForm: CheckboxForm = periodOption
       checkboxForm.disabled = true
       return checkboxForm

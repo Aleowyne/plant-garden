@@ -7,18 +7,12 @@
             <CardTitle>Rechercher</CardTitle>
           </CardHeader>
           <CardContent>
-            <FormInput
-              v-model="form.name"
-              type="text"
-              name="name"
-              label="Nom de plante"
-              :error="form.errors.name"
-            />
+            <FormInput v-model="form.name" type="text" name="name" label="Nom de plante" :error="form.errors.name" />
             <FormSelect
               v-model="form.type"
               name="type"
               label="Type de plante"
-              :options="props.typeOptions"
+              :options="PlantService.types"
               :error="form.errors.type"
             />
           </CardContent>
@@ -48,24 +42,16 @@
 
 <script setup lang="ts">
   import { useForm, Link } from '@inertiajs/vue3'
-  import { InferPageProps } from '@adonisjs/inertia/types'
   import Layout from '@/layouts/AppLayout.vue'
   import FormInput from '@/components/form/FormInput.vue'
   import FormSelect from '@/components/form/FormSelect.vue'
   import { Button } from '@/components/ui/button'
-  import {
-    Card,
-    CardHeader,
-    CardTitle,
-    CardDescription,
-    CardContent,
-    CardFooter,
-  } from '@/components/ui/card'
-  import type PlantsController from '#controllers/plants_controller'
+  import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card'
+  import PlantService from '#services/plant_service'
+  import { PlantsPresenterSerialized } from '#presenters/plants_presenter'
 
   const props = defineProps<{
-    plants: InferPageProps<PlantsController, 'index'>['plants']
-    typeOptions: InferPageProps<PlantsController, 'index'>['typeOptions']
+    plants: PlantsPresenterSerialized[]
   }>()
 
   const form = useForm<{ name: string; type: string }>({

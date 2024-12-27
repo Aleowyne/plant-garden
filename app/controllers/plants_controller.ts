@@ -1,4 +1,3 @@
-import { inject } from '@adonisjs/core'
 import type { HttpContext } from '@adonisjs/core/http'
 import db from '@adonisjs/lucid/services/db'
 import Plant from '#models/plant'
@@ -8,13 +7,7 @@ import { createPlantValidator, filterPlantValidator } from '#validators/plant'
 import { PlantsPresenter } from '#presenters/plants_presenter'
 import { PeriodsPresenter } from '#presenters/periods_presenter'
 
-@inject()
 export default class PlantsController {
-  constructor(
-    protected plantPresenter: PlantsPresenter,
-    protected periodPresenter: PeriodsPresenter
-  ) {}
-
   /**
    * Affichage d'une liste de plante
    */
@@ -27,8 +20,7 @@ export default class PlantsController {
       .orderBy('name')
 
     return inertia.render('plant/index', {
-      plants: plants.map((plant) => this.plantPresenter.toJson(plant)),
-      typeOptions: PlantService.types,
+      plants: plants.map((plant) => new PlantsPresenter(plant).toJson()),
     })
   }
 
@@ -36,10 +28,7 @@ export default class PlantsController {
    * Affichage d'un formulaire pour la création d'une plante
    */
   async create({ inertia }: HttpContext) {
-    return inertia.render('plant/create', {
-      typeOptions: PlantService.types,
-      periodOptions: PlantService.getPeriodOptions(),
-    })
+    return inertia.render('plant/create')
   }
 
   /**
@@ -95,10 +84,8 @@ export default class PlantsController {
     const periods = await plant.related('periods').query()
 
     return inertia.render('plant/show', {
-      plant: this.plantPresenter.toJson(plant),
-      periods: this.periodPresenter.toJson(periods),
-      typeOptions: PlantService.types,
-      periodOptions: PlantService.getPeriodOptions(),
+      plant: new PlantsPresenter(plant).toJson(),
+      periods: new PeriodsPresenter(periods).toJson(),
     })
   }
 
@@ -110,10 +97,8 @@ export default class PlantsController {
     const periods = await plant.related('periods').query()
 
     return inertia.render('plant/edit', {
-      plant: this.plantPresenter.toJson(plant),
-      periods: this.periodPresenter.toJson(periods),
-      typeOptions: PlantService.types,
-      periodOptions: PlantService.getPeriodOptions(),
+      plant: new PlantsPresenter(plant).toJson(),
+      periods: new PeriodsPresenter(periods).toJson(),
     })
   }
 

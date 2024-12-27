@@ -1,21 +1,12 @@
 <template>
   <Layout>
-    <form
-      class="flex flex-col flex-1 justify-center items-center mt-10"
-      @submit.prevent="form.post('/login')"
-    >
+    <form class="flex flex-col flex-1 justify-center items-center mt-10" @submit.prevent="form.post('/login')">
       <Card class="w-96">
         <CardHeader class="text-center">
           <CardTitle>Connexion</CardTitle>
         </CardHeader>
         <CardContent>
-          <FormInput
-            v-model="form.email"
-            type="email"
-            name="email"
-            label="Adresse mail"
-            :error="form.errors.email"
-          />
+          <FormInput v-model="form.email" type="email" name="email" label="Adresse mail" :error="form.errors.email" />
           <FormInput
             v-model="form.password"
             type="password"

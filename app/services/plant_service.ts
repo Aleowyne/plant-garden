@@ -43,14 +43,10 @@ export default class PlantService {
     { id: '', value: 'december', label: 'Déc.' },
   ]
 
-  static getPeriodOptions() {
-    return this.periodTypes.map((type) => {
-      const periods = this.periods.map((period) => {
-        period.id = `${type}_${period.value}`
-        return period
-      })
-
-      return { type, periods }
+  static getPeriodOptions(periodName: string) {
+    return this.periods.map((period) => {
+      period.id = `${periodName}_${period.value}`
+      return period
     })
   }
 }

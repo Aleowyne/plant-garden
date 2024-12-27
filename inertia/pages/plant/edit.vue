@@ -1,9 +1,6 @@
 <template>
   <Layout>
-    <form
-      class="flex flex-col flex-1 items-center mt-16"
-      @submit.prevent="form.put(`/plants/${props.plant.id}`)"
-    >
+    <form class="flex flex-col flex-1 items-center mt-16" @submit.prevent="form.put(`/plants/${props.plant.id}`)">
       <Card>
         <CardHeader>
           <CardTitle class="flex items-center justify-between">
@@ -16,25 +13,13 @@
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <FormInput
-            v-model="form.name"
-            type="text"
-            name="name"
-            label="Nom"
-            :error="form.errors.name"
-          />
-          <FormInput
-            v-model="form.image"
-            type="url"
-            name="image"
-            label="Image"
-            :error="form.errors.image"
-          />
+          <FormInput v-model="form.name" type="text" name="name" label="Nom" :error="form.errors.name" />
+          <FormInput v-model="form.image" type="url" name="image" label="Image" :error="form.errors.image" />
           <FormSelect
             v-model="form.type"
             name="type"
             label="Type de plante"
-            :options="props.typeOptions"
+            :options="PlantService.types"
             :error="form.errors.type"
           />
           <CheckboxMonth
@@ -57,12 +42,7 @@
             title="Période de maturité"
             :options="getPeriodOptions('mature')"
           />
-          <FormTextarea
-            v-model="form.comment"
-            label="Commentaires"
-            name="comment"
-            :error="form.errors.comment"
-          />
+          <FormTextarea v-model="form.comment" label="Commentaires" name="comment" :error="form.errors.comment" />
         </CardContent>
         <CardFooter class="flex justify-center">
           <Button>Modifier la plante</Button>
@@ -74,7 +54,6 @@
 
 <script setup lang="ts">
   import { useForm, Link } from '@inertiajs/vue3'
-  import { InferPageProps } from '@adonisjs/inertia/types'
   import { CheckboxForm, PlantForm } from '@/types'
   import Layout from '@/layouts/AppLayout.vue'
   import FormInput from '@/components/form/FormInput.vue'
@@ -83,14 +62,14 @@
   import CheckboxMonth from '@/components/CheckboxMonth.vue'
   import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
   import { Button } from '@/components/ui/button'
-  import type PlantsController from '#controllers/plants_controller'
   import { Eye } from 'lucide-vue-next'
+  import PlantService from '#services/plant_service'
+  import { PlantsPresenterSerialized } from '#presenters/plants_presenter'
+  import { PeriodsPresenterSerialized } from '#presenters/periods_presenter'
 
   const props = defineProps<{
-    plant: InferPageProps<PlantsController, 'edit'>['plant']
-    periods: InferPageProps<PlantsController, 'edit'>['periods']
-    typeOptions: InferPageProps<PlantsController, 'edit'>['typeOptions']
-    periodOptions: InferPageProps<PlantsController, 'edit'>['periodOptions']
+    plant: PlantsPresenterSerialized
+    periods: PeriodsPresenterSerialized
   }>()
 
   const form = useForm<PlantForm>({
@@ -105,6 +84,10 @@
   })
 
   function getPeriodOptions(name: string): CheckboxForm[] {
-    return props.periodOptions.find((option) => option.type === name)?.periods ?? []
+    return PlantService.getPeriodOptions(name).map((periodOption) => {
+      let checkboxForm: CheckboxForm = periodOption
+      checkboxForm.disabled = false
+      return checkboxForm
+    })
   }
 </script>

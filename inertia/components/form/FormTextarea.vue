@@ -1,13 +1,7 @@
 <template>
   <div class="grid w-full items-center gap-1.5">
     <Label :for="props.name">{{ props.label }}</Label>
-    <Textarea
-      v-model="model"
-      :name="props.name"
-      :placeholder="props.placeholder"
-      :disabled="props.disabled"
-      rows="8"
-    />
+    <Textarea v-model="model" :name="props.name" :placeholder="props.placeholder" :disabled="props.disabled" rows="8" />
     <Error :error="props.error" />
   </div>
 </template>

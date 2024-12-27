@@ -7,7 +7,6 @@ import { PlantsPresenter } from '#presenters/plants_presenter'
 
 @inject()
 export default class GardensController {
-  constructor(protected plantPresenter: PlantsPresenter) {}
   // /**
   //  * Affichage d'une liste de jardins
   //  */
@@ -20,9 +19,10 @@ export default class GardensController {
     const plants = await Plant.query().orderBy('name')
 
     return inertia.render('garden/create', {
-      plants: plants.map((plant) => this.plantPresenter.toJson(plant)),
+      plants: inertia.optional(() => plants.map((plant) => new PlantsPresenter(plant).toJson())),
     })
   }
+
   /**
    * Création d'un jardin
    */
