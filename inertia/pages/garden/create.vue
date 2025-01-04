@@ -1,31 +1,37 @@
 <template>
   <Layout>
     <div class="flex flex-1 mt-16 mx-9">
-      <form class="flex-none" @submit.prevent="form.post('/gardens', { onSuccess: () => form.reset() })">
+      <form class="flex-none" @submit.prevent="gardenForm.post('/gardens', { onSuccess: () => gardenForm.reset() })">
         <Card>
           <CardHeader>
             <CardTitle class="text-center">Ajouter un jardin</CardTitle>
           </CardHeader>
           <CardContent>
-            <FormInput v-model="form.name" type="text" name="name" label="Nom" :error="form.errors.name" />
-            <FormInput v-model="form.image" type="url" name="image" label="Image" :error="form.errors.image" />
+            <FormInput v-model="gardenForm.name" type="text" name="name" label="Nom" :error="gardenForm.errors.name" />
             <FormInput
-              v-model="form.nbRow"
+              v-model="gardenForm.image"
+              type="url"
+              name="image"
+              label="Image"
+              :error="gardenForm.errors.image"
+            />
+            <FormInput
+              v-model="gardenForm.nbRow"
               type="number"
               name="image"
               label="Nombre de lignes"
               :min="0"
               :max="20"
-              :error="form.errors.nbRow"
+              :error="gardenForm.errors.nbRow"
             />
             <FormInput
-              v-model="form.nbCol"
+              v-model="gardenForm.nbCol"
               type="number"
               name="image"
               label="Nombre de colonnes"
               :min="0"
               :max="20"
-              :error="form.errors.nbCol"
+              :error="gardenForm.errors.nbCol"
             />
           </CardContent>
           <CardFooter class="flex justify-center">
@@ -34,9 +40,9 @@
         </Card>
       </form>
       <div class="flex mx-6">
-        <div v-for="col in form.nbCol" :key="col">
+        <div v-for="col in gardenForm.nbCol" :key="col">
           <div
-            v-for="row in form.nbRow"
+            v-for="row in gardenForm.nbRow"
             :key="row"
             :set="getPlantAtPosition(row - 1, col - 1)"
             class="w-24 h-24 flex items-center justify-center border-solid border border-black"
@@ -66,7 +72,7 @@
                         <template #fallback>
                           <span>Chargement ...</span>
                         </template>
-                        <form id="search" @submit.prevent="addPlant(selectedPlant, row - 1, col - 1)">
+                        <form id="search" @submit.prevent="addPlant(row - 1, col - 1)">
                           <Popover v-model:open="openPopover">
                             <PopoverTrigger as-child>
                               <Button
@@ -76,8 +82,8 @@
                                 class="w-full justify-between"
                               >
                                 {{
-                                  selectedPlant.id && props.plants
-                                    ? props.plants.find((plant) => plant.id === selectedPlant.id)?.name
+                                  plotForm.plantId && props.plants
+                                    ? props.plants.find((plant) => plant.id === plotForm.plantId)?.name
                                     : 'Choisir une plante ...'
                                 }}
                                 <ChevronsUpDown class="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -95,14 +101,16 @@
                                       :value="`${plant.name}${plant.id}`"
                                       @select="
                                         () => {
-                                          selectedPlant = plant
+                                          plotForm.plantId = plant.id
+                                          plotForm.plantName = plant.name
+                                          plotForm.plantImage = plant.image
                                           openPopover = false
                                         }
                                       "
                                     >
                                       <Check
                                         :class="
-                                          cn('h-4 w-4', selectedPlant.id === plant.id ? 'opacity-100' : 'opacity-0')
+                                          cn('h-4 w-4', plotForm.plantId === plant.id ? 'opacity-100' : 'opacity-0')
                                         "
                                       />
                                       {{ plant.name }}
@@ -112,6 +120,13 @@
                               </Command>
                             </PopoverContent>
                           </Popover>
+                          <FormInput
+                            v-model="plotForm.plantationDate"
+                            type="date"
+                            name="plantationDate"
+                            label="Date de semis/plantation"
+                            class="mt-8"
+                          />
                         </form>
                       </WhenVisible>
                     </DialogDescription>
@@ -121,7 +136,7 @@
                       <Button type="submit" form="search">Valider</Button>
                     </DialogClose>
                     <DialogClose as-child>
-                      <Button>Annuler</Button>
+                      <Button class="bg-secondary">Annuler</Button>
                     </DialogClose>
                   </DialogFooter>
                 </DialogContent>
@@ -138,7 +153,7 @@
   import { ref } from 'vue'
   import { useForm, WhenVisible } from '@inertiajs/vue3'
   import { cn } from '@/lib/utils'
-  import { GardenForm, PlantPosition } from '@/types'
+  import { GardenForm, PlantPosition, PlotForm } from '@/types'
   import Layout from '@/layouts/AppLayout.vue'
   import FormInput from '@/components/form/FormInput.vue'
   import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
@@ -162,7 +177,7 @@
     plants?: PlantsPresenterSerialized[]
   }>()
 
-  const form = useForm<GardenForm>({
+  const gardenForm = useForm<GardenForm>({
     name: '',
     image: '',
     nbCol: 0,
@@ -170,24 +185,23 @@
     plantPositions: [],
   })
 
-  const openPopover = ref(false)
-  const selectedPlant = ref<PlantsPresenterSerialized>({
-    id: 0,
-    name: '',
-    image: '',
-    type: '',
-    typeLabel: '',
-    comment: '',
+  const plotForm = useForm<PlotForm>({
+    plantId: 0,
+    plantName: '',
+    plantImage: '',
+    plantationDate: '',
   })
+
+  const openPopover = ref(false)
 
   // Récupération de la plante à une position
   function getPlantAtPosition(row: number, column: number): PlantPosition {
-    return form.plantPositions.find((plant) => plant.row === row && plant.column === column) as PlantPosition
+    return gardenForm.plantPositions.find((plant) => plant.row === row && plant.column === column) as PlantPosition
   }
 
   // Récupération de l'index de la plante à une position
   function getIndexPlantAtPosition(row: number, column: number): number {
-    return form.plantPositions.findIndex((plant) => plant.row === row && plant.column === column)
+    return gardenForm.plantPositions.findIndex((plant) => plant.row === row && plant.column === column)
   }
 
   // Gestion du drag and drop d'une plante (partie drag)
@@ -209,12 +223,13 @@
 
       // Ajout d'une nouvelle plante
       if (!destinationPlant) {
-        form.plantPositions.push({
+        gardenForm.plantPositions.push({
           row: row,
           column: column,
           id: sourcePlant.id,
           name: sourcePlant.name,
           image: sourcePlant.image,
+          plantationDate: sourcePlant.plantationDate,
         })
       }
       // Remplacement de la plante
@@ -223,20 +238,29 @@
         destinationPlant.id = sourcePlant.id
         destinationPlant.name = sourcePlant.name
         destinationPlant.image = sourcePlant.image
+        destinationPlant.plantationDate = sourcePlant.plantationDate
 
-        form.plantPositions.splice(index, 1, destinationPlant)
+        gardenForm.plantPositions.splice(index, 1, destinationPlant)
       }
     }
   }
 
   // Ajout d'une nouvelle plante dans la jardin
-  function addPlant(plant: PlantsPresenterSerialized, row: number, column: number) {
-    form.plantPositions.push({
-      row: row,
-      column: column,
-      id: plant.id,
-      name: plant.name,
-      image: plant.image,
-    })
+  function addPlant(row: number, column: number) {
+    if (plotForm.plantId) {
+      gardenForm.plantPositions.push({
+        row: row,
+        column: column,
+        id: plotForm.plantId,
+        name: plotForm.plantName,
+        image: plotForm.plantImage,
+        plantationDate: plotForm.plantationDate,
+      })
+
+      plotForm.plantId = 0
+      plotForm.plantName = ''
+      plotForm.plantImage = ''
+      plotForm.plantationDate = ''
+    }
   }
 </script>

@@ -13,7 +13,7 @@
         </SelectGroup>
       </SelectContent>
     </Select>
-    <Error :error="props.error" />
+    <Error class="mt-1" :error="props.error" />
   </div>
 </template>
 

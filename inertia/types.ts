@@ -29,6 +29,14 @@ export type PlantPosition = {
   id?: number
   name?: string
   image?: string
+  plantationDate?: string
+}
+
+export type PlotForm = {
+  plantId: number
+  plantName: string
+  plantImage: string
+  plantationDate: string
 }
 
 export type OptionForm = {

@@ -10,7 +10,7 @@ export default class extends BaseSchema {
       table.integer('row').unsigned().notNullable()
       table.integer('column').unsigned().notNullable()
       table.integer('plant_id').unsigned().references('plants.id').onDelete('CASCADE')
-      table.timestamp('seeded_at').nullable()
+      table.timestamp('planted_at').nullable()
       table.timestamp('removed_at').nullable()
 
       table.timestamp('created_at')
