@@ -19,38 +19,20 @@
           <NavigationMenuList>
             <NavigationMenuItem>
               <Link
-                href="/gardens"
+                href="/login"
                 class="hover:text-muted-foreground hover:bg-background focus:bg-background"
                 :class="navigationMenuTriggerStyle()"
               >
-                Mes jardins
+                Connexion
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
               <Link
-                href="/calendars"
+                href="/signin"
                 class="hover:text-muted-foreground hover:bg-background focus:bg-background"
                 :class="navigationMenuTriggerStyle()"
               >
-                Calendrier
-              </Link>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <Link
-                href="/plants"
-                class="hover:text-muted-foreground hover:bg-background focus:bg-background"
-                :class="navigationMenuTriggerStyle()"
-              >
-                Plantes
-              </Link>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <Link
-                href="/logout"
-                class="hover:text-muted-foreground hover:bg-background focus:bg-background"
-                :class="navigationMenuTriggerStyle()"
-              >
-                Déconnexion
+                Inscription
               </Link>
             </NavigationMenuItem>
           </NavigationMenuList>

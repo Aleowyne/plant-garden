@@ -1,160 +1,160 @@
 <template>
-  <Layout>
-    <div class="flex flex-1 mt-16 mx-9">
-      <form class="flex-none" @submit.prevent="gardenForm.post('/gardens', { onSuccess: () => gardenForm.reset() })">
-        <Card>
-          <CardHeader>
-            <CardTitle class="text-center">Ajouter un jardin</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <FormInput v-model="gardenForm.name" type="text" name="name" label="Nom" :error="gardenForm.errors.name" />
-            <FormInput
-              v-model="gardenForm.image"
-              type="url"
-              name="image"
-              label="Image"
-              :error="gardenForm.errors.image"
-            />
-            <FormInput
-              v-model="gardenForm.nbRow"
-              type="number"
-              name="image"
-              label="Nombre de lignes"
-              :min="0"
-              :max="20"
-              :error="gardenForm.errors.nbRow"
-            />
-            <FormInput
-              v-model="gardenForm.nbCol"
-              type="number"
-              name="image"
-              label="Nombre de colonnes"
-              :min="0"
-              :max="20"
-              :error="gardenForm.errors.nbCol"
-            />
-          </CardContent>
-          <CardFooter class="flex justify-center">
-            <Button>Créer le jardin</Button>
-          </CardFooter>
-        </Card>
-      </form>
-      <div class="flex mx-6">
-        <div v-for="col in gardenForm.nbCol" :key="col">
-          <div
-            v-for="row in gardenForm.nbRow"
-            :key="row"
-            :set="getPlantAtPosition(row - 1, col - 1)"
-            class="w-24 h-24 flex items-center justify-center border-solid border border-black"
-            @dragover.prevent
-            @dragenter.prevent
-            @drop="dropHandler($event, row - 1, col - 1)"
+  <Head>
+    <title>Création d'un jardin</title>
+  </Head>
+  <div class="flex flex-1 mt-16 mx-9">
+    <form class="flex-none" @submit.prevent="gardenForm.post('/gardens', { onSuccess: () => gardenForm.reset() })">
+      <Card>
+        <CardHeader>
+          <CardTitle class="text-center">Ajouter un jardin</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <FormInput v-model="gardenForm.name" type="text" name="name" label="Nom" :error="gardenForm.errors.name" />
+          <FormInput
+            v-model="gardenForm.image"
+            type="url"
+            name="image"
+            label="Image"
+            :error="gardenForm.errors.image"
+          />
+          <FormInput
+            v-model="gardenForm.nbRow"
+            type="number"
+            name="image"
+            label="Nombre de lignes"
+            :min="0"
+            :max="20"
+            :error="gardenForm.errors.nbRow"
+          />
+          <FormInput
+            v-model="gardenForm.nbCol"
+            type="number"
+            name="image"
+            label="Nombre de colonnes"
+            :min="0"
+            :max="20"
+            :error="gardenForm.errors.nbCol"
+          />
+        </CardContent>
+        <CardFooter class="flex justify-center">
+          <Button>Créer le jardin</Button>
+        </CardFooter>
+      </Card>
+    </form>
+    <div class="flex mx-6">
+      <div v-for="col in gardenForm.nbCol" :key="col">
+        <div
+          v-for="row in gardenForm.nbRow"
+          :key="row"
+          :set="getPlantAtPosition(row - 1, col - 1)"
+          class="w-24 h-24 flex items-center justify-center border-solid border border-black"
+          @dragover.prevent
+          @dragenter.prevent
+          @drop="dropHandler($event, row - 1, col - 1)"
+        >
+          <template
+            v-for="{ gardenPlant } in [{ gardenPlant: getPlantAtPosition(row - 1, col - 1) }]"
+            :key="gardenPlant"
           >
-            <template
-              v-for="{ gardenPlant } in [{ gardenPlant: getPlantAtPosition(row - 1, col - 1) }]"
-              :key="gardenPlant"
-            >
-              <img
-                v-if="gardenPlant"
-                :src="gardenPlant.image"
-                :alt="gardenPlant.name"
-                draggable="true"
-                @dragstart="dragStartHandler($event, gardenPlant)"
-              />
+            <img
+              v-if="gardenPlant"
+              :src="gardenPlant.image"
+              :alt="gardenPlant.name"
+              draggable="true"
+              @dragstart="dragStartHandler($event, gardenPlant)"
+            />
 
-              <Dialog v-else>
-                <DialogTrigger><BadgePlus class="size-24 mx-1 text-secondary" /></DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle class="mb-8">Ajouter une plante au jardin</DialogTitle>
-                    <DialogDescription>
-                      <WhenVisible data="plants">
-                        <template #fallback>
-                          <span>Chargement ...</span>
-                        </template>
-                        <form id="search" @submit.prevent="addPlant(row - 1, col - 1)">
-                          <Popover v-model:open="openPopover">
-                            <PopoverTrigger as-child>
-                              <Button
-                                variant="outline"
-                                role="combobox"
-                                :aria-expanded="openPopover"
-                                class="w-full justify-between"
-                              >
-                                {{
-                                  plotForm.plantId && props.plants
-                                    ? props.plants.find((plant) => plant.id === plotForm.plantId)?.name
-                                    : 'Choisir une plante ...'
-                                }}
-                                <ChevronsUpDown class="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                              </Button>
-                            </PopoverTrigger>
-                            <PopoverContent class="w-full p-0">
-                              <Command>
-                                <CommandInput placeholder="Rechercher une plante ..." />
-                                <CommandEmpty>Aucune plante trouvée.</CommandEmpty>
-                                <CommandList>
-                                  <CommandGroup>
-                                    <CommandItem
-                                      v-for="plant in props.plants"
-                                      :key="plant.name"
-                                      :value="`${plant.name}${plant.id}`"
-                                      @select="
-                                        () => {
-                                          plotForm.plantId = plant.id
-                                          plotForm.plantName = plant.name
-                                          plotForm.plantImage = plant.image
-                                          openPopover = false
-                                        }
+            <Dialog v-else>
+              <DialogTrigger><BadgePlus class="size-24 mx-1 text-secondary" /></DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle class="mb-8">Ajouter une plante au jardin</DialogTitle>
+                  <DialogDescription>
+                    <WhenVisible data="plants">
+                      <template #fallback>
+                        <span>Chargement ...</span>
+                      </template>
+                      <form id="search" @submit.prevent="addPlant(row - 1, col - 1)">
+                        <Popover v-model:open="openPopover">
+                          <PopoverTrigger as-child>
+                            <Button
+                              variant="outline"
+                              role="combobox"
+                              :aria-expanded="openPopover"
+                              class="w-full justify-between"
+                            >
+                              {{
+                                plotForm.plantId && props.plants
+                                  ? props.plants.find((plant) => plant.id === plotForm.plantId)?.name
+                                  : 'Choisir une plante ...'
+                              }}
+                              <ChevronsUpDown class="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent class="w-full p-0">
+                            <Command>
+                              <CommandInput placeholder="Rechercher une plante ..." />
+                              <CommandEmpty>Aucune plante trouvée.</CommandEmpty>
+                              <CommandList>
+                                <CommandGroup>
+                                  <CommandItem
+                                    v-for="plant in props.plants"
+                                    :key="plant.name"
+                                    :value="`${plant.name}${plant.id}`"
+                                    @select="
+                                      () => {
+                                        plotForm.plantId = plant.id
+                                        plotForm.plantName = plant.name
+                                        plotForm.plantImage = plant.image
+                                        openPopover = false
+                                      }
+                                    "
+                                  >
+                                    <Check
+                                      :class="
+                                        cn('h-4 w-4', plotForm.plantId === plant.id ? 'opacity-100' : 'opacity-0')
                                       "
-                                    >
-                                      <Check
-                                        :class="
-                                          cn('h-4 w-4', plotForm.plantId === plant.id ? 'opacity-100' : 'opacity-0')
-                                        "
-                                      />
-                                      {{ plant.name }}
-                                    </CommandItem>
-                                  </CommandGroup>
-                                </CommandList>
-                              </Command>
-                            </PopoverContent>
-                          </Popover>
-                          <FormInput
-                            v-model="plotForm.plantationDate"
-                            type="date"
-                            name="plantationDate"
-                            label="Date de semis/plantation"
-                            class="mt-8"
-                          />
-                        </form>
-                      </WhenVisible>
-                    </DialogDescription>
-                  </DialogHeader>
-                  <DialogFooter>
-                    <DialogClose as-child>
-                      <Button type="submit" form="search">Valider</Button>
-                    </DialogClose>
-                    <DialogClose as-child>
-                      <Button class="bg-secondary">Annuler</Button>
-                    </DialogClose>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
-            </template>
-          </div>
+                                    />
+                                    {{ plant.name }}
+                                  </CommandItem>
+                                </CommandGroup>
+                              </CommandList>
+                            </Command>
+                          </PopoverContent>
+                        </Popover>
+                        <FormInput
+                          v-model="plotForm.plantationDate"
+                          type="date"
+                          name="plantationDate"
+                          label="Date de semis/plantation"
+                          class="mt-8"
+                        />
+                      </form>
+                    </WhenVisible>
+                  </DialogDescription>
+                </DialogHeader>
+                <DialogFooter>
+                  <DialogClose as-child>
+                    <Button type="submit" form="search">Valider</Button>
+                  </DialogClose>
+                  <DialogClose as-child>
+                    <Button class="bg-secondary">Annuler</Button>
+                  </DialogClose>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          </template>
         </div>
       </div>
     </div>
-  </Layout>
+  </div>
 </template>
 
 <script setup lang="ts">
   import { ref } from 'vue'
-  import { useForm, WhenVisible } from '@inertiajs/vue3'
+  import { useForm, WhenVisible, Head } from '@inertiajs/vue3'
   import { cn } from '@/lib/utils'
   import { GardenForm, PlantPosition, PlotForm } from '@/types'
-  import Layout from '@/layouts/AppLayout.vue'
   import FormInput from '@/components/form/FormInput.vue'
   import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
   import {

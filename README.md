@@ -1,9 +1,11 @@
 # Plant Garden
 
-![Made with :](https://img.shields.io/badge/Made%20with%20:-brightgreen?style=flat)
+![Made with :](https://img.shields.io/badge/Made%20with%20:-347d39?style=flat)
 ![AdonisJS](https://img.shields.io/badge/AdonisJS-blue?style=flat&logo=adonisjs&logoColor=white)
 ![Vue.js](https://img.shields.io/badge/Vue.js-blue?style=flat&logo=vue.js)
 ![Inertia.js](https://img.shields.io/badge/Inertia.js-blue?style=flat&logo=inertia&logoColor=white)
+![Shadcn-vue](https://img.shields.io/badge/Shadcn--vue-blue?style=flat&logo=shadcn/ui&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-blue?style=flat&logo=tailwindcss&logoColor=white)
 ![MySQL](https://img.shields.io/badge/MySQL-blue?style=flat&logo=mysql&logoColor=white)
 
 En cours de développement ...
@@ -25,6 +27,7 @@ Cette application est créée dans le but de découvrir le framework AdonisJS.
 - AdonisJS pour le backend
 - Vue.js pour le frontend
 - Inertia.js
+- Shadcn-vue et TailwindCSS pour l'UI
 - MySQL pour la base de données
 
 ## Installation
