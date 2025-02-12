@@ -46,7 +46,6 @@
         <div
           v-for="row in gardenForm.nbRow"
           :key="row"
-          :set="getPlantAtPosition(row - 1, col - 1)"
           class="w-24 h-24 flex items-center justify-center border-solid border border-black"
           @dragover.prevent
           @dragenter.prevent
@@ -56,16 +55,18 @@
             v-for="{ gardenPlant } in [{ gardenPlant: getPlantAtPosition(row - 1, col - 1) }]"
             :key="gardenPlant"
           >
-            <img
-              v-if="gardenPlant"
-              :src="gardenPlant.image"
-              :alt="gardenPlant.name"
-              draggable="true"
-              @dragstart="dragStartHandler($event, gardenPlant)"
-            />
+            <Dialog>
+              <DialogTrigger @click="preparePlantForm(gardenPlant)">
+                <img
+                  v-if="gardenPlant.id"
+                  :src="gardenPlant.image"
+                  :alt="gardenPlant.name"
+                  draggable="true"
+                  @dragstart="dragStartHandler($event, gardenPlant)"
+                />
 
-            <Dialog v-else>
-              <DialogTrigger><BadgePlus class="size-24 mx-1 text-secondary" /></DialogTrigger>
+                <BadgePlus v-else class="size-24 mx-1 text-secondary" />
+              </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
                   <DialogTitle class="mb-8">Ajouter une plante au jardin</DialogTitle>
@@ -74,7 +75,7 @@
                       <template #fallback>
                         <span>Chargement ...</span>
                       </template>
-                      <form id="search" @submit.prevent="addPlant(row - 1, col - 1)">
+                      <form id="search" @submit.prevent="setPlant()">
                         <Popover v-model:open="openPopover">
                           <PopoverTrigger as-child>
                             <Button
@@ -84,8 +85,8 @@
                               class="w-full justify-between"
                             >
                               {{
-                                plotForm.plantId && props.plants
-                                  ? props.plants.find((plant) => plant.id === plotForm.plantId)?.name
+                                plotForm.id && props.plants
+                                  ? props.plants.find((plant) => plant.id === plotForm.id)?.name
                                   : 'Choisir une plante ...'
                               }}
                               <ChevronsUpDown class="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -103,17 +104,17 @@
                                     :value="`${plant.name}${plant.id}`"
                                     @select="
                                       () => {
-                                        plotForm.plantId = plant.id
-                                        plotForm.plantName = plant.name
-                                        plotForm.plantImage = plant.image
+                                        plotForm.row = row - 1
+                                        plotForm.column = col - 1
+                                        plotForm.id = plant.id
+                                        plotForm.name = plant.name
+                                        plotForm.image = plant.image
                                         openPopover = false
                                       }
                                     "
                                   >
                                     <Check
-                                      :class="
-                                        cn('h-4 w-4', plotForm.plantId === plant.id ? 'opacity-100' : 'opacity-0')
-                                      "
+                                      :class="cn('h-4 w-4', plotForm.id === plant.id ? 'opacity-100' : 'opacity-0')"
                                     />
                                     {{ plant.name }}
                                   </CommandItem>
@@ -154,7 +155,7 @@
   import { ref } from 'vue'
   import { useForm, WhenVisible, Head } from '@inertiajs/vue3'
   import { cn } from '@/lib/utils'
-  import { GardenForm, PlantPosition, PlotForm } from '@/types'
+  import { GardenForm, PlantPosition } from '@/types'
   import FormInput from '@/components/form/FormInput.vue'
   import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
   import {
@@ -185,10 +186,12 @@
     plantPositions: [],
   })
 
-  const plotForm = useForm<PlotForm>({
-    plantId: 0,
-    plantName: '',
-    plantImage: '',
+  const plotForm = useForm<PlantPosition>({
+    row: 0,
+    column: 0,
+    id: 0,
+    name: '',
+    image: '',
     plantationDate: '',
   })
 
@@ -196,7 +199,22 @@
 
   // Récupération de la plante à une position
   function getPlantAtPosition(row: number, column: number): PlantPosition {
-    return gardenForm.plantPositions.find((plant) => plant.row === row && plant.column === column) as PlantPosition
+    let gardenPlant = gardenForm.plantPositions.find((plant) => plant.row === row && plant.column === column)
+
+    if (!gardenPlant) {
+      gardenPlant = {
+        row: row,
+        column: column,
+        id: 0,
+        name: '',
+        image: '',
+        plantationDate: '',
+      }
+
+      gardenForm.plantPositions.push(gardenPlant)
+    }
+
+    return gardenPlant
   }
 
   // Récupération de l'index de la plante à une position
@@ -219,48 +237,43 @@
 
     if (plantTransfer) {
       const sourcePlant: PlantPosition = JSON.parse(plantTransfer)
-      const destinationPlant = getPlantAtPosition(row, column)
+      const index = getIndexPlantAtPosition(row, column)
+      sourcePlant.row = row
+      sourcePlant.column = column
 
       // Ajout d'une nouvelle plante
-      if (!destinationPlant) {
-        gardenForm.plantPositions.push({
-          row: row,
-          column: column,
-          id: sourcePlant.id,
-          name: sourcePlant.name,
-          image: sourcePlant.image,
-          plantationDate: sourcePlant.plantationDate,
-        })
+      if (index === -1) {
+        gardenForm.plantPositions.push(sourcePlant)
       }
       // Remplacement de la plante
       else {
-        const index = getIndexPlantAtPosition(row, column)
-        destinationPlant.id = sourcePlant.id
-        destinationPlant.name = sourcePlant.name
-        destinationPlant.image = sourcePlant.image
-        destinationPlant.plantationDate = sourcePlant.plantationDate
-
-        gardenForm.plantPositions.splice(index, 1, destinationPlant)
+        gardenForm.plantPositions.splice(index, 1, sourcePlant)
       }
     }
   }
 
-  // Ajout d'une nouvelle plante dans la jardin
-  function addPlant(row: number, column: number) {
-    if (plotForm.plantId) {
-      gardenForm.plantPositions.push({
-        row: row,
-        column: column,
-        id: plotForm.plantId,
-        name: plotForm.plantName,
-        image: plotForm.plantImage,
-        plantationDate: plotForm.plantationDate,
-      })
-
-      plotForm.plantId = 0
-      plotForm.plantName = ''
-      plotForm.plantImage = ''
-      plotForm.plantationDate = ''
+  // Ajout d'une plante dans la jardin
+  function setPlant() {
+    const plant: PlantPosition = {
+      row: plotForm.row,
+      column: plotForm.column,
+      id: plotForm.id,
+      name: plotForm.name,
+      image: plotForm.image,
+      plantationDate: plotForm.plantationDate,
     }
+
+    const index = getIndexPlantAtPosition(plant.row, plant.column)
+    gardenForm.plantPositions.splice(index, 1, plant)
+  }
+
+  // Préparation du formulaire de choix de plante
+  function preparePlantForm(plant: PlantPosition) {
+    plotForm.row = plant.row
+    plotForm.column = plant.column
+    plotForm.id = plant.id
+    plotForm.name = plant.name
+    plotForm.image = plant.image
+    plotForm.plantationDate = plant.plantationDate
   }
 </script>
