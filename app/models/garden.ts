@@ -1,7 +1,8 @@
 import { DateTime } from 'luxon'
-import { BaseModel, belongsTo, column } from '@adonisjs/lucid/orm'
-import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import { BaseModel, belongsTo, hasMany, column } from '@adonisjs/lucid/orm'
+import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 import User from '#models/user'
+import Plot from '#models/plot'
 
 export default class Garden extends BaseModel {
   @column({ isPrimary: true })
@@ -16,6 +17,12 @@ export default class Garden extends BaseModel {
   @column()
   declare image: string | null
 
+  @column()
+  declare nbCol: number
+
+  @column()
+  declare nbRow: number
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 
@@ -24,4 +31,7 @@ export default class Garden extends BaseModel {
 
   @belongsTo(() => User)
   declare user: BelongsTo<typeof User>
+
+  @hasMany(() => Plot)
+  declare plots: HasMany<typeof Plot>
 }

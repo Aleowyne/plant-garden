@@ -52,17 +52,17 @@
           @drop="dropHandler($event, row - 1, col - 1)"
         >
           <template
-            v-for="{ gardenPlant } in [{ gardenPlant: getPlantAtPosition(row - 1, col - 1) }]"
-            :key="gardenPlant"
+            v-for="{ plantPosition } in [{ plantPosition: getPlantAtPosition(row - 1, col - 1) }]"
+            :key="plantPosition"
           >
             <Dialog>
-              <DialogTrigger @click="preparePlantForm(gardenPlant)">
+              <DialogTrigger @click="preparePlantForm(plantPosition)">
                 <img
-                  v-if="gardenPlant.id"
-                  :src="gardenPlant.image"
-                  :alt="gardenPlant.name"
+                  v-if="plantPosition.plantId"
+                  :src="plantPosition.image"
+                  :alt="plantPosition.name"
                   draggable="true"
-                  @dragstart="dragStartHandler($event, gardenPlant)"
+                  @dragstart="dragStartHandler($event, plantPosition)"
                 />
 
                 <BadgePlus v-else class="size-24 mx-1 text-secondary" />
@@ -85,8 +85,8 @@
                               class="w-full justify-between"
                             >
                               {{
-                                plotForm.id && props.plants
-                                  ? props.plants.find((plant) => plant.id === plotForm.id)?.name
+                                plotForm.plantId && props.plants
+                                  ? props.plants.find((plant) => plant.id === plotForm.plantId)?.name
                                   : 'Choisir une plante ...'
                               }}
                               <ChevronsUpDown class="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -106,7 +106,7 @@
                                       () => {
                                         plotForm.row = row - 1
                                         plotForm.column = col - 1
-                                        plotForm.id = plant.id
+                                        plotForm.plantId = plant.id
                                         plotForm.name = plant.name
                                         plotForm.image = plant.image
                                         openPopover = false
@@ -114,7 +114,9 @@
                                     "
                                   >
                                     <Check
-                                      :class="cn('h-4 w-4', plotForm.id === plant.id ? 'opacity-100' : 'opacity-0')"
+                                      :class="
+                                        cn('h-4 w-4', plotForm.plantId === plant.id ? 'opacity-100' : 'opacity-0')
+                                      "
                                     />
                                     {{ plant.name }}
                                   </CommandItem>
@@ -189,7 +191,7 @@
   const plotForm = useForm<PlantPosition>({
     row: 0,
     column: 0,
-    id: 0,
+    plantId: 0,
     name: '',
     image: '',
     plantationDate: '',
@@ -199,22 +201,22 @@
 
   // Récupération de la plante à une position
   function getPlantAtPosition(row: number, column: number): PlantPosition {
-    let gardenPlant = gardenForm.plantPositions.find((plant) => plant.row === row && plant.column === column)
+    let plantPosition = gardenForm.plantPositions.find((plant) => plant.row === row && plant.column === column)
 
-    if (!gardenPlant) {
-      gardenPlant = {
+    if (!plantPosition) {
+      plantPosition = {
         row: row,
         column: column,
-        id: 0,
+        plantId: 0,
         name: '',
         image: '',
         plantationDate: '',
       }
 
-      gardenForm.plantPositions.push(gardenPlant)
+      gardenForm.plantPositions.push(plantPosition)
     }
 
-    return gardenPlant
+    return plantPosition
   }
 
   // Récupération de l'index de la plante à une position
@@ -236,44 +238,44 @@
     const plantTransfer = event.dataTransfer?.getData('plant')
 
     if (plantTransfer) {
-      const sourcePlant: PlantPosition = JSON.parse(plantTransfer)
+      const plantPosition: PlantPosition = JSON.parse(plantTransfer)
       const index = getIndexPlantAtPosition(row, column)
-      sourcePlant.row = row
-      sourcePlant.column = column
+      plantPosition.row = row
+      plantPosition.column = column
 
       // Ajout d'une nouvelle plante
       if (index === -1) {
-        gardenForm.plantPositions.push(sourcePlant)
+        gardenForm.plantPositions.push(plantPosition)
       }
       // Remplacement de la plante
       else {
-        gardenForm.plantPositions.splice(index, 1, sourcePlant)
+        gardenForm.plantPositions.splice(index, 1, plantPosition)
       }
     }
   }
 
   // Ajout d'une plante dans la jardin
   function setPlant() {
-    const plant: PlantPosition = {
+    const plantPosition: PlantPosition = {
       row: plotForm.row,
       column: plotForm.column,
-      id: plotForm.id,
+      plantId: plotForm.plantId,
       name: plotForm.name,
       image: plotForm.image,
       plantationDate: plotForm.plantationDate,
     }
 
-    const index = getIndexPlantAtPosition(plant.row, plant.column)
-    gardenForm.plantPositions.splice(index, 1, plant)
+    const index = getIndexPlantAtPosition(plantPosition.row, plantPosition.column)
+    gardenForm.plantPositions.splice(index, 1, plantPosition)
   }
 
   // Préparation du formulaire de choix de plante
-  function preparePlantForm(plant: PlantPosition) {
-    plotForm.row = plant.row
-    plotForm.column = plant.column
-    plotForm.id = plant.id
-    plotForm.name = plant.name
-    plotForm.image = plant.image
-    plotForm.plantationDate = plant.plantationDate
+  function preparePlantForm(plantPosition: PlantPosition) {
+    plotForm.row = plantPosition.row
+    plotForm.column = plantPosition.column
+    plotForm.plantId = plantPosition.plantId
+    plotForm.name = plantPosition.name
+    plotForm.image = plantPosition.image
+    plotForm.plantationDate = plantPosition.plantationDate
   }
 </script>

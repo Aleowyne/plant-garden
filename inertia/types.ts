@@ -26,7 +26,7 @@ export type GardenForm = {
 export type PlantPosition = {
   row: number
   column: number
-  id: number
+  plantId: number
   name: string
   image: string
   plantationDate: string
