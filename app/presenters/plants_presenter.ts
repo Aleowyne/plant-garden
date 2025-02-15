@@ -1,15 +1,19 @@
 import Plant from '#models/plant'
 import PlantService from '#services/plant_service'
 
+export type PlantsPresenterSerialized = ReturnType<PlantsPresenter['toJson']>
+
 export class PlantsPresenter {
-  toJson(plant: Plant) {
+  constructor(private readonly plant: Plant) {}
+
+  toJson() {
     return {
-      id: plant.id,
-      name: plant.name,
-      image: plant.image ?? '',
-      type: plant.type,
-      typeLabel: PlantService.types.find((option) => option.value === plant.type)?.label ?? '',
-      comment: plant.comment ?? '',
+      id: this.plant.id,
+      name: this.plant.name,
+      image: this.plant.image ?? '',
+      type: this.plant.type,
+      typeLabel: PlantService.types.find((option) => option.value === this.plant.type)?.label ?? '',
+      comment: this.plant.comment ?? '',
     }
   }
 }

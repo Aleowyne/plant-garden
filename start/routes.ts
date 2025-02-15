@@ -33,25 +33,13 @@ router
 
         router.post('/', [PlantController, 'store']).as('store')
 
-        router
-          .get('/:id', [PlantController, 'show'])
-          .where('id', router.matchers.number())
-          .as('show')
+        router.get('/:id', [PlantController, 'show']).where('id', router.matchers.number()).as('show')
 
-        router
-          .get('/:id/edit', [PlantController, 'edit'])
-          .where('id', router.matchers.number())
-          .as('edit')
+        router.get('/:id/edit', [PlantController, 'edit']).where('id', router.matchers.number()).as('edit')
 
-        router
-          .put('/:id', [PlantController, 'update'])
-          .where('id', router.matchers.number())
-          .as('update')
+        router.put('/:id', [PlantController, 'update']).where('id', router.matchers.number()).as('update')
 
-        router
-          .delete('/:id', [PlantController, 'destroy'])
-          .where('id', router.matchers.number())
-          .as('delete')
+        router.delete('/:id', [PlantController, 'destroy']).where('id', router.matchers.number()).as('delete')
       })
       .prefix('plants')
       .as('plants')

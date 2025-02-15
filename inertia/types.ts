@@ -8,16 +8,28 @@ export type PlantForm = {
   name: string
   image: string
   type: string
-  seedPotPeriod: Array<string>
-  seedSoilPeriod: Array<string>
-  plantationPeriod: Array<string>
-  maturePeriod: Array<string>
+  seedPotPeriod: string[]
+  seedSoilPeriod: string[]
+  plantationPeriod: string[]
+  maturePeriod: string[]
   comment: string
 }
 
 export type GardenForm = {
   name: string
   image: string
+  nbCol: number
+  nbRow: number
+  plantPositions: PlantPosition[]
+}
+
+export type PlantPosition = {
+  row: number
+  column: number
+  plantId: number
+  name: string
+  image: string
+  plantationDate: string
 }
 
 export type OptionForm = {

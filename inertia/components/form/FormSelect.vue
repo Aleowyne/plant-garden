@@ -13,27 +13,20 @@
         </SelectGroup>
       </SelectContent>
     </Select>
-    <Error :error="props.error" />
+    <Error class="mt-1" :error="props.error" />
   </div>
 </template>
 
 <script setup lang="ts">
   import { OptionForm } from '@/types'
-  import Error from '@/components/Error.vue'
+  import Error from '@/components/form/Error.vue'
   import { Label } from '@/components/ui/label'
-  import {
-    Select,
-    SelectTrigger,
-    SelectValue,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-  } from '@/components/ui/select'
+  import { Select, SelectTrigger, SelectValue, SelectContent, SelectGroup, SelectItem } from '@/components/ui/select'
 
   const props = defineProps<{
     name: string
     label: string
-    options: Array<OptionForm>
+    options: OptionForm[]
     error?: string
   }>()
 

@@ -28,10 +28,10 @@
 
   const props = defineProps<{
     title: string
-    options: Array<CheckboxForm>
+    options: CheckboxForm[]
   }>()
 
-  const model = defineModel<Array<string>>()
+  const model = defineModel<string[]>()
 
   function handleCheck(isChecked: boolean, value: string) {
     if (isChecked) {

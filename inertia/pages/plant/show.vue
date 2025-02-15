@@ -1,79 +1,65 @@
 <template>
-  <Layout>
-    <div class="flex flex-col flex-1 items-center mt-16">
-      <Card>
-        <CardHeader>
-          <CardTitle class="flex items-center justify-between">
-            <div class="absolute left-1/2 transform -translate-x-1/2">{{ props.plant.name }}</div>
-            <div class="ml-auto">
-              <Link :href="`/plants/${props.plant.id}/edit`" as="button">
-                <Pencil class="size-6 mx-1 text-primary" />
-              </Link>
-              <Link :href="`/plants/${props.plant.id}`" method="delete" as="button">
-                <Trash2 class="size-6 mx-1 text-destructive" />
-              </Link>
-            </div>
-          </CardTitle>
-          <CardDescription class="text-center">{{ props.plant.typeLabel }}</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div class="flex flex-col flex-1 items-center">
-            <div v-if="props.plant.image" class="w-80">
-              <img
-                class="max-w-full mb-4"
-                :src="props.plant.image"
-                :alt="`Plante ${props.plant.name}`"
-              />
-            </div>
+  <Head>
+    <title>Affichage d'une plante</title>
+  </Head>
+  <div class="flex flex-col flex-1 items-center mt-16">
+    <Card>
+      <CardHeader>
+        <CardTitle class="flex items-center justify-between">
+          <div class="absolute left-1/2 transform -translate-x-1/2">{{ props.plant.name }}</div>
+          <div class="ml-auto">
+            <Link :href="`/plants/${props.plant.id}/edit`" as="button">
+              <Pencil class="size-6 mx-1 text-primary" />
+            </Link>
+            <Link :href="`/plants/${props.plant.id}`" method="delete" as="button">
+              <Trash2 class="size-6 mx-1 text-destructive" />
+            </Link>
           </div>
-          <CheckboxMonth
-            v-model="form.seedPotPeriod"
-            title="Période pour semer en pots"
-            :options="getPeriodOptions('seedPot')"
-          />
-          <CheckboxMonth
-            v-model="form.seedSoilPeriod"
-            title="Période pour semer en terre"
-            :options="getPeriodOptions('seedSoil')"
-          />
-          <CheckboxMonth
-            v-model="form.plantationPeriod"
-            title="Période pour plantation"
-            :options="getPeriodOptions('plantation')"
-          />
-          <CheckboxMonth
-            v-model="form.maturePeriod"
-            title="Période de maturité"
-            :options="getPeriodOptions('mature')"
-          />
-          <FormTextarea
-            v-model="form.comment"
-            label="Commentaires"
-            name="comment"
-            :disabled="true"
-          />
-        </CardContent>
-      </Card>
-    </div>
-  </Layout>
+        </CardTitle>
+        <CardDescription class="text-center">{{ plant.typeLabel }}</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div class="flex flex-col flex-1 items-center">
+          <div v-if="props.plant.image" class="w-80">
+            <img class="max-w-full mb-4" :src="props.plant.image" :alt="`Plante ${props.plant.name}`" />
+          </div>
+        </div>
+        <CheckboxMonth
+          v-model="form.seedPotPeriod"
+          title="Période pour semer en pots"
+          :options="getPeriodOptions('seedPot')"
+        />
+        <CheckboxMonth
+          v-model="form.seedSoilPeriod"
+          title="Période pour semer en terre"
+          :options="getPeriodOptions('seedSoil')"
+        />
+        <CheckboxMonth
+          v-model="form.plantationPeriod"
+          title="Période pour plantation"
+          :options="getPeriodOptions('plantation')"
+        />
+        <CheckboxMonth v-model="form.maturePeriod" title="Période de maturité" :options="getPeriodOptions('mature')" />
+        <FormTextarea v-model="form.comment" label="Commentaires" name="comment" :disabled="true" />
+      </CardContent>
+    </Card>
+  </div>
 </template>
 
 <script setup lang="ts">
-  import { InferPageProps } from '@adonisjs/inertia/types'
-  import { useForm, Link } from '@inertiajs/vue3'
+  import { useForm, Head, Link } from '@inertiajs/vue3'
   import { CheckboxForm, PlantForm } from '@/types'
-  import Layout from '@/layouts/AppLayout.vue'
   import CheckboxMonth from '@/components/CheckboxMonth.vue'
-  import FormTextarea from '@/components/FormTextarea.vue'
+  import FormTextarea from '@/components/form/FormTextarea.vue'
   import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
-  import type PlantsController from '#controllers/plants_controller'
   import { Pencil, Trash2 } from 'lucide-vue-next'
+  import PlantService from '#services/plant_service'
+  import { PlantsPresenterSerialized } from '#presenters/plants_presenter'
+  import { PeriodsPresenterSerialized } from '#presenters/periods_presenter'
 
   const props = defineProps<{
-    plant: InferPageProps<PlantsController, 'show'>['plant']
-    periods: InferPageProps<PlantsController, 'show'>['periods']
-    typeOptions: InferPageProps<PlantsController, 'show'>['typeOptions']
-    periodOptions: InferPageProps<PlantsController, 'show'>['periodOptions']
+    plant: PlantsPresenterSerialized
+    periods: PeriodsPresenterSerialized
   }>()
 
   const form = useForm<PlantForm>({
@@ -87,10 +73,8 @@
     comment: props.plant.comment,
   })
 
-  function getPeriodOptions(name: string): Array<CheckboxForm> {
-    const periodOptions = props.periodOptions.find((option) => option.type === name)?.periods ?? []
-
-    return periodOptions.map((periodOption) => {
+  function getPeriodOptions(name: string): CheckboxForm[] {
+    return PlantService.getPeriodOptions(name).map((periodOption) => {
       let checkboxForm: CheckboxForm = periodOption
       checkboxForm.disabled = true
       return checkboxForm

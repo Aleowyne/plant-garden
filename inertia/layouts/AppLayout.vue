@@ -10,21 +10,47 @@
                 class="hover:text-muted-foreground hover:bg-background focus:bg-background"
                 :class="navigationMenuTriggerStyle()"
               >
-                Plant Garden
+                Projet
               </Link>
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
         <NavigationMenu class="mr-7">
           <NavigationMenuList>
-            <NavigationMenuItem v-for="link in links" :key="link.name">
+            <NavigationMenuItem>
               <Link
-                v-if="page.props.isAuth === link.auth"
-                :href="link.url"
+                href="/gardens"
                 class="hover:text-muted-foreground hover:bg-background focus:bg-background"
                 :class="navigationMenuTriggerStyle()"
               >
-                {{ link.name }}
+                Mes jardins
+              </Link>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <Link
+                href="/calendars"
+                class="hover:text-muted-foreground hover:bg-background focus:bg-background"
+                :class="navigationMenuTriggerStyle()"
+              >
+                Calendrier
+              </Link>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <Link
+                href="/plants"
+                class="hover:text-muted-foreground hover:bg-background focus:bg-background"
+                :class="navigationMenuTriggerStyle()"
+              >
+                Plantes
+              </Link>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <Link
+                href="/logout"
+                class="hover:text-muted-foreground hover:bg-background focus:bg-background"
+                :class="navigationMenuTriggerStyle()"
+              >
+                Déconnexion
               </Link>
             </NavigationMenuItem>
           </NavigationMenuList>
@@ -38,7 +64,7 @@
 </template>
 
 <script setup lang="ts">
-  import { watch, ref } from 'vue'
+  import { watch } from 'vue'
   import { usePage, Link } from '@inertiajs/vue3'
   import Footer from '@/components/Footer.vue'
   import {
@@ -51,15 +77,6 @@
   import { SharedProps } from '@adonisjs/inertia/types'
 
   const page = usePage<SharedProps>()
-
-  const links = ref([
-    { name: 'Mes jardins', url: '/gardens', auth: true },
-    { name: 'Calendrier', url: '/calendars', auth: true },
-    { name: 'Plantes', url: '/plants', auth: true },
-    { name: 'Déconnexion', url: '/logout', auth: true },
-    { name: 'Connexion', url: '/login', auth: false },
-    { name: 'Inscription', url: '/signin', auth: false },
-  ])
 
   const { toast } = useToast()
 

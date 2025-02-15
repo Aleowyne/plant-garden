@@ -1,7 +1,14 @@
+import { inject } from '@adonisjs/core'
 import type { HttpContext } from '@adonisjs/core/http'
+import db from '@adonisjs/lucid/services/db'
+import { DateTime } from 'luxon'
 import Garden from '#models/garden'
+import Plant from '#models/plant'
+import Plot from '#models/plot'
 import { createGardenValidator } from '#validators/garden'
+import { PlantsPresenter } from '#presenters/plants_presenter'
 
+@inject()
 export default class GardensController {
   // /**
   //  * Affichage d'une liste de jardins
@@ -12,8 +19,13 @@ export default class GardensController {
    * Affichage d'un formulaire pour la création d'un jardin
    */
   async create({ inertia }: HttpContext) {
-    return inertia.render('garden/create')
+    const plants = await Plant.query().orderBy('name')
+
+    return inertia.render('garden/create', {
+      plants: inertia.optional(() => plants.map((plant) => new PlantsPresenter(plant).toJson())),
+    })
   }
+
   /**
    * Création d'un jardin
    */
@@ -21,15 +33,41 @@ export default class GardensController {
     const payload = await request.validateUsing(createGardenValidator)
     const user = auth.getUserOrFail()
 
-    const garden = new Garden()
-    garden.name = payload.name
-    garden.image = payload.image
+    await db.transaction(async (trx) => {
+      const garden = await Garden.create(
+        {
+          name: payload.name,
+          image: payload.image,
+          nbCol: payload.nbCol,
+          nbRow: payload.nbRow,
+        },
+        { client: trx }
+      )
 
-    await garden.related('user').associate(user)
+      const plots = payload.plantPositions
+        .filter((position) => position.plantId)
+        .map((position) => {
+          const plot = new Plot()
+
+          plot.gardenId = garden.id
+          plot.row = position.row
+          plot.column = position.column
+          plot.plantId = position.plantId
+
+          if (position.plantationDate) {
+            plot.plantedAt = DateTime.fromISO(position.plantationDate)
+          }
+
+          return plot
+        })
+
+      await garden.related('user').associate(user)
+      await garden.related('plots').createMany(plots)
+    })
 
     session.flash('message', { type: 'success', description: 'Jardin créé' })
 
-    return response.redirect().toRoute('gardens.create')
+    return response.redirect().back()
   }
 
   // /**
