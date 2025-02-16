@@ -52,12 +52,9 @@ router
 
         router.post('/', [GardenController, 'store']).as('store')
 
-        /* router
-          .get('/:id', [GardenController, 'show'])
-          .where('id', router.matchers.number())
-          .as('show')
+        router.get('/:id', [GardenController, 'show']).where('id', router.matchers.number()).as('show')
 
-        router
+        /* router
           .get('/:id/edit', [GardenController, 'edit'])
           .where('id', router.matchers.number())
           .as('edit')

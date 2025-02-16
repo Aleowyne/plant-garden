@@ -11,8 +11,8 @@ export const createGardenValidator = vine.compile(
         row: vine.number().min(0).max(20),
         column: vine.number().min(0).max(20),
         plantId: vine.number(),
-        name: vine.string().alphaNumeric({ allowSpaces: true }).minLength(3).maxLength(100).nullable(),
-        image: vine.string().url().nullable(),
+        plantName: vine.string().alphaNumeric({ allowSpaces: true }).minLength(3).maxLength(100).nullable(),
+        plantImage: vine.string().url().nullable(),
         plantationDate: vine.string().nullable(),
         removeDate: vine.string().optional(),
       })

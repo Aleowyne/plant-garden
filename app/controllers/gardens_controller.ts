@@ -6,6 +6,7 @@ import Garden from '#models/garden'
 import Plant from '#models/plant'
 import Plot from '#models/plot'
 import { createGardenValidator } from '#validators/garden'
+import { GardensPresenter } from '#presenters/gardens_presenter'
 import { PlantsPresenter } from '#presenters/plants_presenter'
 
 @inject()
@@ -70,10 +71,22 @@ export default class GardensController {
     return response.redirect().back()
   }
 
-  // /**
-  //  * Affichage d'un jardin
-  //  */
-  // async show({ params }: HttpContext) {}
+  /**
+   * Affichage d'un jardin
+   */
+  async show({ inertia, params }: HttpContext) {
+    const garden = await Garden.query()
+      .where('id', params.id)
+      .preload('plots')
+      .preload('plots', (plotsQuery) => {
+        plotsQuery.preload('plant')
+      })
+      .firstOrFail()
+
+    return inertia.render('garden/show', {
+      garden: new GardensPresenter(garden).toJson(),
+    })
+  }
 
   // /**
   //  * Affichage d'un formulaire pour la modification d'un jardin

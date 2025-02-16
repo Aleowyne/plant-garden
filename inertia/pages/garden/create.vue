@@ -59,8 +59,8 @@
               <DialogTrigger @click="preparePlantForm(plantPosition)">
                 <img
                   v-if="plantPosition.plantId"
-                  :src="plantPosition.image"
-                  :alt="plantPosition.name"
+                  :src="plantPosition.plantImage"
+                  :alt="plantPosition.plantName"
                   draggable="true"
                   @dragstart="dragStartHandler($event, plantPosition)"
                 />
@@ -107,8 +107,8 @@
                                         plotForm.row = row - 1
                                         plotForm.column = col - 1
                                         plotForm.plantId = plant.id
-                                        plotForm.name = plant.name
-                                        plotForm.image = plant.image
+                                        plotForm.plantName = plant.name
+                                        plotForm.plantImage = plant.image
                                         openPopover = false
                                       }
                                     "
@@ -192,8 +192,8 @@
     row: 0,
     column: 0,
     plantId: 0,
-    name: '',
-    image: '',
+    plantName: '',
+    plantImage: '',
     plantationDate: '',
   })
 
@@ -208,8 +208,8 @@
         row: row,
         column: column,
         plantId: 0,
-        name: '',
-        image: '',
+        plantName: '',
+        plantImage: '',
         plantationDate: '',
       }
 
@@ -260,8 +260,8 @@
       row: plotForm.row,
       column: plotForm.column,
       plantId: plotForm.plantId,
-      name: plotForm.name,
-      image: plotForm.image,
+      plantName: plotForm.plantName,
+      plantImage: plotForm.plantImage,
       plantationDate: plotForm.plantationDate,
     }
 
@@ -274,8 +274,8 @@
     plotForm.row = plantPosition.row
     plotForm.column = plantPosition.column
     plotForm.plantId = plantPosition.plantId
-    plotForm.name = plantPosition.name
-    plotForm.image = plantPosition.image
+    plotForm.plantName = plantPosition.plantName
+    plotForm.plantImage = plantPosition.plantImage
     plotForm.plantationDate = plantPosition.plantationDate
   }
 </script>
