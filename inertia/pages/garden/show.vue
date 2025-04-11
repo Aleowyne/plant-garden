@@ -5,7 +5,17 @@
   <div class="flex flex-col flex-1 items-center mt-16">
     <Card>
       <CardHeader>
-        <CardTitle class="text-center">{{ props.garden.name }}</CardTitle>
+        <CardTitle class="flex items-center justify-between">
+          <div class="absolute left-1/2 transform -translate-x-1/2">{{ props.garden.name }}</div>
+          <div class="ml-auto">
+            <Link :href="`/gardens/${props.garden.id}/edit`" as="button">
+              <Pencil class="size-6 mx-1 text-primary" />
+            </Link>
+            <Link :href="`/gardens/${props.garden.id}`" method="delete" as="button">
+              <Trash2 class="size-6 mx-1 text-destructive" />
+            </Link>
+          </div>
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <div class="flex flex-col flex-1 items-center">
@@ -36,8 +46,9 @@
 </template>
 
 <script setup lang="ts">
-  import { Head } from '@inertiajs/vue3'
+  import { Head, Link } from '@inertiajs/vue3'
   import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+  import { Pencil, Trash2 } from 'lucide-vue-next'
   import { GardensPresenterSerialized } from '#presenters/gardens_presenter'
   import { PlotsPresenterSerialized } from '#presenters/plots_presenter'
 

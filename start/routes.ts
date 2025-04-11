@@ -54,20 +54,11 @@ router
 
         router.get('/:id', [GardenController, 'show']).where('id', router.matchers.number()).as('show')
 
-        /* router
-          .get('/:id/edit', [GardenController, 'edit'])
-          .where('id', router.matchers.number())
-          .as('edit')
+        router.get('/:id/edit', [GardenController, 'edit']).where('id', router.matchers.number()).as('edit')
 
-        router
-          .put('/:id', [GardenController, 'update'])
-          .where('id', router.matchers.number())
-          .as('update')
+        router.put('/:id', [GardenController, 'update']).where('id', router.matchers.number()).as('update')
 
-        router
-          .delete('/:id', [GardenController, 'destroy'])
-          .where('id', router.matchers.number())
-          .as('delete') */
+        router.delete('/:id', [GardenController, 'destroy']).where('id', router.matchers.number()).as('delete')
       })
       .prefix('gardens')
       .as('gardens')
