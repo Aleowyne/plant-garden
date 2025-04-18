@@ -13,7 +13,7 @@ export class GardensPresenter {
       image: this.garden.image ?? '',
       nbCol: this.garden.nbCol,
       nbRow: this.garden.nbRow,
-      plots: this.garden.plots.map((plot) => new PlotsPresenter(plot).toJson()),
+      plots: this.garden?.plots && this.garden?.plots.map((plot) => new PlotsPresenter(plot).toJson()),
     }
   }
 }

@@ -46,7 +46,7 @@ router
 
     router
       .group(() => {
-        // router.get('/', [GardenController, 'index']).as('index')
+        router.get('/', [GardenController, 'index']).as('index')
 
         router.get('/create', [GardenController, 'create']).as('create')
 

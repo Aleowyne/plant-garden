@@ -1,16 +1,21 @@
 import Garden from '#models/garden'
 
 export class GardenRepository {
-  async findByIdWithPlots(id: number) {
+  async findByIdAndUserWithPlots(id: number, userId: number) {
     return await Garden.query()
       .where('id', id)
+      .where('user_id', userId)
       .preload('plots', (plotsQuery) => {
         plotsQuery.preload('plant')
       })
       .firstOrFail()
   }
 
-  async findById(id: number) {
-    return await Garden.findOrFail(id)
+  async findByIdAndUser(id: number, userId: number) {
+    return await Garden.query().where('id', id).where('user_id', userId).firstOrFail()
+  }
+
+  async findAllByUser(userId: number) {
+    return await Garden.query().where('user_id', userId).orderBy('name')
   }
 }

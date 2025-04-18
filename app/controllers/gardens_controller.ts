@@ -16,10 +16,17 @@ export default class GardensController {
     private readonly gardenRepository: GardenRepository,
     private readonly plantRepository: PlantRepository
   ) {}
-  // /**
-  //  * Affichage d'une liste de jardins
-  //  */
-  // async index({}: HttpContext) {}
+  /**
+   * Affichage d'une liste de jardins
+   */
+  async index({ inertia, auth }: HttpContext) {
+    const user = auth.getUserOrFail()
+    const gardens = await this.gardenRepository.findAllByUser(user.id)
+
+    return inertia.render('garden/index', {
+      gardens: gardens.map((garden) => new GardensPresenter(garden).toJson()),
+    })
+  }
 
   /**
    * Affichage d'un formulaire pour la création d'un jardin
@@ -80,24 +87,24 @@ export default class GardensController {
   /**
    * Affichage d'un jardin
    */
-  async show({ inertia, params }: HttpContext) {
+  async show({ inertia, params, auth }: HttpContext) {
+    const user = auth.getUserOrFail()
+    const garden = await this.gardenRepository.findByIdAndUserWithPlots(params.id, user.id)
+
     return inertia.render('garden/show', {
-      garden: async () => {
-        const garden = await this.gardenRepository.findByIdWithPlots(params.id)
-        return new GardensPresenter(garden).toJson()
-      },
+      garden: new GardensPresenter(garden).toJson(),
     })
   }
 
   /**
    * Affichage d'un formulaire pour la modification d'un jardin
    */
-  async edit({ inertia, params }: HttpContext) {
+  async edit({ inertia, params, auth }: HttpContext) {
+    const user = auth.getUserOrFail()
+    const garden = await this.gardenRepository.findByIdAndUserWithPlots(params.id, user.id)
+
     return inertia.render('garden/edit', {
-      garden: async () => {
-        const garden = await this.gardenRepository.findByIdWithPlots(params.id)
-        return new GardensPresenter(garden).toJson()
-      },
+      garden: new GardensPresenter(garden).toJson(),
       plants: inertia.optional(async () => {
         const plants = await this.plantRepository.findAll()
         return plants.map((plant) => new PlantsPresenter(plant).toJson())
@@ -161,8 +168,10 @@ export default class GardensController {
   /**
    * Suppression d'un jardin
    */
-  async destroy({ response, session, params }: HttpContext) {
-    const garden = await this.gardenRepository.findById(params.id)
+  async destroy({ response, session, params, auth }: HttpContext) {
+    const user = auth.getUserOrFail()
+    const garden = await this.gardenRepository.findByIdAndUser(params.id, user.id)
+
     await garden.delete()
 
     session.flash('message', { type: 'success', description: 'Jardin supprimé' })
