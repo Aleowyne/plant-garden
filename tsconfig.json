@@ -20,7 +20,8 @@
       "#tests/*": ["./tests/*.js"],
       "#start/*": ["./start/*.js"],
       "#config/*": ["./config/*.js"],
-      "#presenters/*": ["./app/presenters/*.js"]
+      "#presenters/*": ["./app/presenters/*.js"],
+      "#repositories/*": ["./app/repositories/*.js"]
     }
   },
   "exclude": ["./inertia/**/*", "node_modules", "build"]

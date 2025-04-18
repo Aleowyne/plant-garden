@@ -24,12 +24,14 @@ export type GardenForm = {
 }
 
 export type PlantPosition = {
+  id?: number
   row: number
   column: number
   plantId: number
-  name: string
-  image: string
+  plantName: string
+  plantImage: string
   plantationDate: string
+  removeDate?: string
 }
 
 export type OptionForm = {

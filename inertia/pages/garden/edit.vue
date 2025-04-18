@@ -1,12 +1,12 @@
 <template>
   <Head>
-    <title>Création d'un jardin</title>
+    <title>Mise à jour d'un jardin</title>
   </Head>
   <div class="flex flex-1 mt-16 mx-9">
-    <form class="flex-none" @submit.prevent="gardenForm.post('/gardens', { onSuccess: () => gardenForm.reset() })">
+    <form class="flex-none" @submit.prevent="gardenForm.put(`/gardens/${props.garden.id}`)">
       <Card>
         <CardHeader>
-          <CardTitle class="text-center">Ajouter un jardin</CardTitle>
+          <CardTitle class="text-center">Modifier un jardin</CardTitle>
         </CardHeader>
         <CardContent>
           <FormInput v-model="gardenForm.name" type="text" name="name" label="Nom" :error="gardenForm.errors.name" />
@@ -37,7 +37,7 @@
           />
         </CardContent>
         <CardFooter class="flex justify-center">
-          <Button>Créer le jardin</Button>
+          <Button>Modifier le jardin</Button>
         </CardFooter>
       </Card>
     </form>
@@ -174,18 +174,20 @@
   import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
   import { Button } from '@/components/ui/button'
   import { BadgePlus, ChevronsUpDown, Check } from 'lucide-vue-next'
+  import { GardensPresenterSerialized } from '#presenters/gardens_presenter'
   import { PlantsPresenterSerialized } from '#presenters/plants_presenter'
 
   const props = defineProps<{
+    garden: GardensPresenterSerialized
     plants?: PlantsPresenterSerialized[]
   }>()
 
   const gardenForm = useForm<GardenForm>({
-    name: '',
-    image: '',
-    nbCol: 0,
-    nbRow: 0,
-    plantPositions: [],
+    name: props.garden.name,
+    image: props.garden.image,
+    nbCol: props.garden.nbCol,
+    nbRow: props.garden.nbRow,
+    plantPositions: props.garden.plots,
   })
 
   const plotForm = useForm<PlantPosition>({
