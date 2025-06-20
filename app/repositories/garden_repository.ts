@@ -18,4 +18,12 @@ export class GardenRepository {
   async findAllByUser(userId: number) {
     return await Garden.query().where('user_id', userId).orderBy('name')
   }
+
+  async findFirstByPlant(plantId: number) {
+    return await Garden.query()
+      .whereHas('plots', (plotsQuery) => {
+        plotsQuery.where('plant_id', plantId)
+      })
+      .first()
+  }
 }

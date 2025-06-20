@@ -6,11 +6,15 @@ import Period from '#models/period'
 import PlantService from '#services/plant_service'
 import { createPlantValidator, filterPlantValidator } from '#validators/plant'
 import { PlantRepository } from '#repositories/plant_repository'
+import { GardenRepository } from '#repositories/garden_repository'
 import { PlantsPresenter } from '#presenters/plants_presenter'
 
 @inject()
 export default class PlantsController {
-  constructor(private readonly plantRepository: PlantRepository) {}
+  constructor(
+    private readonly plantRepository: PlantRepository,
+    private readonly gardenRepository: GardenRepository
+  ) {}
   /**
    * Affichage d'une liste de plante
    */
@@ -150,6 +154,16 @@ export default class PlantsController {
    */
   async destroy({ response, session, params }: HttpContext) {
     const plant = await this.plantRepository.findById(params.id)
+    const garden = await this.gardenRepository.findFirstByPlant(params.id)
+
+    if (garden) {
+      session.flash('message', {
+        type: 'error',
+        description: "Cette plante ne peut pas être supprimée, car au moins un jardin l'héberge.",
+      })
+      return response.redirect().back()
+    }
+
     await plant.delete()
 
     session.flash('message', { type: 'success', description: 'Plante supprimée' })
