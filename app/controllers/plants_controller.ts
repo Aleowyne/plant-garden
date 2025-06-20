@@ -1,13 +1,16 @@
+import { inject } from '@adonisjs/core'
 import type { HttpContext } from '@adonisjs/core/http'
 import db from '@adonisjs/lucid/services/db'
 import Plant from '#models/plant'
 import Period from '#models/period'
 import PlantService from '#services/plant_service'
 import { createPlantValidator, filterPlantValidator } from '#validators/plant'
+import { PlantRepository } from '#repositories/plant_repository'
 import { PlantsPresenter } from '#presenters/plants_presenter'
-import { PeriodsPresenter } from '#presenters/periods_presenter'
 
+@inject()
 export default class PlantsController {
+  constructor(private readonly plantRepository: PlantRepository) {}
   /**
    * Affichage d'une liste de plante
    */
@@ -25,14 +28,16 @@ export default class PlantsController {
   }
 
   /**
-   * Affichage d'un formulaire pour la création d'une plante
+   * Affichage d'un formulaire pour l'ajout d'une plante
    */
   async create({ inertia }: HttpContext) {
-    return inertia.render('plant/create')
+    return inertia.render('plant/create_edit', {
+      plant: new PlantsPresenter(new Plant()).toJson(),
+    })
   }
 
   /**
-   * Création d'une plante
+   * Ajout d'une plante
    */
   async store({ request, response, session }: HttpContext) {
     const payload = await request.validateUsing(createPlantValidator)
@@ -71,7 +76,7 @@ export default class PlantsController {
       await plant.related('periods').createMany(periods)
     })
 
-    session.flash('message', { type: 'success', description: 'Plante créée' })
+    session.flash('message', { type: 'success', description: 'Plante ajoutée' })
 
     return response.redirect().back()
   }
@@ -80,12 +85,10 @@ export default class PlantsController {
    * Affichage d'une plante
    */
   async show({ inertia, params }: HttpContext) {
-    const plant = await Plant.findOrFail(params.id)
-    const periods = await plant.related('periods').query()
+    const plant = await this.plantRepository.findWithPeriodsById(params.id)
 
     return inertia.render('plant/show', {
       plant: new PlantsPresenter(plant).toJson(),
-      periods: new PeriodsPresenter(periods).toJson(),
     })
   }
 
@@ -93,12 +96,10 @@ export default class PlantsController {
    * Affichage d'un formulaire pour la modification d'une plante
    */
   async edit({ inertia, params }: HttpContext) {
-    const plant = await Plant.findOrFail(params.id)
-    const periods = await plant.related('periods').query()
+    const plant = await this.plantRepository.findWithPeriodsById(params.id)
 
-    return inertia.render('plant/edit', {
+    return inertia.render('plant/create_edit', {
       plant: new PlantsPresenter(plant).toJson(),
-      periods: new PeriodsPresenter(periods).toJson(),
     })
   }
 
@@ -148,7 +149,7 @@ export default class PlantsController {
    * Suppression d'une plante
    */
   async destroy({ response, session, params }: HttpContext) {
-    const plant = await Plant.findOrFail(params.id)
+    const plant = await this.plantRepository.findById(params.id)
     await plant.delete()
 
     session.flash('message', { type: 'success', description: 'Plante supprimée' })

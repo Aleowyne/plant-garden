@@ -1,7 +1,7 @@
 import Garden from '#models/garden'
 
 export class GardenRepository {
-  async findByIdAndUserWithPlots(id: number, userId: number) {
+  async findWithPlotsByIdAndUser(id: number, userId: number) {
     return await Garden.query()
       .where('id', id)
       .where('user_id', userId)

@@ -1,13 +1,20 @@
 <template>
   <Head>
-    <title>Mise à jour d'une plante</title>
+    <title>{{ props.plant.id ? 'Mise à jour' : 'Ajout' }} d'une plante</title>
   </Head>
-  <form class="flex flex-col flex-1 items-center mt-16" @submit.prevent="form.put(`/plants/${props.plant.id}`)">
+  <form
+    class="flex flex-col flex-1 items-center mt-16"
+    @submit.prevent="
+      props.plant.id ? form.put(`/plants/${props.plant.id}`) : form.post('/plants', { onSuccess: () => form.reset() })
+    "
+  >
     <Card>
       <CardHeader>
         <CardTitle class="flex items-center justify-between">
-          <div class="absolute left-1/2 transform -translate-x-1/2">Modifier une plante</div>
-          <div class="ml-auto">
+          <div class="absolute left-1/2 transform -translate-x-1/2">
+            {{ props.plant.id ? 'Modifier' : 'Ajouter' }} une plante
+          </div>
+          <div v-if="props.plant.id" class="ml-auto">
             <Link :href="`/plants/${props.plant.id}`" as="button">
               <Eye class="size-6 mx-1 text-primary" />
             </Link>
@@ -43,7 +50,7 @@
         <FormTextarea v-model="form.comment" label="Commentaires" name="comment" :error="form.errors.comment" />
       </CardContent>
       <CardFooter class="flex justify-center">
-        <Button>Modifier la plante</Button>
+        <Button>{{ props.plant.id ? 'Modifier' : 'Ajouter' }} la plante</Button>
       </CardFooter>
     </Card>
   </form>
@@ -61,21 +68,19 @@
   import { Eye } from 'lucide-vue-next'
   import PlantService from '#services/plant_service'
   import { PlantsPresenterSerialized } from '#presenters/plants_presenter'
-  import { PeriodsPresenterSerialized } from '#presenters/periods_presenter'
 
   const props = defineProps<{
     plant: PlantsPresenterSerialized
-    periods: PeriodsPresenterSerialized
   }>()
 
   const form = useForm<PlantForm>({
     name: props.plant.name,
     image: props.plant.image,
     type: props.plant.type,
-    seedPotPeriod: props.periods.seedPotPeriod,
-    seedSoilPeriod: props.periods.seedSoilPeriod,
-    plantationPeriod: props.periods.plantationPeriod,
-    maturePeriod: props.periods.maturePeriod,
+    seedPotPeriod: props.plant.periods.seedPotPeriod,
+    seedSoilPeriod: props.plant.periods.seedSoilPeriod,
+    plantationPeriod: props.plant.periods.plantationPeriod,
+    maturePeriod: props.plant.periods.maturePeriod,
     comment: props.plant.comment,
   })
 

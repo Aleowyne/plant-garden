@@ -32,7 +32,8 @@ export default class GardensController {
    * Affichage d'un formulaire pour la création d'un jardin
    */
   async create({ inertia }: HttpContext) {
-    return inertia.render('garden/create', {
+    return inertia.render('garden/create_edit', {
+      garden: new GardensPresenter(new Garden()).toJson(),
       plants: inertia.optional(async () => {
         const plants = await this.plantRepository.findAll()
         return plants.map((plant) => new PlantsPresenter(plant).toJson())
@@ -89,7 +90,7 @@ export default class GardensController {
    */
   async show({ inertia, params, auth }: HttpContext) {
     const user = auth.getUserOrFail()
-    const garden = await this.gardenRepository.findByIdAndUserWithPlots(params.id, user.id)
+    const garden = await this.gardenRepository.findWithPlotsByIdAndUser(params.id, user.id)
 
     return inertia.render('garden/show', {
       garden: new GardensPresenter(garden).toJson(),
@@ -101,9 +102,9 @@ export default class GardensController {
    */
   async edit({ inertia, params, auth }: HttpContext) {
     const user = auth.getUserOrFail()
-    const garden = await this.gardenRepository.findByIdAndUserWithPlots(params.id, user.id)
+    const garden = await this.gardenRepository.findWithPlotsByIdAndUser(params.id, user.id)
 
-    return inertia.render('garden/edit', {
+    return inertia.render('garden/create_edit', {
       garden: new GardensPresenter(garden).toJson(),
       plants: inertia.optional(async () => {
         const plants = await this.plantRepository.findAll()

@@ -55,21 +55,19 @@
   import { Pencil, Trash2 } from 'lucide-vue-next'
   import PlantService from '#services/plant_service'
   import { PlantsPresenterSerialized } from '#presenters/plants_presenter'
-  import { PeriodsPresenterSerialized } from '#presenters/periods_presenter'
 
   const props = defineProps<{
     plant: PlantsPresenterSerialized
-    periods: PeriodsPresenterSerialized
   }>()
 
   const form = useForm<PlantForm>({
     name: props.plant.name,
     image: props.plant.image,
     type: props.plant.type,
-    seedPotPeriod: props.periods.seedPotPeriod,
-    seedSoilPeriod: props.periods.seedSoilPeriod,
-    plantationPeriod: props.periods.plantationPeriod,
-    maturePeriod: props.periods.maturePeriod,
+    seedPotPeriod: props.plant.periods.seedPotPeriod,
+    seedSoilPeriod: props.plant.periods.seedSoilPeriod,
+    plantationPeriod: props.plant.periods.plantationPeriod,
+    maturePeriod: props.plant.periods.maturePeriod,
     comment: props.plant.comment,
   })
 

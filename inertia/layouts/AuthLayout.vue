@@ -10,7 +10,7 @@
                 class="hover:text-muted-foreground hover:bg-background focus:bg-background"
                 :class="navigationMenuTriggerStyle()"
               >
-                Projet
+                Plant Garden
               </Link>
             </NavigationMenuItem>
           </NavigationMenuList>

@@ -8,15 +8,15 @@ export class PeriodsPresenter {
 
   toJson() {
     return {
-      seedPotPeriod: getPeriodsOfType(this.periods, 'seedPot'),
-      seedSoilPeriod: getPeriodsOfType(this.periods, 'seedSoil'),
-      plantationPeriod: getPeriodsOfType(this.periods, 'plantation'),
-      maturePeriod: getPeriodsOfType(this.periods, 'mature'),
+      seedPotPeriod: getPeriodsOfType('seedPot', this.periods),
+      seedSoilPeriod: getPeriodsOfType('seedSoil', this.periods),
+      plantationPeriod: getPeriodsOfType('plantation', this.periods),
+      maturePeriod: getPeriodsOfType('mature', this.periods),
     }
   }
 }
 
-function getPeriodsOfType(periods: Period[], type: string): string[] {
+function getPeriodsOfType(type: string, periods: Period[] = []): string[] {
   const periodsOfType = periods.find((period) => period.type === type)
 
   if (periodsOfType) {
