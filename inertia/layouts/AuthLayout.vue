@@ -41,7 +41,7 @@
     </div>
     <slot />
     <Footer />
-    <Toaster />
+    <Toaster rich-colors />
   </div>
 </template>
 
@@ -55,21 +55,26 @@
     NavigationMenuItem,
     navigationMenuTriggerStyle,
   } from '@/components/ui/navigation-menu'
-  import { Toaster, useToast } from '@/components/ui/toast'
+  import { Toaster } from '@/components/ui/sonner'
+  import { toast } from 'vue-sonner'
   import { SharedProps } from '@adonisjs/inertia/types'
+  import 'vue-sonner/style.css'
 
   const page = usePage<SharedProps>()
-
-  const { toast } = useToast()
 
   watch(
     () => page.props.message,
     (newValue) => {
       if (newValue.type) {
-        toast({
-          description: newValue.description,
-          variant: newValue.type === 'error' ? 'destructive' : 'default',
-        })
+        if (newValue.type === 'success') {
+          toast.success(newValue.description)
+        } else if (newValue.type === 'info') {
+          toast.info(newValue.description)
+        } else if (newValue.type === 'warning') {
+          toast.warning(newValue.description)
+        } else if (newValue.type === 'error') {
+          toast.error(newValue.description)
+        }
       }
     }
   )

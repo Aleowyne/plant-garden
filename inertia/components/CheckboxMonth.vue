@@ -10,11 +10,10 @@
         </Label>
         <Checkbox
           :id="option.id"
-          :value="option.value"
+          :model-value="model?.includes(option.value)"
           :disabled="option.disabled"
-          :checked="model?.includes(option.value)"
-          class="bg-background size-12"
-          @update:checked="(isChecked) => handleCheck(isChecked, option.value)"
+          class="bg-background border-primary size-12"
+          @update:model-value="(isChecked) => handleCheck(isChecked, option.value)"
         />
       </div>
     </div>
@@ -33,7 +32,7 @@
 
   const model = defineModel<string[]>()
 
-  function handleCheck(isChecked: boolean, value: string) {
+  function handleCheck(isChecked: boolean | string, value: string) {
     if (isChecked) {
       model.value?.push(value)
     } else {

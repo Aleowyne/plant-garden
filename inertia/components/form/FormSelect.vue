@@ -1,8 +1,8 @@
 <template>
-  <div class="form-group">
+  <div class="grid w-full items-center gap-1.5">
     <Label :for="props.name">{{ props.label }}</Label>
     <Select :id="props.name" v-model="model">
-      <SelectTrigger>
+      <SelectTrigger class="w-full bg-background">
         <SelectValue />
       </SelectTrigger>
       <SelectContent>

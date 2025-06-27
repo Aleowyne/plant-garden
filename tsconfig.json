@@ -21,7 +21,8 @@
       "#start/*": ["./start/*.js"],
       "#config/*": ["./config/*.js"],
       "#presenters/*": ["./app/presenters/*.js"],
-      "#repositories/*": ["./app/repositories/*.js"]
+      "#repositories/*": ["./app/repositories/*.js"],
+      "@/*": ["./inertia/*"]
     }
   },
   "exclude": ["./inertia/**/*", "node_modules", "build"]

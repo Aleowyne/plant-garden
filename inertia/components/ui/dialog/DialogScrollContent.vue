@@ -1,5 +1,6 @@
 <script setup lang="ts">
-  import { cn } from '@/lib/utils'
+  import type { HTMLAttributes } from 'vue'
+  import { reactiveOmit } from '@vueuse/core'
   import { X } from 'lucide-vue-next'
   import {
     DialogClose,
@@ -9,17 +10,13 @@
     DialogOverlay,
     DialogPortal,
     useForwardPropsEmits,
-  } from 'radix-vue'
-  import { computed, type HTMLAttributes } from 'vue'
+  } from 'reka-ui'
+  import { cn } from '@/lib/utils'
 
   const props = defineProps<DialogContentProps & { class?: HTMLAttributes['class'] }>()
   const emits = defineEmits<DialogContentEmits>()
 
-  const delegatedProps = computed(() => {
-    const { class: _, ...delegated } = props
-
-    return delegated
-  })
+  const delegatedProps = reactiveOmit(props, 'class')
 
   const forwarded = useForwardPropsEmits(delegatedProps, emits)
 </script>
@@ -49,7 +46,7 @@
       >
         <slot />
 
-        <DialogClose class="absolute top-3 right-3 p-0.5 transition-colors rounded-md hover:bg-secondary">
+        <DialogClose class="absolute top-4 right-4 p-0.5 transition-colors rounded-md hover:bg-secondary">
           <X class="w-4 h-4" />
           <span class="sr-only">Close</span>
         </DialogClose>
