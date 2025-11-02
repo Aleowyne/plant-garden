@@ -1,13 +1,13 @@
 <template>
   <div class="flex flex-col min-h-full">
     <div class="fixed w-full top-0 left-0 z-10">
-      <header class="flex justify-between border-b border-border bg-background">
+      <header class="flex justify-between border-b border-border bg-card">
         <NavigationMenu class="ml-7">
           <NavigationMenuList>
             <NavigationMenuItem>
               <Link
                 href="/"
-                class="hover:text-muted-foreground hover:bg-background focus:bg-background"
+                class="bg-card hover:text-muted-foreground hover:bg-card focus:bg-card"
                 :class="navigationMenuTriggerStyle()"
               >
                 Plant Garden
@@ -18,40 +18,16 @@
         <NavigationMenu class="mr-7">
           <NavigationMenuList>
             <NavigationMenuItem>
-              <Link
-                href="/gardens"
-                class="hover:text-muted-foreground hover:bg-background focus:bg-background"
-                :class="navigationMenuTriggerStyle()"
-              >
-                Mes jardins
-              </Link>
+              <Link href="/gardens" class="bg-card" :class="navigationMenuTriggerStyle()"> Mes jardins </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link
-                href="/calendars"
-                class="hover:text-muted-foreground hover:bg-background focus:bg-background"
-                :class="navigationMenuTriggerStyle()"
-              >
-                Calendrier
-              </Link>
+              <Link href="/calendars" class="bg-card" :class="navigationMenuTriggerStyle()"> Calendrier </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link
-                href="/plants"
-                class="hover:text-muted-foreground hover:bg-background focus:bg-background"
-                :class="navigationMenuTriggerStyle()"
-              >
-                Plantes
-              </Link>
+              <Link href="/plants" class="bg-card" :class="navigationMenuTriggerStyle()"> Plantes </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link
-                href="/logout"
-                class="hover:text-muted-foreground hover:bg-background focus:bg-background"
-                :class="navigationMenuTriggerStyle()"
-              >
-                Déconnexion
-              </Link>
+              <Link href="/logout" class="bg-card" :class="navigationMenuTriggerStyle()"> Déconnexion </Link>
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
